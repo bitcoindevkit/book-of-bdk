@@ -1,0 +1,6 @@
+[book]
+authors = ["The Bitcoin Development Kit Team"]
+language = "en"
+multilingual = false
+src = "src"
+title = "The Book of BDK"
