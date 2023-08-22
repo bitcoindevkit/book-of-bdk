@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "The Book of BDK",
   description: "",
+  base: "/book-of-bdk/",
   themeConfig: {
     search: {
       provider: "local"
