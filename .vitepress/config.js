@@ -15,19 +15,17 @@ export default defineConfig({
 
     sidebar: [
         { text: "Introduction", link: "/book/introduction.md" },
+        { text: "Project Organization", link: "/book/organization.md" },
         { text: "Getting Started", link: "/book/getting-started.md" },
         
+        // Async Esplora
         { 
-            text: "Simple Wallet",
+            text: "Wallet with async Esplora",
             collapsed: false,
             items: [
-                { text: "The Wallet Struct", link: "/book/wallet.md" },
-                { text: "Staying in Sync", link: "/book/sync.md" },
+                { text: "Simple Wallet with Esplora", link: "/book/wallet.md" },
             ]
         },
-
-        { text: "More Advanced Features", link: "/book/advanced-features.md" },
-        { text: "Extras", link: "/book/extras.md" },
     ]
   },
 })
