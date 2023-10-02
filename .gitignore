@@ -1,3 +1,9 @@
 node_modules/
 cache/
 dist/
+
+# test stuff
+tests/Cargo.lock
+tests/target
+tests/src
+tests/config.txt

@@ -1,0 +1,12 @@
+[package]
+name = "tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+bdk = { git = "https://github.com/notmandatory/bdk.git", branch = "test/esplora_tests", version = "1.0.0-alpha.1" }
+bdk_esplora = { git = "https://github.com/notmandatory/bdk.git", branch = "test/esplora_tests", version = "0.3.0" }
+bdk_file_store = { git = "https://github.com/notmandatory/bdk.git", branch = "test/esplora_tests", version = "0.2.0" }
+doc-comment = "0.3"
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
