@@ -1,24 +1,31 @@
 # Wallet with Async Explora
 
 1. Create a new Rust project:
+
 ```shell
 cargo init my_bdk_app
 cd my_bdk_app
 ```
    
-2. Add `bdk` to your `Cargo.toml` file. ~~Find the latest `BDK@1.0.0` release on [`crates.io`](https://crates.io/crates/bdk/versions)~~ (use pre-released branch for now):
+1. Add `bdk` to your `Cargo.toml` file.
+   ~~Find the latest `BDK@1.0.0` release on [`crates.io`](https://crates.io/crates/bdk/versions)~~
+   (use pre-released branch for now):
+
 ```shell
 cargo add bdk --git "https://github.com/notmandatory/bdk.git" --branch "test/esplora_tests"
 ```
 
-3. Add other required dependencies:
+1. Add other required dependencies:
+
 ```shell
 cargo add bdk_esplora --git "https://github.com/notmandatory/bdk.git" --branch "test/esplora_tests"
 cargo add bdk_file_store --git "https://github.com/notmandatory/bdk.git" --branch "test/esplora_tests"
 cargo add tokio@1 --features "rt,rt-multi-thread,macros"
 ```
 
-4. Edit `src/main.rs`, replace with below code to load or create and save new descriptors:
+1. Edit `src/main.rs`, replace with below code to load or create and save new descriptors:
+
+
 ```rust
 use std::fs::File;
 use std::io::Read;
@@ -116,17 +123,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-5. Add code to create a wallet and get a new address and current wallet balance:
-```rust
+1. Add code to create a wallet and get a new address and current wallet balance:
+
+
+```rs
 use bdk::{bitcoin::Network, descriptor, Wallet};
 use bdk::wallet::AddressIndex;
 use bdk_file_store::Store;
 
 const CHAIN_DATA_FILE: &str = "chain.dat";
 const DB_MAGIC: &[u8] = "TABCONF24".as_bytes();
-```
 
-```rust
 // Create a wallet and get a new address and current wallet balance
 
 let db = Store::<bdk::wallet::ChangeSet>::new_from_path(DB_MAGIC, CHAIN_DATA_FILE)?;
@@ -143,20 +150,22 @@ let balance = wallet.get_balance();
 println!("Wallet balance before syncing: confirmed {} sats, trusted_pending {} sats, untrusted pending {} sats", balance.confirmed, balance.trusted_pending, balance.untrusted_pending);
 ```
 
-6. Add code to create an async esplora client:
-```rust
+1. Add code to create an async esplora client:
+
+
+```rs
 use bdk_esplora::esplora_client;
-```
-   
-```rust
+
 // Create an async esplora client
 
 let client = esplora_client::Builder::new("http://signet.bitcoindevkit.net").build_async()?;
 let prev_tip = wallet.latest_checkpoint();
 ```
 
-7. Add code to scans keychain SPKs for transaction histories, stopping after `stop_gap` is reached:
-```rust
+1. Add code to scans keychain SPKs for transaction histories, stopping after `stop_gap` is reached:
+
+
+```rs
 use std::collections::BTreeMap;
 use std::{io, io::Write, str::FromStr};
 use bdk::chain::keychain::WalletUpdate;
@@ -165,9 +174,7 @@ use bdk_esplora::{esplora_client, EsploraAsyncExt};
 
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 5;
-```
-   
-```rust
+
 // Prepare the `IndexedTxGraph` update based on whether we are scanning or syncing.
 
 // Scanning: We are iterating through spks of all keychains and scanning for transactions for
@@ -237,12 +244,12 @@ if prompt("Scan wallet") {
 }
 ```
 
-8. Add code to sync wallet by checking for history on all derived SPKs:
-```rust
+1. Add code to sync wallet by checking for history on all derived SPKs:
+
+
+```rs
 use bdk::bitcoin::{bip32, Address, OutPoint, ScriptBuf, Txid};
-```
-   
-```rust
+
 // Syncing: We only check for specified spks, utxos and txids to update their confirmation
 //   status or fetch missing transactions.
 else {
@@ -300,8 +307,10 @@ else {
 }
 ```
 
-9. Add code to sync wallet by checking for history on only unused SPKs:
-```rust
+1. Add code to sync wallet by checking for history on only unused SPKs:
+
+
+```rs
     // Sync only unused SPKs
     else if prompt("Sync only unused SPKs") {
         // TODO add Wallet::unused_spks() function, gives all unused tracked spks
@@ -328,8 +337,10 @@ else {
     }
 ```
 
-10. Add code to sync wallet UTXOs to see if any have been spent:
-```rust
+1. Add code to sync wallet UTXOs to see if any have been spent:
+
+
+```rs
     // Sync UTXOs
     if prompt("Sync UTXOs") {
         // We want to search for whether the UTXO is spent, and spent by which
@@ -350,8 +361,10 @@ else {
     };
 ```
 
-11. Add code to sync wallet unconfirmed TXs:
-```rust
+1. Add code to sync wallet unconfirmed TXs:
+
+
+```rs
     // Sync unconfirmed TX
     if prompt("Sync unconfirmed TX") {
         // We want to search for whether the unconfirmed transaction is now confirmed.
@@ -369,12 +382,15 @@ else {
         txids = Box::new(unconfirmed_txids);
     }
 ```
-12. Add code to check the new wallet balance and request a deposit if required:
-```rust
+
+1. Add code to check the new wallet balance and request a deposit if required:
+
+
+```rs
 const SEND_AMOUNT: u64 = 5000;
 ```
    
-```rust
+```rs
 // Check balance and request deposit if required
 if balance.total() < SEND_AMOUNT {
     println!(
@@ -385,8 +401,9 @@ if balance.total() < SEND_AMOUNT {
 }
 ```
 
-13. Add code to create a TX to return sats to the [signet faucet](https://signetfaucet.com/):
-```rust
+1. Add code to create a TX to return sats to the [signet faucet](https://signetfaucet.com/):
+
+```rs
 // Create TX to return sats to signet faucet https://signetfaucet.com/
 let faucet_address = Address::from_str("tb1qg3lau83hm9e9tdvzr5k7aqtw3uv0dwkfct4xdn")?
     .require_network(network)?;
@@ -426,5 +443,121 @@ if prompt("Broadcast") {
         "Tx broadcast! https://mempool.space/signet/tx/{}",
         tx.txid()
     );
+}
+```
+
+### Solution
+
+The final `src/main.rs` should look like this:
+
+```rust
+use std::fs::File;
+use std::io::Read;
+use std::string::ToString;
+use std::{io::Write, str::FromStr};
+use std::collections::BTreeMap; // Added for use in the scan wallet section
+
+use bdk::bitcoin::bip32;
+use bdk::bitcoin::bip32::ExtendedPrivKey;
+use bdk::bitcoin::secp256k1::{rand, rand::RngCore, Secp256k1};
+
+use bdk::{bitcoin::Network, descriptor, Wallet};
+use bdk::descriptor::IntoWalletDescriptor;
+use bdk::keys::IntoDescriptorKey;
+
+use bdk::wallet::AddressIndex;
+use bdk_file_store::Store;
+
+use bdk_esplora::{esplora_client, EsploraAsyncExt};
+
+const CONFIG_FILE: &str = "config.txt";
+
+const CHAIN_DATA_FILE: &str = "chain.dat";
+const DB_MAGIC: &[u8] = "TABCONF24".as_bytes();
+
+const STOP_GAP: usize = 50;
+const PARALLEL_REQUESTS: usize = 5;
+
+const SEND_AMOUNT: u64 = 5000;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Create and load or save new descriptors
+
+    let secp = Secp256k1::new();
+    let network = Network::Signet;
+
+    // get descriptors from config.txt file, if file is missing create new ones
+    let descriptors = match File::open(CONFIG_FILE) {
+        // load descriptors from file
+        Ok(mut file) => {
+            let mut config = String::new();
+            file.read_to_string(&mut config)?;
+            let descriptor_strings: [_; 2] = config
+                .split("|")
+                .map(|d| d.to_string())
+                .collect::<Vec<_>>()
+                .try_into()
+                .unwrap();
+            let external_descriptor = descriptor_strings[0]
+                .into_wallet_descriptor(&secp, network)
+                .unwrap();
+            let internal_descriptor = descriptor_strings[1]
+                .into_wallet_descriptor(&secp, network)
+                .unwrap();
+            (external_descriptor, internal_descriptor)
+        }
+        Err(_) => {
+            // create new descriptors and save them to the file
+            let mut seed = [0u8; 32];
+            rand::thread_rng().fill_bytes(&mut seed);
+            let xprv = ExtendedPrivKey::new_master(network, &seed).unwrap();
+            let bip86_external = bip32::DerivationPath::from_str("m/86'/1'/0'/0/0").unwrap();
+            let bip86_internal = bip32::DerivationPath::from_str("m/86'/1'/0'/0/1").unwrap();
+            let external_key = (xprv, bip86_external).into_descriptor_key().unwrap();
+            let internal_key = (xprv, bip86_internal).into_descriptor_key().unwrap();
+            let external_descriptor = descriptor!(tr(external_key))
+                .unwrap()
+                .into_wallet_descriptor(&secp, network)
+                .unwrap();
+            let internal_descriptor = descriptor!(tr(internal_key))
+                .unwrap()
+                .into_wallet_descriptor(&secp, network)
+                .unwrap();
+            // save descriptor strings to file
+            let mut file = File::create(CONFIG_FILE).unwrap();
+            println!("Created new descriptor config file: config.txt");
+            let config = format!(
+                "{}|{}",
+                &external_descriptor
+                    .0
+                    .to_string_with_secret(&external_descriptor.1),
+                &internal_descriptor
+                    .0
+                    .to_string_with_secret(&internal_descriptor.1)
+            );
+            file.write(config.as_bytes()).unwrap();
+            (external_descriptor, internal_descriptor)
+        }
+    };
+
+    let external_descriptor = descriptors.0;
+    let internal_descriptor = descriptors.1;
+    println!(
+        "External descriptor: {}",
+        &external_descriptor
+            .0
+            .to_string_with_secret(&external_descriptor.1)
+    );
+    println!(
+        "Internal descriptor: {}\n",
+        &internal_descriptor
+            .0
+            .to_string_with_secret(&internal_descriptor.1)
+    );
+
+    // Rest of the code...
+
+    Ok(())
 }
 ```
