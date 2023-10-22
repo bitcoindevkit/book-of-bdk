@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+site_name: The Book of BDK
+repo_name: BitcoinDevKit/bdk
+repo_url: https://github.com/BitcoinDevKit/bdk
+plugins:
+  - search
+theme:
+  name: material
+  logo: assets/favicon.ico
+  icon:
+    repo: fontawesome/brands/github
+  favicon: assets/favicon.ico
+  palette:
+    - scheme: default
+      primary: white
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.instant
+    - navigation.footer
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+    - toc.follow
+    - toc.integrate
+extra:
+  homepage: https://bitcoindevkit.org
+  generator: false
+  social:
+    - icon: fontawesome/solid/globe
+      link: https://bitcoindevkit.org
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/bitcoindevkit
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/dstn4dQ
+markdown_extensions:
+  - tables
+  - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+      linenums: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - def_list
+nav:
+  - Home: index.md
+  - Project Organization: organization.md
+  - Getting Started: getting-started.md
+  - Book:
+    - Wallet with async Esplora: book/wallet.md
+    - Anatomy of an Output Descriptor: book/descriptor.md
