@@ -38,6 +38,6 @@ cargo add bdk_file_store@0.2.0
 cargo add tokio@1 --features "rt,rt-multi-thread,macros"
 ```
 
-See the [Wallet with Async Esplora](./wallet.md) tutorial for how to create and sync a wallet.
+See the [Wallet with Async Esplora](./book/wallet.md) tutorial for how to create and sync a wallet.
 
 ["Getting Started"]: https://www.rust-lang.org/learn/get-started
