@@ -4,6 +4,7 @@ repo_name: BitcoinDevKit/bdk
 repo_url: https://github.com/BitcoinDevKit/bdk
 plugins:
   - search
+
 theme:
   name: material
   logo: assets/favicon.ico
@@ -34,8 +35,7 @@ theme:
     - navigation.expand
     - search.suggest
     - search.highlight
-    - toc.follow
-    - toc.integrate
+
 extra:
   homepage: https://bitcoindevkit.org
   generator: false
@@ -64,6 +64,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - def_list
+
 nav:
   - Home: index.md
   - Project Organization: organization.md
