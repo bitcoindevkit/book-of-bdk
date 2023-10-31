@@ -48,6 +48,7 @@ extra:
       link: https://twitter.com/bitcoindevkit
     - icon: fontawesome/brands/discord
       link: https://discord.gg/dstn4dQ
+
 markdown_extensions:
   - tables
   - attr_list
@@ -78,3 +79,12 @@ nav:
       - Esplora Wallet: book/esplora-wallet.md
     - Keys and Descriptors:
       - Working with Descriptors: book/descriptors.md
+  - Architecture:
+    - Syncing:
+      - Syncing with BDK: architecture/syncing.md
+      - LocalChain: architecture/localchain.md
+      - CheckPoint: architecture/checkpoint.md
+      - Anchors: architecture/anchors.md
+      - TxGraph: architecture/txgraph.md
+    - Persistence:
+      - Wallet + Persistence: architecture/persistence.md

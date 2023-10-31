@@ -98,10 +98,10 @@ fn main() -> () {
     let scan_result = client.full_scan(prev_tip_0, keychain_spks, STOP_GAP, BATCH_SIZE).unwrap();
     let (electrum_update, keychain_update): (ElectrumUpdate, BTreeMap<KeychainKind, u32>) = scan_result;
 
-    let missing = electrum_update.relevant_txids.missing_full_txs(wallet.as_ref());
-    let graph_update = electrum_update.relevant_txids.into_confirmation_time_tx_graph(&client, None, missing).unwrap();
+    let missing: Vec<Txid> = electrum_update.relevant_txids.missing_full_txs(wallet.as_ref());
+    let graph_update: TxGraph<ConfirmationTimeHeightAnchor> = electrum_update.relevant_txids.into_confirmation_time_tx_graph(&client, None, missing).unwrap();
 
-    let wallet_update = Update {
+    let wallet_update: Update = Update {
         last_active_indices: keychain_update,
         graph: graph_update,
         chain: Some(electrum_update.chain_update),
@@ -110,7 +110,7 @@ fn main() -> () {
     wallet.apply_update(wallet_update).unwrap();
     wallet.commit().unwrap();
 
-    let balance = wallet.get_balance();
+    let balance: Balance = wallet.get_balance();
     println!("\nWallet balance after syncing: {} sats", balance.total());
 }
 ```
