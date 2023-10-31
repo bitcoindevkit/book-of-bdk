@@ -8,14 +8,13 @@ See the Rust ["Getting Started"] page to install the Rust development tools.
 
 Follow these steps to use BDK in your own rust project with the async `esplora` blockchain client.
 
-:::tip
-For now use the latest `master` branch versions of BDK crates.
-As an example, for BDK:
+!!! tip
+    For now, we suggest using the latest `master` branch versions of BDK crates.
+    As an example, for BDK:
 
-```shell
-cargo add bdk --git "https://github.com/notmandatory/bdk.git"
-```
-:::
+    ```shell
+    cargo add bdk --git "https://github.com/notmandatory/bdk.git"
+    ```
 
 1. Create a new Rust project:
 
