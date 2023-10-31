@@ -46,6 +46,7 @@ extra:
       link: https://twitter.com/bitcoindevkit
     - icon: fontawesome/brands/discord
       link: https://discord.gg/dstn4dQ
+
 markdown_extensions:
   - tables
   - attr_list
@@ -66,9 +67,12 @@ markdown_extensions:
   - def_list
 
 nav:
-  - Home: index.md
-  - Project Organization: organization.md
-  - Getting Started: getting-started.md
+  - Home:
+    - About: index.md
+    - Project Organization: organization.md
+    - Getting Started: getting-started.md
   - Book:
     - Wallet with async Esplora: book/wallet.md
     - Anatomy of an Output Descriptor: book/descriptor.md
+  - Architecture:
+    - Syncing with BDK: architecture/syncing.md
