@@ -30,6 +30,7 @@ theme:
   features:
     - navigation.tabs
     - navigation.tabs.sticky
+    - navigation.sections
     - navigation.instant
     - navigation.footer
     - navigation.expand
@@ -66,9 +67,9 @@ markdown_extensions:
   - def_list
 
 nav:
-  - Home: index.md
-  - Project Organization: organization.md
-  - Getting Started: getting-started.md
+  - Getting Started: 
+    - About: index.md
+    - Project Organization: organization.md
+    - Getting Started: getting-started.md
   - Book:
     - Wallet with async Esplora: book/wallet.md
-    - Anatomy of an Output Descriptor: book/descriptor.md
