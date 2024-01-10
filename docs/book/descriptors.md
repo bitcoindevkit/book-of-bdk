@@ -1,9 +1,10 @@
-# Creating Descriptors
+# Working with Descriptors
+BDK is a descriptor-first library. This page explores how to build them and how they interact with other standards like BIP-39 recovery phrases.
 
 ## Using descriptor templates
-BDK offers utility constructs called "descriptor templates", which allow you to build descriptors for the 4 most common script types (BIP 44/49/84/86) with minimal effort.
+BDK offers utility constructs called _descriptor templates_, which allow you to build descriptors for the four most common script types (BIP 44/49/84/86) with minimal effort.
 
-The following will build and print the full strings of taproot (BIP-86) internal and external descriptors.
+The following will build and print the full string representation of taproot (BIP-86) internal and external descriptors.
 
 ```rust
 use bdk::bitcoin::bip32::ExtendedPrivKey;
