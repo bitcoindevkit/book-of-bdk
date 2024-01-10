@@ -72,4 +72,5 @@ nav:
     - Project Organization: organization.md
     - Getting Started: getting-started.md
   - Book:
-    - Wallet with async Esplora: book/wallet.md
+    - Wallet with Electrum: book/electrum-wallet.md
+    - Creating Descriptors: book/descriptors.md
