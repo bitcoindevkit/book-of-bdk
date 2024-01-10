@@ -1,22 +1,18 @@
 # Book of BDK
 
-The Bitcoin Development Kit (BDK) project was created to provide well engineered and reviewed components for building bitcoin based applications.
+The Bitcoin Development Kit (BDK) project was created to provide well engineered and reviewed components for building bitcoin-based applications.
+
 The core components of BDK are written in the [Rust] language and live in the [`bitcoindevkit/bdk`][bitcoindevkit/bdk] repository.
 The core BDK components are built upon the excellent [`rust-bitcoin`][rust-bitcoin] and [`rust-miniscript`][rust-miniscript] crates.
 
-The BDK team also maintains the [`bitcoindevkit/bdk-ffi`][bitcoindevkit/bdk-ffi] repository which provide cross-platform versions of the high level BDK APIs. Current supported platforms are:
-[Kotlin] (android, Linux, macOS),
-[Swift] (iOS, macOS),
-and [Python] (Linux, macOS, Windows).
+The BDK team also maintains the [`bitcoindevkit/bdk-ffi`][bitcoindevkit/bdk-ffi] repository which provide cross-platform versions of the high level BDK APIs. Current supported platforms are: [Kotlin] (Android, Linux, macOS), [Swift] (iOS, macOS), and [Python] (Linux, macOS, Windows).
 
 !!! warning
-    The BDK developers are in the process of rewriting major components of the software to be release in an upcoming `1.0` version.
-    `BDK 1.0` is a still under active development and should be considered "alpha" quality.
+    The BDK developers are in the process of rewriting major components of the software to be released in an upcoming `1.0` version. BDK 1.0 is still under active development and should be considered "alpha" quality.
     This means APIs may change and full testing and documentation has not been completed.
-    For current status and release timeline please see the [`BDK 1.0`][bitcoindevkit/bdk] project page.
+    For current status and release timeline please see the [`bdk`][bitcoindevkit/bdk] project repository.
 
-    The [`bitcoindevkit/bdk-ffi`][bitcoindevkit/bdk-ffi] project has not yet been updated to use the new `BDK 1.0` crates.
-    For current status and timeline for `BDK-FFI 1.0` see the [`BDK-FFI`][bitcoindevkit/bdk-ffi] project page.
+    The [`bitcoindevkit/bdk-ffi`][bitcoindevkit/bdk-ffi] project has not yet been updated to use the new `BDK 1.0` crates. For current status and timeline for bdk-ffi, see the [`bdk-ffi`][bitcoindevkit/bdk-ffi] project repository.
 
 [bitcoindevkit/bdk]: https://github.com/bitcoindevkit/bdk
 [rust-bitcoin]: https://github.com/rust-bitcoin/rust-bitcoin

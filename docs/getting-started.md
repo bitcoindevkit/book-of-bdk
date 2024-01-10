@@ -2,7 +2,7 @@
 
 ### Install Rust
 
-See the Rust ["Getting Started"] page to install the Rust development tools.
+See the Rust [Getting Started] page to install the Rust development tools.
 
 ### Using BDK in a Rust project
 
@@ -13,7 +13,7 @@ Follow these steps to use BDK in your own rust project with the async `esplora` 
     As an example, for BDK:
 
     ```shell
-    cargo add bdk --git "https://github.com/notmandatory/bdk.git"
+    cargo add bdk
     ```
 
 1. Create a new Rust project:
@@ -26,17 +26,16 @@ cd my_bdk_app
 2. Add `bdk` to your `Cargo.toml` file. Find the latest `bdk@1` release on [`crates.io`](https://crates.io/crates/bdk/versions), for example:
 
 ```shell
-cargo add bdk@1.0.0-alpha.1
+cargo add bdk@1.0.0-alpha.3
 ```
 
 3. Add other required dependencies:
 
 ```shell
-cargo add bdk_esplora@0.3.0
-cargo add bdk_file_store@0.2.0
-cargo add tokio@1 --features "rt,rt-multi-thread,macros"
+cargo add bdk_esplora@0.7.0
+cargo add bdk_file_store@0.3.0
 ```
 
-See the [Wallet with Async Esplora](./book/wallet.md) tutorial for how to create and sync a wallet.
+See the [Wallet with Electrum](./book/electrum-wallet.md) page for how to create and sync a wallet.
 
-["Getting Started"]: https://www.rust-lang.org/learn/get-started
+[Getting Started]: https://www.rust-lang.org/learn/get-started
