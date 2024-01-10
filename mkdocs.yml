@@ -69,9 +69,9 @@ markdown_extensions:
 
 nav:
   - Getting Started: 
-    - About: about.md
-    - Project Organization: organization.md
-    - Getting Started: getting-started.md
+    - About: getting-started/about.md
+    - Project Organization: getting-started/organization.md
+    - Getting Started: getting-started/getting-started.md
   - Book:
     - Complete Examples:
       - Electrum Wallet: book/electrum-wallet.md
