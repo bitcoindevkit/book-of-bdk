@@ -30,7 +30,7 @@ tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQ
 
 A wallet is generic in its `Store`. For example, you can create a `Wallet<()>` which will have no persistence or a `Wallet<bdk_file_store::store::Store>` which will store to a flat file. The example below uses this flat file storage system.
 
-```rust title="Part 1: Wallet"
+```rs title="Part 1: Wallet"
 use std::collections::BTreeMap;
 use std::io::Write;
 use std::str::FromStr;
@@ -67,7 +67,7 @@ fn main() -> () {
 
 ### 4. Sync the wallet
 
-```rust title="Part 2: Sync"
+```rs title="Part 2: Sync"
 fn main() -> () {
     
     // --- snippet from part 1 above ---
@@ -116,7 +116,7 @@ fn main() -> () {
 ```
 
 ### Create a transaction
-```rust title="Part 3: Transactions"
+```rs title="Part 3: Transactions"
 fn main() -> () {
     
     // --- snippet from part 1 above ---
