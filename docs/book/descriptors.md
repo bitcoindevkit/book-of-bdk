@@ -1,6 +1,9 @@
 # Working with Descriptors
 BDK is a descriptor-first library. This page explores how to build them and how they interact with other standards like BIP-39 recovery phrases.
 
+!!!danger
+    TODO: Standard notice of danger of working with private keys, generating entropy, etc.
+
 ## Using descriptor templates
 BDK offers utility constructs called _descriptor templates_, which allow you to build descriptors for the four most common script types (BIP 44/49/84/86) with minimal effort.
 
