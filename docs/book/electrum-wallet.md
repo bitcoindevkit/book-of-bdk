@@ -46,7 +46,7 @@ use bdk_electrum::{ElectrumExt, ElectrumUpdate};
 use bdk_electrum::electrum_client::Client;
 use bdk_file_store::Store;
 
-fn main() -> {
+fn main() -> () {
     let db_path = std::env::current_dir().unwrap().join("electrumexample.db");
     let db = Store::<bdk::wallet::ChangeSet>::open_or_create_new(DB_MAGIC.as_bytes(), db_path)?;
     let external_descriptor = "tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/0/*)#30pfz5ly";
@@ -68,7 +68,7 @@ fn main() -> {
 ### 4. Sync the wallet
 
 ```rust title="Part 2: Sync"
-fn main() -> {
+fn main() -> () {
     
     // --- snippet from part 1 above ---
     
@@ -117,7 +117,7 @@ fn main() -> {
 
 ### Create a transaction
 ```rust title="Part 3: Transactions"
-fn main() -> {
+fn main() -> () {
     
     // --- snippet from part 1 above ---
     
