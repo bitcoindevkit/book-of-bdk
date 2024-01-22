@@ -8,5 +8,5 @@ publish = false
 bdk = { version = "1.0.0-alpha.3" }
 bdk_esplora = { version = "0.5.0" }
 bdk_electrum = { version = "0.5.0" }
-bdk_file_store = { version = "0.3.0" }
+bdk_file_store = { version = "0.4.0" }
 doc-comment = "0.3"
