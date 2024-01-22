@@ -1,36 +1,7 @@
-# Wallet with Electrum
+const DB_MAGIC: &str = "bdk_wallet_electrum_example";
+const STOP_GAP: usize = 50;
+const BATCH_SIZE: usize = 5;
 
-!!! tip
-    This page is up-to-date with version `1.0.0-alpha.3` of bdk.
-
-### 1. Create a new Rust project
-```shell
-cargo init electrumexample
-cd electrumexample
-```
-
-### 2. Add required bdk dependencies to your Cargo.toml file
-```toml
-[package]
-name = "electrumexample"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-bdk = { version = "=1.0.0-alpha.3" }
-bdk_file_store = { version = "=0.3.0" }
-bdk_electrum = { version = "=0.5.0" }
-```
-
-### 3. Create your wallet
-Refer to the [Working with Descriptors](./descriptors.md) page for information on how to generate descriptors. This page will assume you are working on testnet with the following BIP86 descriptor:
-```txt
-tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/0/*)#30pfz5ly
-```
-
-A wallet is generic in its `Store`. For example, you can create a `Wallet<()>` which will have no persistence or a `Wallet<bdk_file_store::store::Store>` which will store to a flat file. The example below uses this flat file storage system.
-
-```rs title="Part 1: Wallet"
 use std::collections::BTreeMap;
 use std::io::Write;
 use std::str::FromStr;
@@ -43,6 +14,7 @@ use bdk::bitcoin::psbt::PartiallySignedTransaction;
 use bdk::Wallet;
 use bdk::chain::local_chain::CheckPoint;
 use bdk_electrum::{ElectrumExt, ElectrumUpdate};
+use bdk_electrum::electrum_client::ElectrumApi;
 use bdk_electrum::electrum_client::Client;
 use bdk_file_store::Store;
 
@@ -62,16 +34,7 @@ fn main() -> () {
     
     println!("Generated address {} at index {}", address.address, address.index);
     // Generated address tb1p5nja3w87mc6xl5w3yy85evlg0qpyq2j4wzytazt4437nr37j2ajswm3ptl at index 0
-}
-```
 
-### 4. Sync the wallet
-
-```rs title="Part 2: Sync"
-fn main() -> () {
-    
-    // --- snippet from part 1 above ---
-    
     let client: Client = Client::new("ssl://electrum.blockstream.info:60002").unwrap();
 
     let balance = wallet.get_balance();
@@ -112,16 +75,6 @@ fn main() -> () {
 
     let balance = wallet.get_balance();
     println!("\nWallet balance after syncing: {} sats", balance.total());
-}
-```
-
-### Create a transaction
-```rs title="Part 3: Transactions"
-fn main() -> () {
-    
-    // --- snippet from part 1 above ---
-    
-    // --- snippet from part 2 above ---
 
     if balance.total() < 5000 {
         println!(
@@ -144,8 +97,7 @@ fn main() -> () {
     assert!(psbt_was_finalized);
 
     let tx: Transaction = psbt.extract_tx();
-    client.transaction_broadcast(&tx)?;
+    // client.transaction_broadcast(&tx).unwrap();
     
     println!("Tx broadcasted! txid: {}", tx.txid());
 }
-```
