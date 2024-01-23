@@ -1,36 +1,3 @@
-# Wallet with Esplora
-
-!!! tip
-    This page is up-to-date with version `1.0.0-alpha.4` of bdk.
-
-### Create a new Rust project
-```shell
-cargo init esploraexample
-cd esploraexample
-```
-
-### Add required bdk dependencies to your Cargo.toml file
-```toml
-[package]
-name = "electrumexample"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-bdk = { version = "1.0.0-alpha.4" }
-bdk_file_store = { version = "0.4.0" }
-bdk_esplora = { version = "0.6.0" }
-```
-
-### 3. Create your wallet
-Refer to the [Working with Descriptors](./descriptors.md) page for information on how to generate descriptors. This page will assume you are working on testnet with the following BIP86 descriptor:
-```txt
-tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/0/*)#30pfz5ly
-```
-
-A wallet is generic in its `Store`. For example, you can create a `Wallet<()>` which will have no persistence or a `Wallet<bdk_file_store::store::Store>` which will store to a flat file. The example below uses this flat file storage system.
-
-```rs title="Part 1: Wallet"
 const DB_MAGIC: &str = "bdk_wallet_esplora_example";
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
@@ -66,15 +33,7 @@ fn main() -> () {
     
     println!("Generated address {} at index {}", address.address, address.index);
     // Generated address tb1p5nja3w87mc6xl5w3yy85evlg0qpyq2j4wzytazt4437nr37j2ajswm3ptl at index 0
-```
 
-### 4. Sync the wallet
-
-```rs title="Part 2: Sync"
-fn main() -> () {
-    
-    // --- snippet from part 1 above ---
-    
     let client = esplora_client::Builder::new("https://esplora.testnet.kuutamo.cloud")
         .build_blocking()
         .unwrap();
@@ -117,16 +76,6 @@ fn main() -> () {
 
     let balance = wallet.get_balance();
     println!("\nWallet balance after syncing: {} sats", balance.total());
-}
-```
-
-### Create a transaction
-```rs title="Part 3: Transactions"
-fn main() -> () {
-    
-    // --- snippet from part 1 above ---
-    
-    // --- snippet from part 2 above ---
 
     if balance.total() < 5000 {
         println!(
@@ -149,8 +98,9 @@ fn main() -> () {
     assert!(psbt_was_finalized);
 
     let tx: Transaction = psbt.extract_tx();
-    client.transaction_broadcast(&tx).unwrap();
+
+    // Uncomment this line to broadcast the transaction
+    // client.transaction_broadcast(&tx).unwrap();
     
     println!("Tx broadcasted! txid: {}", tx.txid());
 }
-```

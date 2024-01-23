@@ -1,2 +1,5 @@
 electrum:
   cd electrum && cargo run --bin electrum
+
+esplora:
+  cd esplora && cargo run --bin esplora
