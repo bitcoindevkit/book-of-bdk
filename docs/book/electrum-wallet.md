@@ -1,7 +1,7 @@
 # Wallet with Electrum
 
 !!! tip
-    This page is up-to-date with version `1.0.0-alpha.3` of bdk.
+    This page is up-to-date with version `1.0.0-alpha.4` of bdk.
 
 ### 1. Create a new Rust project
 ```shell
@@ -17,9 +17,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk = { version = "=1.0.0-alpha.3" }
-bdk_file_store = { version = "=0.3.0" }
-bdk_electrum = { version = "=0.5.0" }
+bdk = { version = "=1.0.0-alpha.4" }
+bdk_file_store = { version = "=0.4.0" }
+bdk_electrum = { version = "=0.6.0" }
 ```
 
 ### 3. Create your wallet
@@ -80,7 +80,7 @@ fn main() -> () {
     let prev_tip_0: CheckPoint = wallet.latest_checkpoint();
 
     let keychain_spks = wallet
-        .spks_of_all_keychains()
+        .all_unbounded_spk_iters()
         .into_iter()
         .map(|(k, k_spks)| {
             let mut once = Some(());

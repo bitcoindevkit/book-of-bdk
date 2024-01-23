@@ -1,2 +1,2 @@
-run CODEBASE:
-  cd {{CODEBASE}} && cargo run --bin {{CODEBASE}}
+electrum:
+  cd electrum && cargo run --bin electrum

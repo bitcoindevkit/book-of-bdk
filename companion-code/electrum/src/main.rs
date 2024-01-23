@@ -14,7 +14,6 @@ use bdk::bitcoin::psbt::PartiallySignedTransaction;
 use bdk::Wallet;
 use bdk::chain::local_chain::CheckPoint;
 use bdk_electrum::{ElectrumExt, ElectrumUpdate};
-use bdk_electrum::electrum_client::ElectrumApi;
 use bdk_electrum::electrum_client::Client;
 use bdk_file_store::Store;
 
@@ -43,7 +42,7 @@ fn main() -> () {
     let prev_tip_0: CheckPoint = wallet.latest_checkpoint();
 
     let keychain_spks = wallet
-        .spks_of_all_keychains()
+        .all_unbounded_spk_iters()
         .into_iter()
         .map(|(k, k_spks)| {
             let mut once = Some(());
