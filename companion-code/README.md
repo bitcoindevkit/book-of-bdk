@@ -12,5 +12,5 @@ cargo run --bin <cratename>
 ```
 
 ## Individual examples
-The [./electrum/](./electrum/) example is the companion to the [Electrum Wallet](https://bitcoindevkit.github.io/book-of-bdk/book/electrum-wallet/) page.
-The [./esplora/](./esplora/) example is the companion to the [Esplora Wallet](https://bitcoindevkit.github.io/book-of-bdk/book/esplora-wallet/) page.
+- The [./electrum/](./electrum/) example is the companion to the [Electrum Wallet](https://bitcoindevkit.github.io/book-of-bdk/book/electrum-wallet/) page.
+- The [./esplora/](./esplora/) example is the companion to the [Esplora Wallet](https://bitcoindevkit.github.io/book-of-bdk/book/esplora-wallet/) page.
