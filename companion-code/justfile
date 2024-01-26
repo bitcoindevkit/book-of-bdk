@@ -3,3 +3,6 @@ electrum:
 
 esplora:
   cd esplora && cargo run --bin esplora
+
+architecture:
+  cd architecture && cargo run --bin architecture
