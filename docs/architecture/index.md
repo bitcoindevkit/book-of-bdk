@@ -1,8 +1,12 @@
 # Secret Architecture Pages
 
+## bdk
+- [Wallet](./wallet.md)
+
 ## bdk_chain
 - [Syncing](./syncing.md)  
 - [LocalChain](./localchain.md)
+- [Chain Oracles](./chainoracle.md)
 - [Anchors](./anchors.md)
 - [CheckPoints](./checkpoint.md)
 - [TxGraph](./txgraph.md)

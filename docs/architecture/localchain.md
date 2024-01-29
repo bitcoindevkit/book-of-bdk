@@ -164,6 +164,7 @@ You'll find that the chain after update has simply incorporated the new `CheckPo
 
 ```rust
 // ################  Chain before update  #####################
+
 LocalChain {
     tip: CheckPoint(
         CPInner {
@@ -183,6 +184,7 @@ LocalChain {
 }
 
 // ################  Chain after update  #####################
+
 LocalChain {
     tip: CheckPoint(
         CPInner {
@@ -218,6 +220,7 @@ In the example above, printing the `changeset` variable will return the followin
 ```rust
 let changeset = chain.apply_update(update);
 println!("## Changeset ##\n{:#?}\n", changeset);
+
 // ## Changeset ##
 Ok(
     {
