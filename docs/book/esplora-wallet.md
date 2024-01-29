@@ -84,21 +84,7 @@ fn main() -> () {
 
     let prev_tip: CheckPoint = wallet.latest_checkpoint();
 
-    let keychain_spks = wallet
-        .all_unbounded_spk_iters()
-        .into_iter()
-        .map(|(k, k_spks)| {
-            let mut once = Some(());
-            let mut stdout = std::io::stdout();
-            let k_spks = k_spks
-                .inspect(move |(spk_i, _)| match once.take() {
-                    Some(_) => print!("\nScanning keychain [{:?}]", k),
-                    None => print!(" {:<3}", spk_i),
-                })
-                .inspect(move |_| stdout.flush().expect("must flush"));
-            (k, k_spks)
-        })
-        .collect();
+    let keychain_spks = wallet.all_unbounded_spk_iters();
 
     let scan_result = client.full_scan(keychain_spks, STOP_GAP, PARALLEL_REQUESTS).unwrap();
     let (graph_update, keychain_update): (TxGraph<ConfirmationTimeHeightAnchor>, BTreeMap<KeychainKind, u32>) = scan_result;

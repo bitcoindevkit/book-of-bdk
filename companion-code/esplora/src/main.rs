@@ -1,3 +1,7 @@
+#![allow(dead_code)]
+#![allow(unused_must_use)]
+#![allow(unused_imports)]
+
 const DB_MAGIC: &str = "bdk_wallet_esplora_example";
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
@@ -8,7 +12,7 @@ use std::str::FromStr;
 
 use bdk::wallet::{AddressIndex, AddressInfo, ChangeSet, Update};
 use bdk::{KeychainKind, SignOptions};
-use bdk::bitcoin::{Address, Network, Transaction};
+use bdk::bitcoin::{Address, Network, ScriptBuf, Transaction};
 use bdk::bitcoin::address::NetworkChecked;
 use bdk::bitcoin::psbt::PartiallySignedTransaction;
 use bdk::chain::{ConfirmationTimeHeightAnchor, TxGraph};
@@ -43,21 +47,7 @@ fn main() -> () {
 
     let prev_tip: CheckPoint = wallet.latest_checkpoint();
 
-    let keychain_spks = wallet
-        .all_unbounded_spk_iters()
-        .into_iter()
-        .map(|(k, k_spks)| {
-            let mut once = Some(());
-            let mut stdout = std::io::stdout();
-            let k_spks = k_spks
-                .inspect(move |(spk_i, _)| match once.take() {
-                    Some(_) => print!("\nScanning keychain [{:?}]", k),
-                    None => print!(" {:<3}", spk_i),
-                })
-                .inspect(move |_| stdout.flush().expect("must flush"));
-            (k, k_spks)
-        })
-        .collect();
+    let keychain_spks = wallet.all_unbounded_spk_iters();
 
     let scan_result = client.full_scan(keychain_spks, STOP_GAP, PARALLEL_REQUESTS).unwrap();
     let (graph_update, keychain_update): (TxGraph<ConfirmationTimeHeightAnchor>, BTreeMap<KeychainKind, u32>) = scan_result;
