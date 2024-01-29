@@ -6,3 +6,6 @@ esplora:
 
 architecture:
   cd architecture && cargo run --bin architecture
+
+descriptors:
+  cd descriptors && cargo run --bin descriptors
