@@ -73,6 +73,7 @@ nav:
     - About: index.md
     - Project Organization: getting-started/organization.md
     - Getting Started: getting-started/getting-started.md
+    - Companion Codebase: getting-started/companion-code.md
   - Book:
     - Complete Examples:
       - Electrum Wallet: book/electrum-wallet.md
