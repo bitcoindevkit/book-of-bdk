@@ -10,9 +10,9 @@ checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
 
 [[package]]
 name = "bdk"
-version = "1.0.0-alpha.4"
+version = "1.0.0-alpha.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "73aec47ee5d0defa2e668115119312a4ee0c326b930c40701c70e6988547c3b3"
+checksum = "21101f7c9d9fb1c3ece2da4e351c5885b4a72ae9a623fd0f6a0791e62fb12ea5"
 dependencies = [
  "bdk_chain",
  "bitcoin",
@@ -26,9 +26,9 @@ dependencies = [
 
 [[package]]
 name = "bdk_chain"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f24e125be9484902261ce85c0074958baf8b360893486cb9ce0c513e98bb990d"
+checksum = "cbde024deaffc2ad0cf4e88b0bd84409fe03a16e39f579aa7161cff79f491b71"
 dependencies = [
  "bitcoin",
  "miniscript",

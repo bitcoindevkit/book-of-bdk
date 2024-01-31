@@ -6,24 +6,31 @@ use bdk::chain::bitcoin::{BlockHash, Transaction};
 use bdk::chain::example_utils::tx_from_hex;
 use bdk::chain::local_chain::{LocalChain, Update};
 use bdk::chain::local_chain::CheckPoint;
-use bdk::chain::{BlockId, ConfirmationTimeHeightAnchor, TxGraph};
+use bdk::chain::{BlockId, ConfirmationTimeHeightAnchor, SpkTxOutIndex, TxGraph};
 
-use bdk::bitcoin::Network;
-use bdk::Wallet;
+use bdk::bitcoin::{absolute, Network, TxOut};
+use bdk::bitcoin::ScriptBuf;
+use bdk::{KeychainKind, Wallet};
 use std::collections::BTreeMap;
+use std::str::FromStr;
+use bdk::chain::indexed_tx_graph::Indexer;
+use bdk::chain::keychain::KeychainTxOutIndex;
+use bdk::descriptor::Descriptor;
+use bdk::keys::{DescriptorPublicKey};
 
 fn main() -> () {
-    // checkpoints();
-    // local_chain();
-    // anchors();
-    // updates();
+    checkpoints();
+    local_chain();
+    anchors();
+    updates();
     changesets();
+    indexers();
 }
 
 fn checkpoints() -> () {
     let external_descriptor = "wpkh(tprv8ZgxMBicQKsPdRvpdnGWLRrcEkQzdxBanKRFLucEZ2NopN8KFB4ir8hzht33JKFj4WmKwdW4qCbePqHK8gm1cDU6BBTkmGjUhpFWjyr7M1Z/84'/1'/0'/0/*)";
 
-    let mut wallet = Wallet::new_or_load(external_descriptor, None, (), Network::Testnet).unwrap();
+    let wallet = Wallet::new_or_load(external_descriptor, None, (), Network::Testnet).unwrap();
 
     let genesis_block_checkpoint: CheckPoint = wallet.latest_checkpoint();
     println!(
@@ -57,8 +64,8 @@ fn local_chain() -> () {
             (3, Hash::hash("third".as_bytes())),
             (12, Hash::hash("twelve".as_bytes())),
         ]
-            .into_iter()
-            .collect::<BTreeMap<u32, BlockHash>>(),
+        .into_iter()
+        .collect::<BTreeMap<u32, BlockHash>>(),
     ).unwrap();
 
     println!("###     Local chain     ### \n{:#?}\n", local_chain);
@@ -101,8 +108,8 @@ fn anchors() -> () {
             (2, Hash::hash("second".as_bytes())),
             (3, Hash::hash("third".as_bytes())),
         ]
-            .into_iter()
-            .collect::<BTreeMap<u32, BlockHash>>(),
+        .into_iter()
+        .collect::<BTreeMap<u32, BlockHash>>(),
     ).unwrap();
 
     graph.insert_anchor(
@@ -174,8 +181,8 @@ fn changesets() -> () {
             (2, Hash::hash("second".as_bytes())),
             (3, Hash::hash("third".as_bytes())),
         ]
-            .into_iter()
-            .collect::<BTreeMap<u32, BlockHash>>(),
+        .into_iter()
+        .collect::<BTreeMap<u32, BlockHash>>(),
     ).unwrap();
 
     let other_chain = LocalChain::from_blocks(
@@ -184,8 +191,8 @@ fn changesets() -> () {
             (3, Hash::hash("third".as_bytes())),
             (5, Hash::hash("fifth".as_bytes())),
         ]
-            .into_iter()
-            .collect::<BTreeMap<u32, BlockHash>>(),
+        .into_iter()
+        .collect::<BTreeMap<u32, BlockHash>>(),
     ).unwrap();
 
     let update = Update {
@@ -197,4 +204,57 @@ fn changesets() -> () {
     let changeset = chain.apply_update(update);
     println!("################  Chain after update  #####################\n{:#?}\n", chain);
     println!("################  Changeset  ##############################\n{:#?}\n", changeset);
+}
+
+fn indexers() -> () {
+    print_page_link(String::from("architecture/indexers/"));
+
+    let spk1 = ScriptBuf::from_hex("001404f1e52ce2bab3423c6a8c63b7cd730d8f12542c").unwrap();
+    let spk2 = ScriptBuf::from_hex("00142b57404ae14f08c3a0c903feb2af7830605eb00f").unwrap();
+
+    let mut index: SpkTxOutIndex<i32> = SpkTxOutIndex::default();
+    index.insert_spk(0, spk1.clone());
+    index.insert_spk(1, spk2.clone());
+
+    println!(
+        "----------------  SpkTxoutIndex 1  ------------------------- \n{:#?}\n",
+        index
+    );
+
+    let tx1 = Transaction {
+        version: 0x02,
+        lock_time: absolute::LockTime::ZERO,
+        input: vec![],
+        output: vec![TxOut {
+            value: 42_000,
+            script_pubkey: spk1.clone(),
+        }],
+    };
+
+    index.index_tx(&tx1);
+
+    println!(
+        "----------------  SpkTxoutIndex 2  ------------------------- \n{:#?}\n",
+        index
+    );
+
+
+    let descriptor = Descriptor::<DescriptorPublicKey>::from_str("wpkh(025476c2e83188368da1ff3e292e7acafcdb3566bb0ad253f62fc70f07aeee6357)", ).unwrap();
+    let mut keychain_txout_index = KeychainTxOutIndex::<KeychainKind>::default();
+    let mut keychain_txout_index = KeychainTxOutIndex::<KeychainKind>::default();
+    keychain_txout_index.add_keychain(KeychainKind::External, descriptor);
+    // keychain_txout_index.add_keychain(KeychainKind::Internal, internal_descriptor);
+
+    println!(
+        "----------------  KeychainTxOutIndex  ------------------------- \n{:#?}\n",
+        keychain_txout_index
+    );
+}
+
+fn print_page_link(link: String) -> () {
+    println!();
+    println!("-------------------------------------------------------------------------------------");
+    println!("Companion code for https://bitcoindevkit.github.io/book-of-bdk/{}", link);
+    println!("-------------------------------------------------------------------------------------");
+    println!();
 }

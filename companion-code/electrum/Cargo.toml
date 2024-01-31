@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk = { version = "=1.0.0-alpha.4" }
-bdk_file_store = { version = "=0.4.0" }
-bdk_electrum = { version = "=0.6.0" }
+bdk = { version = "=1.0.0-alpha.5" }
+bdk_file_store = { version = "=0.5.0" }
+bdk_electrum = { version = "=0.7.0" }
