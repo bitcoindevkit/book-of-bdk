@@ -4,6 +4,9 @@ electrum:
 esplora:
   cd esplora && cargo run --bin esplora
 
+bitcoind:
+  cd bitcoind-rpc && cargo run --bin bitcoind_rpc
+
 architecture:
   cd architecture && cargo run --bin architecture
 
