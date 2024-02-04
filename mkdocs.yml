@@ -78,6 +78,7 @@ nav:
     - Complete Examples:
       - Electrum Wallet: book/electrum-wallet.md
       - Esplora Wallet: book/esplora-wallet.md
+      - Bitcoin Core RPC Regtest: book/bitcoind-rpc-wallet.md
     - Keys and Descriptors:
       - Working with Descriptors: book/descriptors.md
   # - Architecture:

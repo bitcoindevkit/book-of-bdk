@@ -1,0 +1,8 @@
+[package]
+name = "bitcoind_rpc"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bdk = { version = "=1.0.0-alpha.5", features = ["all-keys"] }
+bdk_bitcoind_rpc = { version = "0.4" }
