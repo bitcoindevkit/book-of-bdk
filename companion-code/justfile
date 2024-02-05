@@ -4,6 +4,9 @@ electrum:
 esplora:
   cd esplora && cargo run --bin esplora
 
+rpc:
+  cd rpc && cargo run --bin rpc
+
 architecture:
   cd architecture && cargo run --bin architecture
 
