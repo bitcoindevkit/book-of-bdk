@@ -207,7 +207,7 @@ fn changesets() -> () {
 }
 
 fn indexers() -> () {
-    print_page_link(String::from("architecture/indexers/"));
+    print_page_link("architecture/indexers/");
 
     let spk1 = ScriptBuf::from_hex("001404f1e52ce2bab3423c6a8c63b7cd730d8f12542c").unwrap();
     let spk2 = ScriptBuf::from_hex("00142b57404ae14f08c3a0c903feb2af7830605eb00f").unwrap();
@@ -251,7 +251,7 @@ fn indexers() -> () {
     );
 }
 
-fn print_page_link(link: String) -> () {
+fn print_page_link(link: &str) -> () {
     println!();
     println!("-------------------------------------------------------------------------------------");
     println!("Companion code for https://bitcoindevkit.github.io/book-of-bdk/{}", link);

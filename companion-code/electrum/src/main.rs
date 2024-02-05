@@ -22,6 +22,7 @@ use bdk_electrum::electrum_client::Client;
 use bdk_file_store::Store;
 
 fn main() -> () {
+    print_page_link("electrum-wallet/");
     let db_path = std::env::current_dir().unwrap().join("electrumexample.db");
     let db = Store::<bdk::wallet::ChangeSet>::open_or_create_new(DB_MAGIC.as_bytes(), db_path).unwrap();
     let external_descriptor = "tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/0/*)#30pfz5ly";
@@ -89,4 +90,12 @@ fn main() -> () {
     // client.transaction_broadcast(&tx).unwrap();
     
     println!("Tx broadcasted! txid: {}", tx.txid());
+}
+
+fn print_page_link(link: &str) -> () {
+    println!();
+    println!("------------------------------------------------------------------------------------");
+    println!("Companion code for https://bitcoindevkit.github.io/book-of-bdk/book/{}", link);
+    println!("------------------------------------------------------------------------------------");
+    println!();
 }
