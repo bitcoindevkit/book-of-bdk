@@ -23,3 +23,4 @@ jobs:
           use-quiet-mode: 'yes'
           use-verbose-mode: 'yes'
           max-depth: 0
+          config-file: ".mlc_config.json"
