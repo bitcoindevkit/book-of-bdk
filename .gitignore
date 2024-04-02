@@ -1,9 +1,8 @@
-node_modules/
 cache/
 dist/
 notes.md
 
-# test stuff
+# tests
 tests/Cargo.lock
 tests/target
 tests/src

@@ -19,7 +19,7 @@ just serve
 
 All the rust code can be tested with:
 
-```
+```shell
 just test
 ```
 

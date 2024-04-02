@@ -36,6 +36,7 @@ fn main() -> () {
 
     let rpc_client: Client = Client::new(
         "http://127.0.0.1:18443",
+        // Auth::UserPass("__cookie__".to_string(), "cookievalue".to_string())
         Auth::CookieFile(COOKIE_FILE_PATH.into())
     ).unwrap();
 

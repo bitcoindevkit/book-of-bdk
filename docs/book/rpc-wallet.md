@@ -1,7 +1,7 @@
 # Wallet with Bitcoin Core RPC
 
 !!! tip
-    This page is up-to-date with version `1.0.0-alpha.5` of bdk.
+    This page is up-to-date with version `1.0.0-alpha.8` of bdk.
 
 ### 1. Start a regtest bitcoin daemon
 For this example you'll need to run a bitcoin core daemon locally in regtest mode. Here are some of the commands you'll need:
@@ -34,9 +34,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk = { version = "=1.0.0-alpha.5" }
-bdk_file_store = { version = "=0.5.0" }
-bdk_bitcoind_rpc = {  version = "0.4.0" }
+bdk = { version = "=1.0.0-alpha.8" }
+bdk_file_store = { version = "=0.8.0" }
+bdk_bitcoind_rpc = {  version = "0.7.0" }
 ```
 
 ### 4. Create your wallet

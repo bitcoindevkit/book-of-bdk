@@ -1,7 +1,7 @@
 # Wallet with Esplora
 
 !!! tip
-    This page is up-to-date with version `1.0.0-alpha.4` of bdk.
+    This page is up-to-date with version `1.0.0-alpha.8` of bdk.
 
 ### Create a new Rust project
 ```shell
@@ -17,9 +17,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk = { version = "1.0.0-alpha.5" }
-bdk_file_store = { version = "0.5.0" }
-bdk_esplora = { version = "0.7.0" }
+bdk = { version = "1.0.0-alpha.8" }
+bdk_file_store = { version = "0.8.0" }
+bdk_esplora = { version = "0.10.0" }
 ```
 
 ### 3. Create your wallet
