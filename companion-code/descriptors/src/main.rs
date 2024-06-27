@@ -1,13 +1,9 @@
-#![allow(dead_code)]
-#![allow(unused_must_use)]
-#![allow(unused_imports)]
-
-use bdk::bitcoin::bip32::ExtendedPrivKey;
-use bdk::bitcoin::Network;
-use bdk::bitcoin::secp256k1::rand;
-use bdk::bitcoin::secp256k1::rand::RngCore;
-use bdk::KeychainKind;
-use bdk::template::{Bip86, DescriptorTemplate};
+use bdk_wallet::bitcoin::bip32::Xpriv;
+use bdk_wallet::bitcoin::Network;
+use bdk_wallet::bitcoin::secp256k1::rand;
+use bdk_wallet::bitcoin::secp256k1::rand::RngCore;
+use bdk_wallet::KeychainKind;
+use bdk_wallet::template::{Bip86, DescriptorTemplate};
 
 fn main() -> () {
     println!("\n--------------------------------------------------------------------------------");
@@ -18,7 +14,7 @@ fn main() -> () {
     rand::thread_rng().fill_bytes(&mut seed);
 
     let network: Network = Network::Testnet;
-    let xprv: ExtendedPrivKey = ExtendedPrivKey::new_master(network, &seed).unwrap();
+    let xprv: Xpriv = Xpriv::new_master(network, &seed).unwrap();
     let (descriptor, key_map, _) = Bip86(xprv, KeychainKind::External).build(network).unwrap();
     let (change_descriptor, change_key_map, _) = Bip86(xprv, KeychainKind::Internal).build(network).unwrap();
 
