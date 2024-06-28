@@ -40,7 +40,7 @@ bdk_bitcoind_rpc = {  version = "0.7.0" }
 ```
 
 ### 4. Create your wallet
-Refer to the [Working with Descriptors](./descriptors.md) page for information on how to generate descriptors. This page will assume you are working on testnet with the following BIP86 descriptor:
+Refer to the [Working with Descriptors](../descriptors.md) page for information on how to generate descriptors. This page will assume you are working on testnet with the following BIP86 descriptor:
 ```txt
 tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/0/*)#30pfz5ly
 ```

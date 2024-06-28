@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 site_name: The Book of BDK
-repo_name: BitcoinDevKit/bdk
-repo_url: https://github.com/BitcoinDevKit/bdk
+repo_name: bitcoindevkit/bdk
+repo_url: https://github.com/bitcoindevkit/bdk
 plugins:
   - search
 
@@ -74,21 +74,13 @@ nav:
     - Project Organization: getting-started/organization.md
     - Getting Started: getting-started/getting-started.md
     - Companion Codebase: getting-started/companion-code.md
-  - Book:
-    - Complete Examples:
-      - Electrum Wallet: book/electrum-wallet.md
-      - Esplora Wallet: book/esplora-wallet.md
-      - RPC Wallet: book/rpc-wallet.md
+  - Cookbook:
+    - BDK Wallet:
+      - Electrum: cookbook/wallet/electrum.md
+      - Esplora: cookbook/wallet/esplora.md
+      - RPC: cookbook/wallet/rpc.md
     - Keys and Descriptors:
-      - Working with Descriptors: book/descriptors.md
-  # - Architecture:
-  #   - BDK:
-  #     - Wallet: architecture/wallet.md
-  #   - Syncing:
-  #     - Syncing with BDK: architecture/syncing.md
-  #     - LocalChain: architecture/localchain.md
-  #     - CheckPoint: architecture/checkpoint.md
-  #     - Anchors: architecture/anchors.md
-  #     - TxGraph: architecture/txgraph.md
-  #   - Persistence:
-  #     - Wallet + Persistence: architecture/persistence.md
+      - Working with Descriptors: cookbook/descriptors.md
+  - Architecture:
+    - Overview:
+      - Design: architecture/design.md

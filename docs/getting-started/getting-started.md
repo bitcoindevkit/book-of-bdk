@@ -36,6 +36,6 @@ cargo add bdk_esplora@0.10.0
 cargo add bdk_file_store@0.8.0
 ```
 
-See the [Wallet with Electrum Example](../book/electrum-wallet.md) page for how to create and sync a wallet.
+See the [Wallet with Electrum Example](../cookbook/wallet/electrum.md) page for how to create and sync a wallet.
 
 [Getting Started]: https://www.rust-lang.org/learn/get-started
