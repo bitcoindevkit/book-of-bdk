@@ -1,10 +1,10 @@
 cache/
 dist/
-notes.md
+drafts/
+site/
 
 # tests
 tests/Cargo.lock
 tests/target
 tests/src
 tests/config.txt
-site
