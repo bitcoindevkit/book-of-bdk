@@ -1,0 +1,9 @@
+[package]
+name = "electrum"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bdk_wallet = { version = "=1.0.0-alpha.13" }
+bdk_sqlite = { version = "=0.2.0" }
+bdk_electrum = { version = "=0.15.0" }

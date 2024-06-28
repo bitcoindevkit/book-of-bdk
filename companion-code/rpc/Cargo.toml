@@ -1,9 +1,0 @@
-[package]
-name = "rpc"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-bdk = { version = "=1.0.0-alpha.8" }
-bdk_file_store = { version = "=0.8.0" }
-bdk_bitcoind_rpc = {  version = "0.7.0" }

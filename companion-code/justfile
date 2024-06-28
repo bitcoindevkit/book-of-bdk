@@ -1,11 +1,11 @@
 electrum:
-  cd electrum && cargo run --bin electrum
+  cd wallet/electrum && cargo run --bin electrum
 
 esplora:
-  cd esplora && cargo run --bin esplora
+  cd wallet/esplora && cargo run --bin esplora
 
 rpc:
-  cd rpc && cargo run --bin rpc
+  cd wallet/rpc && cargo run --bin rpc
 
 architecture:
   cd architecture && cargo run --bin architecture
