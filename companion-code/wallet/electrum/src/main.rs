@@ -7,8 +7,8 @@ use bdk_electrum::electrum_client::Client;
 
 const STOP_GAP: usize = 50;
 const BATCH_SIZE: usize = 5;
-const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/0/*)#30pfz5ly";
-const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/1/*)";
+const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
+const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
 
 fn main() -> () {
     print_page_link("electrum/");
@@ -21,7 +21,6 @@ fn main() -> () {
 
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
     println!("Generated address {} at index {}", address.address, address.index);
-    // Generated address tb1p5nja3w87mc6xl5w3yy85evlg0qpyq2j4wzytazt4437nr37j2ajswm3ptl at index 0
 
     // Syncing the wallet
     let client: BdkElectrumClient<Client> = BdkElectrumClient::new(
@@ -32,7 +31,6 @@ fn main() -> () {
     let mut update = client
         .full_scan(full_scan_request, STOP_GAP, BATCH_SIZE, true).unwrap()
         .with_confirmation_time_height_anchor(&client).unwrap();
-    // println!("Full scan result: {:?}", full_scan_result);
 
     let now = std::time::UNIX_EPOCH.elapsed().unwrap().as_secs();
     let _ = update.graph_update.update_last_seen_unconfirmed(now);

@@ -76,8 +76,8 @@ nav:
     - Companion Codebase: getting-started/companion-code.md
   - Cookbook:
     - BDK Wallet:
-      - Electrum: cookbook/wallet/electrum.md
-      - Esplora: cookbook/wallet/esplora.md
+      - Syncing with Electrum: cookbook/wallet/electrum.md
+      - Syncing with Esplora: cookbook/wallet/esplora.md
       - RPC: cookbook/wallet/rpc.md
     - Keys and Descriptors:
       - Working with Descriptors: cookbook/descriptors.md

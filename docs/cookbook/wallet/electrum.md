@@ -1,4 +1,4 @@
-# Working with Electrum
+# Sync a Wallet with Electrum
 
 !!! tip
     This page is up-to-date with version `1.0.0-alpha.13` of bdk.
@@ -25,11 +25,12 @@ bdk_electrum = { version = "=0.15.0" }
 ### 3. Create your descriptors
 Refer to the [Working with Descriptors](../descriptors.md) page for information on how to generate descriptors. This page will assume you are working on signet with the following BIP86 descriptors:
 ```txt
-tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/0/*)
-tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/1/*)
+const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
+const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
 ```
 
 ### Create and sync the wallet
+
 ```rust
 use bdk_wallet::wallet::AddressInfo;
 use bdk_wallet::KeychainKind;
@@ -54,9 +55,8 @@ fn main() -> () {
 
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
     println!("Generated address {} at index {}", address.address, address.index);
-    // Generated address tb1p5nja3w87mc6xl5w3yy85evlg0qpyq2j4wzytazt4437nr37j2ajswm3ptl at index 0
 
-    // Syncing the wallet
+    // Sync the wallet
     let client: BdkElectrumClient<Client> = BdkElectrumClient::new(
         electrum_client::Client::new("ssl://mempool.space:60602").unwrap()
     );
@@ -74,3 +74,7 @@ fn main() -> () {
     println!("Wallet balance: {} sats", balance.total().to_sat());
 }
 ```
+
+### Notes
+
+The `client.full_scan()` method returns an `ElectrumFullScanResult`, which _must_ be transformed into one of two `Anchors`: either a `ConfirmationHeightAnchor` or a `ConfirmationTimeHeightAnchor`. To work with a `Wallet`, the `ConfirmationTimeHeightAnchor` must be used, which you get by calling the `ElectrumFullScanResult.with_confirmation_time_height_anchor()` method.
