@@ -2,6 +2,7 @@ cache/
 dist/
 drafts/
 site/
+target/
 
 # tests
 tests/Cargo.lock
