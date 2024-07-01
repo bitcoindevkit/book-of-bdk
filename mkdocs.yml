@@ -81,7 +81,7 @@ nav:
       - RPC: cookbook/wallet/rpc.md
     - Keys and Descriptors:
       - Working with Descriptors: cookbook/descriptors.md
-      - Seed Phrase to Descriptor: cookbook/seed-phrase.md
+      - Seed Phrase to Descriptors: cookbook/seed-phrase.md
   - Architecture:
     - Overview:
       - Design: architecture/design.md
