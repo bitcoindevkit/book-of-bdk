@@ -2,11 +2,11 @@
 
 ### Install Rust
 
-See the Rust [Getting Started] page to install the Rust development tools.
+See the Rust [Getting Started]{:target="_blank"} page to install the Rust development tools.
 
 ### Using BDK in a Rust project
 
-Follow these steps to use BDK in your own rust project with the async `esplora` blockchain client.
+Follow these steps to use BDK in your own rust project with the `electrum` blockchain client.
 
 !!! tip
     For now, we suggest using the latest `master` branch versions of BDK crates.
@@ -23,19 +23,20 @@ cargo init my_bdk_app
 cd my_bdk_app
 ```
 
-2. Add `bdk` to your `Cargo.toml` file. Find the latest `bdk@1` release on [`crates.io`](https://crates.io/crates/bdk/versions), for example:
+2. Add `bdk_wallet` to your `Cargo.toml` file. Find [the latest `bdk_wallet` release on crates.io][bdk_wallet on crates.io]{:target="_blank"}, for example:
 
 ```shell
-cargo add bdk@1.0.0-alpha.8
+cargo add bdk_wallet@1.0.0-alpha.13
 ```
 
 3. Add other required dependencies:
 
 ```shell
-cargo add bdk_esplora@0.10.0
-cargo add bdk_file_store@0.8.0
+cargo add bdk_electrum@0.15.0
+cargo add bdk_sqlite@0.2.0
 ```
 
-See the [Wallet with Electrum Example](../cookbook/wallet/electrum.md) page for how to create and sync a wallet.
+Follow the [Sync a Wallet with Electrum](../cookbook/wallet/electrum.md) page for a simple example of how to create and sync a wallet.
 
 [Getting Started]: https://www.rust-lang.org/learn/get-started
+[bdk_wallet on crates.io]: https://crates.io/crates/bdk_wallet/versions
