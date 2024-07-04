@@ -78,7 +78,7 @@ nav:
     - BDK Wallet:
       - Syncing with Electrum: cookbook/wallet/electrum.md
       - Syncing with Esplora: cookbook/wallet/esplora.md
-      - RPC: cookbook/wallet/rpc.md
+      - Syncing with RPC: cookbook/wallet/rpc.md
     - Keys and Descriptors:
       - Working with Descriptors: cookbook/descriptors.md
       - Seed Phrase to Descriptors: cookbook/seed-phrase.md
