@@ -2,7 +2,7 @@
 BDK is a descriptor-first library. This page explores how to build them and how they interact with other standards like BIP-39 recovery phrases.
 
 !!!danger
-    TODO: Standard notice of danger of working with private keys, generating entropy, etc.
+    The keys and descriptors used in **The Book of BDK** are for illustration purposes only; **UNDER NO CIRCUMSTANCES** should any of the keys or descriptors containing private data be used for real money. Entropy generation should be carried out in a secure environment using cryptographically secure random number generators ([CSPRNG](https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator)).
 
 ## Using descriptor templates
 BDK offers utility constructs called _descriptor templates_, which allow you to build descriptors for the four most common script types (BIP 44/49/84/86) with minimal effort.
