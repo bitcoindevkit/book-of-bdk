@@ -39,7 +39,7 @@ bdk_bitcoind_rpc = {  version = "0.12.0" }
 ```
 
 ### 4. Create your descriptors
-Refer to the [Working with Descriptors](../descriptors.md) page for information on how to generate descriptors. This page will assume you are working on Regtest with the following BIP86 descriptors:
+Refer to the [Working with Descriptors](../keys-descriptors/descriptors.md) page for information on how to generate descriptors. This page will assume you are working on Regtest with the following BIP86 descriptors:
 ```txt
 const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";

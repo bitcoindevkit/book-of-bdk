@@ -1,35 +1,35 @@
-# Sync a Wallet with Esplora
+# Full Wallet Example
 
 !!! tip
-    This page is up-to-date with version `1.0.0-alpha.13` of bdk.
+    This page is up-to-date with version `1.0.0-beta.1` of `bdk_wallet`.
 
-### Create a new Rust project
+## Create a new Rust project
 ```shell
-cargo init esploraexample
-cd esploraexample
+cargo init bdkexample
+cd bdkexample
 ```
 
-### Add required bdk dependencies to your Cargo.toml file
+## Add required dependencies to your `Cargo.toml` file
 ```toml
 [package]
-name = "esploraexample"
+name = "bdkexample"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk = { version = "1.0.0-alpha.13" }
+bdk = { version = "1.0.0-beta.1" }
 bdk_esplora = { version = "0.15.0", features = ["blocking"] }
 ```
 
-### 3. Create your descriptors
+## Create your descriptors
 
-Refer to the [Working with Descriptors](../keys-descriptors/descriptors.md) page for information on how to generate descriptors. This page will assume you are working on signet with the following BIP86 descriptors:
+Refer to the [Working with Descriptors](./keys-descriptors/descriptors.md) page for information on how to generate descriptors. This page will assume you are working on signet with the following BIP86 descriptors:
 ```txt
 const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
 ```
 
-### 4. Create and sync the wallet
+## Create a wallet, sync it, build a transaction, and broadcast it
 
 ```rust
 use bdk_wallet::wallet::AddressInfo;

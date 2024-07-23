@@ -9,7 +9,7 @@ cargo init electrumexample
 cd electrumexample
 ```
 
-### 2. Add required bdk dependencies to your Cargo.toml file
+### 2. Add required bdk dependencies to your `Cargo.toml` file
 ```toml
 [package]
 name = "electrumexample"
@@ -23,7 +23,7 @@ bdk_electrum = { version = "=0.15.0" }
 ```
 
 ### 3. Create your descriptors
-Refer to the [Working with Descriptors](../descriptors.md) page for information on how to generate descriptors. This page will assume you are working on signet with the following BIP86 descriptors:
+Refer to the [Working with Descriptors](../keys-descriptors/descriptors.md) page for information on how to generate descriptors. This page will assume you are working on signet with the following BIP86 descriptors:
 ```txt
 const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
@@ -44,9 +44,7 @@ const BATCH_SIZE: usize = 5;
 const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/0/*)#30pfz5ly";
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPewab4KfjNu6p9Q5XAPokRpK9zrPGoJS7H6CqnxuKJX6zPBDj2Q43tfmVBRTpQMBSg8AhqBDdNEsBC14kMXiZj2tPWv5wHAE/86'/1'/0'/1/*)";
 
-fn main() -> () {
-    print_page_link("electrum/");
-
+fn main() -> () {\
     let mut wallet: Wallet = Wallet::new(
         EXTERNAL_DESCRIPTOR,
         INTERNAL_DESCRIPTOR,
