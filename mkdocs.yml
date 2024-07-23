@@ -29,8 +29,8 @@ theme:
     code: Roboto Mono
   features:
     - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.sections
+    # - navigation.tabs.sticky
+    # - navigation.sections
     - navigation.instant
     # - navigation.indexes
     - navigation.footer
@@ -76,13 +76,14 @@ nav:
     - API Documentation: getting-started/api-documentation.md
     - Companion Codebase: getting-started/companion-code.md
   - Cookbook:
-    - BDK Wallet:
-      - Syncing with Electrum: cookbook/wallet/electrum.md
-      - Syncing with Esplora: cookbook/wallet/esplora.md
-      - Syncing with RPC: cookbook/wallet/rpc.md
+    - Starter Example: cookbook/starter.md
+    - Syncing With Different Blockchain Clients:
+      - Electrum Sync: cookbook/wallet/electrum.md
+      - Esplora Sync: cookbook/wallet/esplora.md
+      - RPC Sync: cookbook/wallet/rpc.md
     - Keys and Descriptors:
-      - Working with Descriptors: cookbook/descriptors.md
-      - Seed Phrase to Descriptors: cookbook/seed-phrase.md
+      - Working with Descriptors: cookbook/keys-descriptors/descriptors.md
+      - Seed Phrase to Descriptors: cookbook/keys-descriptors/seed-phrase.md
   - Architecture:
     - Overview:
       - Design: architecture/design.md
