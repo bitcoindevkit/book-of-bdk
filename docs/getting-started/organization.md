@@ -19,19 +19,6 @@ The core project is split up into several crates in the `bdk/crates` directory:
    crate with methods to fetch chain data from an electrum server in the form that
    [`bdk_chain`][bdk-crates] and `Wallet` can consume.
 
-## API Documentation
-
-- [bdk_wallet](https://docs.rs/bdk_wallet/){:target="_blank"}
-- [bdk_chain](https://docs.rs/bdk_chain/){:target="_blank"}
-- [bdk_sqlite](https://docs.rs/bdk_sqlite/){:target="_blank"}
-- [bdk_file_store](https://docs.rs/bdk_file_store/){:target="_blank"}
-- [bdk_electrum](https://docs.rs/bdk_electrum){:target="_blank"}
-- [bdk_esplora](https://docs.rs/bdk_esplora){:target="_blank"}
-- [bdk_bitcoind_rpc](https://docs.rs/bdk_bitcoind_rpc){:target="_blank"}
-- [bdk_hwi](https://docs.rs/hwi){:target="_blank"}
-- [esplora-client]{:target="_blank"}
-- [electrum-client]{:target="_blank"}
-
 [bdk-crates]: https://github.com/bitcoindevkit/bdk/tree/master/crates
 [esplora-client]: https://docs.rs/esplora-client/
 [electrum-client]: https://docs.rs/electrum-client/
