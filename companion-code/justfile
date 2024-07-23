@@ -1,17 +1,20 @@
 @default:
   just --list
 
+fullwallet:
+  cd fullwallet/ && cargo run --bin fullwallet
+
 electrum:
-  cd wallet/electrum && cargo run --bin electrum
+  cd wallet/electrum/ && cargo run --bin electrum
 
 esplora:
-  cd wallet/esplora && cargo run --bin esplora
+  cd wallet/esplora/ && cargo run --bin esplora
 
 rpc:
-  cd wallet/rpc && cargo run --bin rpc
+  cd wallet/rpc/ && cargo run --bin rpc
 
 architecture:
-  cd architecture && cargo run --bin architecture
+  cd architecture/ && cargo run --bin architecture
 
 descriptors:
-  cd descriptors && cargo run --bin descriptors
+  cd descriptors/ && cargo run --bin descriptors
