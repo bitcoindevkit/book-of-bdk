@@ -78,9 +78,9 @@ nav:
   - Cookbook:
     - Starter Example: cookbook/starter.md
     - Syncing With Different Blockchain Clients:
-      - Electrum Sync: cookbook/wallet/electrum.md
-      - Esplora Sync: cookbook/wallet/esplora.md
-      - RPC Sync: cookbook/wallet/rpc.md
+      - Electrum Sync: cookbook/syncing/electrum.md
+      - Esplora Sync: cookbook/syncing/esplora.md
+      - RPC Sync: cookbook/syncing/rpc.md
     - Keys and Descriptors:
       - Working with Descriptors: cookbook/keys-descriptors/descriptors.md
       - Seed Phrase to Descriptors: cookbook/keys-descriptors/seed-phrase.md
