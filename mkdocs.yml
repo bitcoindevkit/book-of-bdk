@@ -34,7 +34,7 @@ theme:
     - navigation.instant
     # - navigation.indexes
     - navigation.footer
-    - navigation.expand
+    # - navigation.expand      # expands all sidebar sections by default
     - search.suggest
     - search.highlight
 
@@ -82,6 +82,10 @@ nav:
       - Electrum Sync: cookbook/syncing/electrum.md
       - Esplora Sync: cookbook/syncing/esplora.md
       - RPC Sync: cookbook/syncing/rpc.md
+    - Persistence:
+      - In-Memory Wallet: cookbook/persistence/memory.md
+      - SQLite Database: cookbook/persistence/sqlite.md
+      - Flat File Persistence: cookbook/persistence/flat-file.md
     - Keys and Descriptors:
       - Working with Descriptors: cookbook/keys-descriptors/descriptors.md
       - Seed Phrase to Descriptors: cookbook/keys-descriptors/seed-phrase.md
