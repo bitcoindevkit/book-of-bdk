@@ -17,12 +17,14 @@ fn main() -> () {
     let (change_descriptor, change_key_map, _) = Bip86(xprv, KeychainKind::Internal).build(network).unwrap();
 
     println!(
-        "----------------  Descriptor  ------------------------------\n{:?}\n",
-        descriptor.to_string_with_secret(&key_map)
+        "----------------  Descriptor  ------------------------------\n{:?}\n{:?}\n",
+        descriptor.to_string_with_secret(&key_map),
+        descriptor.to_string()
     );
     println!(
-        "----------------  Change Descriptor  -----------------------\n{:?}\n",
-        change_descriptor.to_string_with_secret(&change_key_map)
+        "----------------  Change Descriptor  -----------------------\n{:?}\n{:?}\n",
+        change_descriptor.to_string_with_secret(&change_key_map),
+        change_descriptor.to_string()
     );
 }
 

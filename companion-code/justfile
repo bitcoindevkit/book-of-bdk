@@ -4,14 +4,14 @@
 fullwallet:
   cd fullwallet/ && cargo run --bin fullwallet
 
-electrum:
-  cd wallet/electrum/ && cargo run --bin electrum
+sync-electrum:
+  cd syncing/electrum/ && cargo run --bin electrum
 
-esplora:
-  cd wallet/esplora/ && cargo run --bin esplora
+sync-esplora:
+  cd syncing/esplora/ && cargo run --bin esplora
 
-rpc:
-  cd wallet/rpc/ && cargo run --bin rpc
+sync-rpc:
+  cd syncing/rpc/ && cargo run --bin rpc
 
 architecture:
   cd architecture/ && cargo run --bin architecture
