@@ -77,7 +77,8 @@ nav:
     - Companion Codebase: getting-started/companion-code.md
   - Cookbook:
     - Starter Example: cookbook/starter.md
-    - Syncing With Different Blockchain Clients:
+    - Syncing:
+      - Full Scan vs Sync: cookbook/syncing/full-scan-vs-sync.md
       - Electrum Sync: cookbook/syncing/electrum.md
       - Esplora Sync: cookbook/syncing/esplora.md
       - RPC Sync: cookbook/syncing/rpc.md
