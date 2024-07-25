@@ -1,4 +1,4 @@
-use bdk_wallet::wallet::AddressInfo;
+use bdk_wallet::AddressInfo;
 use bdk_wallet::KeychainKind;
 use bdk_wallet::bitcoin::Network;
 use bdk_wallet::Wallet;
@@ -13,11 +13,10 @@ const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsR
 fn main() -> () {
     print_page_link("esplora/");
 
-    let mut wallet: Wallet = Wallet::new(
-        EXTERNAL_DESCRIPTOR,
-        INTERNAL_DESCRIPTOR,
-        Network::Signet,
-    ).unwrap();
+    let mut wallet: Wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
+        .network(Network::Signet)
+        .create_wallet_no_persist()
+        .unwrap();
 
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
     println!("Generated address {} at index {}", address.address, address.index);

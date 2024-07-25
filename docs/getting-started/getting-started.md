@@ -36,7 +36,7 @@ cargo add bdk_electrum@0.15.0
 cargo add bdk_sqlite@0.2.0
 ```
 
-Follow the [Sync a Wallet with Electrum](../cookbook/wallet/electrum.md) page for a simple example of how to create and sync a wallet.
+Follow the [Sync a Wallet with Electrum](../cookbook/syncing/electrum.md) page for a simple example of how to create and sync a wallet.
 
 [Getting Started]: https://www.rust-lang.org/learn/get-started
 [bdk_wallet on crates.io]: https://crates.io/crates/bdk_wallet/versions

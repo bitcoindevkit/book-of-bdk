@@ -1,4 +1,4 @@
-use bdk_wallet::wallet::AddressInfo;
+use bdk_wallet::AddressInfo;
 use bdk_wallet::KeychainKind;
 use bdk_wallet::bitcoin::Network;
 use bdk_wallet::Wallet;
@@ -13,24 +13,22 @@ const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsR
 fn main() -> () {
     print_page_link("electrum/");
 
-    let mut wallet: Wallet = Wallet::new(
-        EXTERNAL_DESCRIPTOR,
-        INTERNAL_DESCRIPTOR,
-        Network::Signet,
-    ).unwrap();
+    let mut wallet: Wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
+        .network(Network::Signet)
+        .create_wallet_no_persist()
+        .unwrap();
 
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
     println!("Generated address {} at index {}", address.address, address.index);
 
-    // Syncing the wallet
+    // Create the Electrum client
     let client: BdkElectrumClient<Client> = BdkElectrumClient::new(
         electrum_client::Client::new("ssl://mempool.space:60602").unwrap()
     );
 
+    // Perform the initial full scan on the wallet
     let full_scan_request = wallet.start_full_scan();
-    let mut update = client
-        .full_scan(full_scan_request, STOP_GAP, BATCH_SIZE, true).unwrap()
-        .with_confirmation_time_height_anchor(&client).unwrap();
+    let mut update = client.full_scan(full_scan_request, STOP_GAP, BATCH_SIZE, true).unwrap();
 
     let now = std::time::UNIX_EPOCH.elapsed().unwrap().as_secs();
     let _ = update.graph_update.update_last_seen_unconfirmed(now);
