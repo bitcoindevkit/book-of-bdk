@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk_wallet = { version = "=1.0.0-alpha.13" }
-bdk_bitcoind_rpc = {  version = "0.12.0" }
+bdk_wallet = { version = "=1.0.0-beta.1" }
+bdk_bitcoind_rpc = {  version = "0.13.0" }
