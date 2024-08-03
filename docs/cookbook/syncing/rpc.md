@@ -1,7 +1,7 @@
 # Sync a Wallet with Bitcoin Core RPC
 
 !!! tip
-    This page is up-to-date with version `1.0.0-alpha.13` of bdk.
+    This page is up-to-date with version `1.0.0-beta.1` of bdk.
 
 ### 1. Start a regtest bitcoin daemon
 For this example you'll need to run a bitcoin core daemon locally in regtest mode. Here are some of the commands you'll need:
@@ -18,6 +18,9 @@ bitcoin-cli --chain=regtest getnewaddress
 
 # Mine 101 blocks
 bitcoin-cli --chain=regtest generatetoaddress 101 <address>
+
+# Send to address
+bitcoin-cli --chain=regtest sendtoaddress <address> <amount>
 ```
 
 ### 2. Create a new Rust project
@@ -34,8 +37,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk = { version = "=1.0.0-alpha.13" }
-bdk_bitcoind_rpc = {  version = "0.12.0" }
+bdk = { version = "=1.0.0-beta.1" }
+bdk_bitcoind_rpc = {  version = "0.13.0" }
 ```
 
 ### 4. Create your descriptors
@@ -48,23 +51,21 @@ const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsR
 ### 5. Create and sync wallet
 
 ```rust
-use bdk_wallet::wallet::{AddressInfo, Balance};
-use bdk_wallet::bitcoin::{Block, Network, Transaction};
-use bdk_wallet::{KeychainKind, Wallet};
-use bdk_wallet::chain::local_chain::CheckPoint;
 use bdk_bitcoind_rpc::bitcoincore_rpc::{Auth, Client, RpcApi};
-use bdk_bitcoind_rpc::{BlockEvent, Emitter};
+use bdk_bitcoind_rpc::Emitter;
+use bdk_wallet::bitcoin::{Network, Transaction};
+use bdk_wallet::chain::local_chain::CheckPoint;
+use bdk_wallet::{AddressInfo, Balance, KeychainKind, Wallet};
 
-const COOKIE_FILE_PATH: &str = "<path_to_your_regtest_bitcoin_core_cookie_file>/.cookie";
+const COOKIE_FILE_PATH: &str = "<path_to_your_regtest_bitcoin_core_data_dir>/.cookie";
 const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
 
 fn main() -> () {
-    let mut wallet: Wallet = Wallet::new(
-        EXTERNAL_DESCRIPTOR,
-        INTERNAL_DESCRIPTOR,
-        Network::Regtest,
-    ).unwrap();
+    let mut wallet: Wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
+        .network(Network::Regtest)
+        .create_wallet_no_persist()
+        .unwrap();
 
     let balance: Balance = wallet.balance();
     println!("Wallet balance before syncing: {}", balance.total());
@@ -94,16 +95,13 @@ fn main() -> () {
     let mut emitter = Emitter::new(&rpc_client, wallet_tip.clone(), wallet_tip.height());
 
     println!("Syncing blocks...");
-    loop {
-        let block_event: Option<BlockEvent<Block>> = emitter.next_block().unwrap();
-        let block = if block_event.is_none() {
-            break;
-        } else {
-            block_event.unwrap()
-        };
+    while let Some(block) = emitter.next_block().unwrap() {
+        // the `block` variable is of type `BlockEvent<Block>`
         print!("{} ", block.block_height());
 
-        wallet.apply_block_connected_to(&block.block, block.block_height(), block.connected_to()).unwrap();
+        wallet
+            .apply_block_connected_to(&block.block, block.block_height(), block.connected_to())
+            .unwrap();
     }
     println!();
 
