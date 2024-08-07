@@ -66,6 +66,8 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   - def_list
 
 nav:
@@ -76,6 +78,7 @@ nav:
     - API Documentation: getting-started/api-documentation.md
     - Companion Codebase: getting-started/companion-code.md
   - Cookbook:
+    - Basics: cookbook/basics.md
     - Starter Example: cookbook/starter.md
     - Syncing:
       - Full Scan vs Sync: cookbook/syncing/full-scan-vs-sync.md
