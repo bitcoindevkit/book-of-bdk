@@ -11,7 +11,7 @@ The operations that affect the wallet and produce a changeset are things like:
 - Revealing new addresses
 - Sync operations that pick up new UTXOs
 
-Once those things are persisted, upon loading of the database changeset the wallet would be able to rehydrate its [TxGraph](), which includes UTXOs, transaction history, and latest blocks known to the wallet. This means that a wallet that's been loaded from such a persitence will not require a _Full Scan_ but rather simply a _Sync_.
+Once those things are persisted, upon loading of the database changeset the wallet would be able to rehydrate its [TxGraph](), which includes UTXOs, transaction history, and latest blocks known to the wallet. This means that a wallet that's been loaded from such a persistence will not require a _Full Scan_ but rather simply a _Sync_.
 
 See our page on the [difference between the full scan and sync operations](../syncing/full-scan-vs-sync.md) for more on this topic.
 

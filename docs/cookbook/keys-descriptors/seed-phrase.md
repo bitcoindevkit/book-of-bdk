@@ -1,6 +1,6 @@
 # From Seed Phrase to Descriptors
 
-BDK wallets require the use of descriptors, but recovery phrases (also called seed phrases) are a common and popular backup solution. Creating descriptors from a recovery phrase is a workflow requried widely and BDK makes this easy with its _descriptor templates_, which are offered for common descriptors ([BIP 44/49/84/86](https://docs.rs/bdk_wallet/latest/bdk_wallet/descriptor/template/index.html)).
+BDK wallets require the use of descriptors, but recovery phrases (also called seed phrases) are a common and popular backup solution. Creating descriptors from a recovery phrase is a common workflow and BDK makes this easy with its _descriptor templates_, which are offered for common descriptors ([BIP 44/49/84/86](https://docs.rs/bdk_wallet/latest/bdk_wallet/descriptor/template/index.html)).
 
 !!! note "Feature Flags"
 
@@ -33,6 +33,6 @@ pub fn main() -> () {
     let change_descriptor = Bip84(xprv, KeychainKind::Internal);
 
     // Use the descriptors to build a wallet
-    // let wallet = Wallet::new(descriptor, change_descriptor, Network::Testnet).unwrap();
+    let wallet = Wallet::new(descriptor, change_descriptor, Network::Testnet).unwrap();
 }
 ```
