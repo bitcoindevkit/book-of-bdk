@@ -1,6 +1,6 @@
 # Book of BDK
 
-This repository hosts the code and content for the [Book of BDK website](https://thunderbiscuit.github.io/book-of-bdk/).
+This repository hosts the code and content for the [Book of BDK website](https://bitcoindevkit.github.io/book-of-bdk/).
 We use [`mkdocs-material`](https://squidfunk.github.io/mkdocs-material) to render the website and the content.
 
 ## Develop locally
