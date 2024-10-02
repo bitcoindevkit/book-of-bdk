@@ -2,8 +2,7 @@
 
 The Bitcoin Development Kit (BDK) project was created to provide well engineered and reviewed components for building bitcoin-based applications.
 
-The core components of BDK are written in the [Rust] language and live in the [`bitcoindevkit/bdk`][bitcoindevkit/bdk] repository.
-The core BDK components are built upon the excellent [`rust-bitcoin`][rust-bitcoin] and [`rust-miniscript`][rust-miniscript] crates.
+The core components of BDK are written in the [Rust] language and live in the [`bitcoindevkit/bdk`][bitcoindevkit/bdk] repository. The core BDK components are built upon the excellent [`rust-bitcoin`][rust-bitcoin] and [`rust-miniscript`][rust-miniscript] crates.
 
 The BDK team also maintains the [`bitcoindevkit/bdk-ffi`][bitcoindevkit/bdk-ffi] repository which provide cross-platform versions of the high level BDK APIs. Current supported platforms are: [Kotlin] (Android, Linux, macOS), [Swift] (iOS, macOS), and [Python] (Linux, macOS, Windows).
 

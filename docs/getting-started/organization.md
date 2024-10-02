@@ -1,7 +1,6 @@
 # Project Organization
 
-Within the [`bitcoindevkit` GitHub organization](https://github.com/bitcoindevkit){:target="_blank"}, the BDK team maintains
-a suite of Rust crates which provide both an easy-to-use high level APIs and powerful lower level components to use when building more advanced bitcoin software.
+Within the [`bitcoindevkit` GitHub organization](https://github.com/bitcoindevkit){:target="_blank"}, the BDK team maintains a suite of Rust crates which provide both easy-to-use high level APIs and powerful lower level components to use when building more advanced bitcoin software.
 
 ## Source Code
 
