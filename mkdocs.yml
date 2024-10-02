@@ -69,6 +69,7 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - def_list
+  - md_in_html
 
 nav:
   - Getting Started: 
@@ -77,6 +78,7 @@ nav:
     - Getting Started: getting-started/getting-started.md
     - API Documentation: getting-started/api-documentation.md
     - Companion Codebase: getting-started/companion-code.md
+    - Build a Wallet: getting-started/build-a-wallet.md
   - Cookbook:
     - Basics: cookbook/basics.md
     - Starter Example: cookbook/starter.md
