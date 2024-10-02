@@ -7,6 +7,20 @@ We use [`mkdocs-material`](https://squidfunk.github.io/mkdocs-material) to rende
 
 To develop locally, you'll need to install `mkdocs-material`:
 
+First you'll likely want to open a python virtual environment (since python environment management can be truly nightmarish otherwise). Doing so will depend on your OS.
+
+Here's an example using [venv](https://docs.python.org/3/library/venv.html) on MacOS. Set up a virtual environment if you don't already have one:
+```shell
+mkdir ~/.venv
+python3 -m venv ~/.venv
+```
+Then start the virtual environemnt:
+```shell
+source ~/.venv/bin/activate
+```
+
+Then you're ready to install:
+
 ```shell
 pip install mkdocs-material
 ```
