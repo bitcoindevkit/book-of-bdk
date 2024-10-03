@@ -1,0 +1,13 @@
+.tabbed-labels:before {
+  display: none !important;
+}
+
+.tabbed-set > input:nth-child(1):checked ~ .tabbed-labels > :nth-child(1) {
+  background-color: var(--md-code-bg-color);
+}
+.tabbed-set > input:nth-child(2):checked ~ .tabbed-labels > :nth-child(2) {
+  background-color: var(--md-code-bg-color);
+}
+.tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3) {
+  background-color: var(--md-code-bg-color);
+}

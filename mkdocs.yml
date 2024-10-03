@@ -97,3 +97,10 @@ nav:
   - Architecture:
     - Overview:
       - Design: architecture/design.md
+
+extra_javascript:
+  - assets/js/link-tabs.js
+
+extra_css:
+  - assets/css/link-tabs.css
+
