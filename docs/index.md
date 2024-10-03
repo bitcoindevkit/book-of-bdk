@@ -1,4 +1,4 @@
-# Book of BDK
+# The Bitcoin Development Kit
 
 The Bitcoin Development Kit (BDK) project was created to provide well engineered and reviewed components for building bitcoin-based applications.
 

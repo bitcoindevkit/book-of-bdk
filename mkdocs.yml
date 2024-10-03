@@ -73,7 +73,8 @@ markdown_extensions:
 
 nav:
   - Getting Started: 
-    - About: index.md
+    - About BDK: index.md
+    - Why this Book?: getting-started/why-book.md
     - Project Organization: getting-started/organization.md
     - Getting Started: getting-started/getting-started.md
     - API Documentation: getting-started/api-documentation.md
