@@ -11,3 +11,25 @@
 .tabbed-set > input:nth-child(3):checked ~ .tabbed-labels > :nth-child(3) {
   background-color: var(--md-code-bg-color);
 }
+.tabbed-set > input:nth-child(4):checked ~ .tabbed-labels > :nth-child(4) {
+  background-color: var(--md-code-bg-color);
+}
+.tabbed-set > input:nth-child(5):checked ~ .tabbed-labels > :nth-child(5) {
+  background-color: var(--md-code-bg-color);
+}
+.tabbed-set > input:nth-child(6):checked ~ .tabbed-labels > :nth-child(6) {
+  background-color: var(--md-code-bg-color);
+}
+.tabbed-set > input:nth-child(7):checked ~ .tabbed-labels > :nth-child(7) {
+  background-color: var(--md-code-bg-color);
+}
+.tabbed-set > input:nth-child(8):checked ~ .tabbed-labels > :nth-child(8) {
+  background-color: var(--md-code-bg-color);
+}
+.tabbed-set > input:nth-child(9):checked ~ .tabbed-labels > :nth-child(9) {
+  background-color: var(--md-code-bg-color);
+}
+.tabbed-set > input:nth-child(10):checked ~ .tabbed-labels > :nth-child(10) {
+  background-color: var(--md-code-bg-color);
+}
+
