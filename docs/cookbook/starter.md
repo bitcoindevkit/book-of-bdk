@@ -58,7 +58,7 @@ fn main() -> () {
     println!("Generated address {} at index {}", address.address, address.index);
 
     // Sync the wallet
-    let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking();
+    let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking(); // (1)
     let full_scan_request: FullScanRequest<KeychainKind> = wallet.start_full_scan();
     let mut update: FullScanResult<KeychainKind> = client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS).unwrap();
     let now = std::time::UNIX_EPOCH.elapsed().unwrap().as_secs();
@@ -72,3 +72,6 @@ fn main() -> () {
     println!("Wallet balance: {} sat", balance.total().to_sat());
 }
 ```
+
+### Notes
+1) This example is using an Esplora client on SigNet. To learn more about this choice, see [breakdown of blockchain client options](../context/blockchain-clients.md) and [breakdown of network options](../context/networks.md) pages.

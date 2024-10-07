@@ -97,3 +97,6 @@ nav:
   - Architecture:
     - Overview:
       - Design: architecture/design.md
+  - Context:
+    - Blockchain Clients: context/blockchain-clients.md
+    - Networks: context/networks.md
