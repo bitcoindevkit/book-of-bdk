@@ -23,7 +23,7 @@ bdk_esplora = { version = "0.16.0", features = ["blocking"] }
 
 ## Create your descriptors
 
-Refer to the [Working with Descriptors](./keys-descriptors/descriptors.md) page for information on how to generate descriptors. This page will assume you are working on signet with the following BIP86 descriptors:
+Refer to the [Working with Descriptors](./keys-descriptors/descriptors.md) page for information on how to generate <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md" target="_blank">descriptors</a>. This page will assume you are working on signet with the following <a href="https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki" target="_blank">BIP86</a> descriptors:
 ```rust
 const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
@@ -43,6 +43,7 @@ use bdk_wallet::chain::spk_client::{FullScanRequest, FullScanResult};
 
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
+// (1)
 const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
 
@@ -58,7 +59,8 @@ fn main() -> () {
     println!("Generated address {} at index {}", address.address, address.index);
 
     // Sync the wallet
-    let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking(); // (1)
+    // (2)
+    let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking();
     let full_scan_request: FullScanRequest<KeychainKind> = wallet.start_full_scan();
     let mut update: FullScanResult<KeychainKind> = client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS).unwrap();
     let now = std::time::UNIX_EPOCH.elapsed().unwrap().as_secs();
@@ -74,4 +76,5 @@ fn main() -> () {
 ```
 
 ### Notes
-1) This example is using an Esplora client on SigNet. To learn more about this choice, see [breakdown of blockchain client options](../context/blockchain-clients.md) and [breakdown of network options](../context/networks.md) pages.
+1. This example uses Taproot descriptors with extended private keys. To learn more about these descriptors, see <a href="/context/descriptors" target="_blank">breakdown of descriptors</a> page.
+2. This example is using an Esplora client on SigNet. To learn more about this choice, see <a href="/context/blockchain-clients" target="_blank">breakdown of blockchain client options</a> and <a href="/context/networks" target="_blank">breakdown of network options</a> pages.

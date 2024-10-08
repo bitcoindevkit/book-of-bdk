@@ -100,3 +100,4 @@ nav:
   - Context:
     - Blockchain Clients: context/blockchain-clients.md
     - Networks: context/networks.md
+    - Descriptors: context/descriptors.md
