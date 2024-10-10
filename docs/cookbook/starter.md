@@ -1,15 +1,17 @@
 # Full Wallet Example
 
 !!! tip
-    This page is up-to-date with version `1.0.0-beta.1` of `bdk_wallet`.
+    This page is up-to-date with version `1.0.0-beta.5` of `bdk_wallet`.
 
 ## Create a new Rust project
+
 ```shell
 cargo init bdkexample
 cd bdkexample
 ```
 
 ## Add required dependencies to your `Cargo.toml` file
+
 ```toml
 [package]
 name = "bdkexample"
@@ -17,8 +19,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk = { version = "1.0.0-beta.1" }
-bdk_esplora = { version = "0.16.0", features = ["blocking"] }
+bdk_wallet = { version = "=1.0.0-beta.5", features = ["file_store"] }
+bdk_esplora = { version = "=0.19.0", features = ["blocking"] }
 ```
 
 ## Create your descriptors
@@ -29,7 +31,7 @@ const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsR
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
 ```
 
-## Create a wallet, sync it, build a transaction, and broadcast it
+## Create a wallet, sync it, build a transaction, and broadcast it in `src/main.rs`
 
 ```rust
 use bdk_wallet::AddressInfo;
@@ -39,7 +41,7 @@ use bdk_wallet::Wallet;
 use bdk_esplora::EsploraExt;
 use bdk_esplora::esplora_client::Builder;
 use bdk_esplora::esplora_client;
-use bdk_wallet::chain::spk_client::{FullScanRequest, FullScanResult};
+use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResult};
 
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
@@ -59,10 +61,8 @@ fn main() -> () {
 
     // Sync the wallet
     let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking();
-    let full_scan_request: FullScanRequest<KeychainKind> = wallet.start_full_scan();
-    let mut update: FullScanResult<KeychainKind> = client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS).unwrap();
-    let now = std::time::UNIX_EPOCH.elapsed().unwrap().as_secs();
-    let _ = update.graph_update.update_last_seen_unconfirmed(now);
+    let full_scan_request: FullScanRequestBuilder<KeychainKind> = wallet.start_full_scan();
+    let update: FullScanResult<KeychainKind> = client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS).unwrap();
 
     // Apply the update from the full scan to the wallet
     wallet.apply_update(update).unwrap();
@@ -71,4 +71,11 @@ fn main() -> () {
     let balance = wallet.balance();
     println!("Wallet balance: {} sat", balance.total().to_sat());
 }
+```
+
+## Build and run:
+
+```shell
+cargo build
+cargo run
 ```
