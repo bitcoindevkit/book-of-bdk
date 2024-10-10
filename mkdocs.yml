@@ -37,6 +37,7 @@ theme:
     # - navigation.expand      # expands all sidebar sections by default
     - search.suggest
     - search.highlight
+    - content.tabs.link
 
 extra:
   homepage: https://bitcoindevkit.org
