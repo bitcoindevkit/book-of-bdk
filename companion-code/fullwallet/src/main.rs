@@ -1,4 +1,5 @@
-// --8<-- [start:main]
+// detailed documentation for this code can be found at https://bitcoindevkit.github.io/book-of-bdk/cookbook/starter/
+// --8<-- [start:file]
 use bdk_wallet::AddressInfo;
 use bdk_wallet::KeychainKind;
 use bdk_wallet::bitcoin::Network;
@@ -29,18 +30,22 @@ fn main() -> () {
     println!("Generated address {} at index {}", address.address, address.index);
 
     // Sync the wallet
+    // --8<-- [start:client]
     let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking();
+    // --8<-- [end:client]
+    // --8<-- [start:scan]
     let full_scan_request: FullScanRequestBuilder<KeychainKind> = wallet.start_full_scan();
     let update: FullScanResult<KeychainKind> = client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS).unwrap();
 
     // Apply the update from the full scan to the wallet
     wallet.apply_update(update).unwrap();
+    // --8<-- [end:scan]
 
     // Query the wallet balance again
     let balance = wallet.balance();
     println!("Wallet balance: {} sat", balance.total().to_sat());
 }
-
+// --8<-- [end:file]
 fn print_page_link(link: &str) -> () {
     println!();
     println!("+----------------------------------------------------------------------------------+");
@@ -50,4 +55,3 @@ fn print_page_link(link: &str) -> () {
     println!("+----------------------------------------------------------------------------------+");
     println!();
 }
-// --8<-- [end:main]
