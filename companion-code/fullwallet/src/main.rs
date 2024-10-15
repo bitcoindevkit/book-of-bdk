@@ -12,13 +12,11 @@ use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResult};
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
 // --8<-- [start:descriptors]
-const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
-const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
+const EXTERNAL_DESCRIPTOR: &str = "tr([12071a7c/86'/1'/0']tpubDCaLkqfh67Qr7ZuRrUNrCYQ54sMjHfsJ4yQSGb3aBr1yqt3yXpamRBUwnGSnyNnxQYu7rqeBiPfw3mjBcFNX4ky2vhjj9bDrGstkfUbLB9T/0/*)#z3x5097m";
+const INTERNAL_DESCRIPTOR: &str = "tr([12071a7c/86'/1'/0']tpubDCaLkqfh67Qr7ZuRrUNrCYQ54sMjHfsJ4yQSGb3aBr1yqt3yXpamRBUwnGSnyNnxQYu7rqeBiPfw3mjBcFNX4ky2vhjj9bDrGstkfUbLB9T/1/*)#n9r4jswr";
 // --8<-- [end:descriptors]
 
 fn main() -> () {
-    print_page_link("starter/");
-
     // Create the wallet
     let mut wallet: Wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
         .network(Network::Signet)
@@ -26,6 +24,7 @@ fn main() -> () {
         .unwrap();
 
     // Reveal a new address from your external keychain
+        // doing this just to show it is an HD wallet 
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
     println!("Generated address {} at index {}", address.address, address.index);
 
@@ -46,12 +45,3 @@ fn main() -> () {
     println!("Wallet balance: {} sat", balance.total().to_sat());
 }
 // --8<-- [end:file]
-fn print_page_link(link: &str) -> () {
-    println!();
-    println!("+----------------------------------------------------------------------------------+");
-    println!("|                                                                                  |");
-    println!("| Companion code for https://bitcoindevkit.github.io/book-of-bdk/cookbook/{} |", link);
-    println!("|                                                                                  |");
-    println!("+----------------------------------------------------------------------------------+");
-    println!();
-}
