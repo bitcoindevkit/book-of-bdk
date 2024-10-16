@@ -1,0 +1,10 @@
+[workspace]
+
+# commented members have version conflicts. They need to be updated and then uncommented.
+members = [
+  # "companion-code/descriptors",
+  "companion-code/fullwallet",
+  # "companion-code/syncing/electrum",
+  # "companion-code/syncing/esplora",
+  # "companion-code/syncing/rpc",
+]
