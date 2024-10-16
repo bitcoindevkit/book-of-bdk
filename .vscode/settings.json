@@ -1,0 +1,6 @@
+{
+  "rust-analyzer.linkedProjects": [
+    "companion-code/descriptors/Cargo.toml",
+    "companion-code/fullwallet/Cargo.toml"
+  ]
+}
