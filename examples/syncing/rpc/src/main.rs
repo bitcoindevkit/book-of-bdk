@@ -9,8 +9,6 @@ const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsR
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
 
 fn main() -> () {
-    print_page_link("rpc/");
-
     let mut wallet: Wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
         .network(Network::Regtest)
         .create_wallet_no_persist()
@@ -64,14 +62,4 @@ fn main() -> () {
 
     let balance: Balance = wallet.balance();
     println!("Wallet balance after syncing: {}", balance.total());
-}
-
-fn print_page_link(link: &str) -> () {
-    println!();
-    println!("+-----------------------------------------------------------------------------------------+");
-    println!("|                                                                                         |");
-    println!("| Companion code for https://bitcoindevkit.github.io/book-of-bdk/cookbook/wallet/{} |", link);
-    println!("|                                                                                         |");
-    println!("+-----------------------------------------------------------------------------------------+");
-    println!();
 }
