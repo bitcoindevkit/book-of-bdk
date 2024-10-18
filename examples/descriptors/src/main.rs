@@ -6,7 +6,6 @@ use bdk_wallet::KeychainKind;
 use bdk_wallet::template::{Bip86, DescriptorTemplate};
 
 fn main() -> () {
-    print_page_link("descriptors/");
 
     let mut seed: [u8; 32] = [0u8; 32];
     rand::thread_rng().fill_bytes(&mut seed);
@@ -26,14 +25,4 @@ fn main() -> () {
         change_descriptor.to_string_with_secret(&change_key_map),
         change_descriptor.to_string()
     );
-}
-
-fn print_page_link(link: &str) -> () {
-    println!();
-    println!("+--------------------------------------------------------------------------------------+");
-    println!("|                                                                                      |");
-    println!("| Companion code for https://bitcoindevkit.github.io/book-of-bdk/cookbook/{} |", link);
-    println!("|                                                                                      |");
-    println!("+--------------------------------------------------------------------------------------+");
-    println!();
 }

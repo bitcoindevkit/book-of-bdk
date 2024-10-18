@@ -80,7 +80,6 @@ nav:
     - Project Organization: getting-started/organization.md
     - Getting Started: getting-started/getting-started.md
     - API Documentation: getting-started/api-documentation.md
-    - Companion Codebase: getting-started/companion-code.md
     - Build a Wallet: getting-started/build-a-wallet.md
   - Cookbook:
     - Starter Example: cookbook/starter.md
