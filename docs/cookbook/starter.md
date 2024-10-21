@@ -36,7 +36,7 @@ Note that these examples are meant to be run at the command line. If you're buil
 
 === "Kotlin"
 
-    Create a new Kotlin project in your preferred IDE.
+    Make a project folder and add the following files: `build.gradle.kts`, `src/main/kotlin/main.kt`
 
 ## Add required dependencies
 
@@ -57,8 +57,8 @@ Note that these examples are meant to be run at the command line. If you're buil
 
 === "Kotlin"
 
-    ```kotlin title="build.gradle"
-    --8<-- "examples/kotlin/quickstart/build.gradle"
+    ```kotlin title="build.gradle.kts"
+    --8<-- "examples/kotlin/quickstart/build.gradle.kts"
     ```
 
 ## Create a wallet, sync it and display the balance
@@ -78,8 +78,8 @@ We'll give a breakdown of the key pieces of this code in the next section.
 
 === "Kotlin"
 
-    ```kotlin title="examples/kotlin/quickstart/main.kt"
-    --8<-- "examples/kotlin/quickstart/main.kt:file"
+    ```kotlin title="examples/kotlin/quickstart/src/main/kotlin/main.kt"
+    --8<-- "examples/kotlin/quickstart/src/main/kotlin/main.kt:file"
     ```
 
 ## Build and run:
@@ -101,7 +101,10 @@ The wallet will take a few seconds to sync, then you should see the wallet balan
 
 === "Kotlin"
 
-    Run the project in your IDE.
+    ```shell
+    gradle build
+    gradle run
+    ```
 
 ## Let's take a closer look:
 
@@ -123,7 +126,7 @@ First we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/d
 === "Kotlin"
 
     ```kotlin
-    --8<-- "examples/kotlin/quickstart/main.kt:descriptors"
+    --8<-- "examples/kotlin/quickstart/src/main/kotlin/main.kt:descriptors"
     ```
 These are taproot `tr()` descriptors using a public key on testnet (or signet) `tpub` as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki" target="_blank">BIP86</a>. The `descriptor` is an HD wallet with a path for generating addresses to give out externally for payment. We also have a second `change_descriptor` that we can use to generate addresses to pay ourseves change when sending payments (remeber that <a href="https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch06_transactions.adoc#outpoint" target="_blank">UTXOs</a> must be spent if full, so you often want to make change).
 
@@ -145,7 +148,7 @@ This example is using an <a href="https://github.com/Blockstream/esplora" target
 === "Kotlin"
 
     ```kotlin
-    --8<-- "examples/kotlin/quickstart/main.kt:client"
+    --8<-- "examples/kotlin/quickstart/src/main/kotlin/main.kt:client"
     ```
 Other options for blockchain clients include running an Electrum light wallet or using RPC on a bitcoind fullnode. We are using Esplora in this example as it is the most powerfull of these three options.
 This example also used the Signet network, which is a test network that has some control mechanisms that ensure the network state is pretty similar to the blockchain mainnet (Testnet doesn't have those guarantees). You may alternatively want to run this example wallet using a locally hosted Regtest network, however the details of how to set that up are beyond the scope of this example.
@@ -168,7 +171,7 @@ Once we have our wallet setup and connected to the network, we scan the network 
 === "Kotlin"
 
     ```kotlin
-    --8<-- "examples/kotlin/quickstart/main.kt:scan"
+    --8<-- "examples/kotlin/quickstart/src/main/kotlin/main.kt:scan"
     ```
 This scanning process is detailed in [Full Scan vs Sync](./syncing/full-scan-vs-sync.md). The scanning process checks child pubkeys for the descriptors specified in the wallet to detect UTXOs that can be spent by the wallet. That scan data is then applied to the wallet.
 
