@@ -18,3 +18,7 @@ Alternatively, you can use cargo to run the examples directly using something li
 cd syncing/<cratename>
 cargo run --bin <cratename>
 ```
+
+
+### rust-analyzer vscode extention
+To enable rust-analyzer features for a rust example in the project you must add the path to the `Cargo.toml` file for the example to `.vscode/settings.json`

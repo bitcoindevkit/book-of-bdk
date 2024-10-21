@@ -114,7 +114,7 @@ First we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/d
     ```kotlin
     --8<-- "examples/kotlin/quickstart/main.kt:descriptors"
     ```
-These are taproot `tr()` descriptors using a public key on testnet (or signet) `tpub` as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki" target="_blank">BIP86</a>. The `EXTERNAL_DESCRIPTOR` is an HD wallet with a path for generating addresses to give out externally for payment. We also have a second `INTERNAL_DESCRIPTOR` that we can use to generate addresses to pay ourseves change when sending payments (remeber that <a href="https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch06_transactions.adoc#outpoint" target="_blank">UTXOs</a> must be spent if full, so you often want to make change).
+These are taproot `tr()` descriptors using a public key on testnet (or signet) `tpub` as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki" target="_blank">BIP86</a>. The `descriptor` is an HD wallet with a path for generating addresses to give out externally for payment. We also have a second `change_descriptor` that we can use to generate addresses to pay ourseves change when sending payments (remeber that <a href="https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch06_transactions.adoc#outpoint" target="_blank">UTXOs</a> must be spent if full, so you often want to make change).
 
 ## Blockchain Client and Network
 

@@ -8,16 +8,40 @@ use bdk_esplora::EsploraExt;
 use bdk_esplora::esplora_client::Builder;
 use bdk_esplora::esplora_client;
 use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResult};
+use bdk_wallet::keys::bip39::{Language, Mnemonic, WordCount};
+use bdk_wallet::keys::{GeneratedKey, GeneratableKey};
+use bdk_wallet::miniscript::Tap;
+use bdk_wallet::bitcoin::bip32::Xpriv;
+use bdk_wallet::template::{Bip86, DescriptorTemplate};
 
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
 
+
 fn main() -> () {
 
-    // --8<-- [start:descriptors]
-    let descriptor: &str = "tr([12071a7c/86'/1'/0']tpubDCaLkqfh67Qr7ZuRrUNrCYQ54sMjHfsJ4yQSGb3aBr1yqt3yXpamRBUwnGSnyNnxQYu7rqeBiPfw3mjBcFNX4ky2vhjj9bDrGstkfUbLB9T/0/*)#z3x5097m";
-    let change_descriptor: &str = "tr([12071a7c/86'/1'/0']tpubDCaLkqfh67Qr7ZuRrUNrCYQ54sMjHfsJ4yQSGb3aBr1yqt3yXpamRBUwnGSnyNnxQYu7rqeBiPfw3mjBcFNX4ky2vhjj9bDrGstkfUbLB9T/1/*)#n9r4jswr";
-    // --8<-- [end:descriptors]
+    let mnemonic: GeneratedKey<_, Tap> =
+    Mnemonic::generate((WordCount::Words12, Language::English))
+        .expect("Failed to generate mnemonic");
+    println!("generated Seed Words:");
+    println!("{}", mnemonic.to_string());
+    println!("save these to recover your wallet later");
+
+    let seed = mnemonic.to_seed("");
+    let xprv: Xpriv =
+        Xpriv::new_master(Network::Signet, &seed).expect("Failed to create master key");
+    println!("created Master Private Key:");
+    println!("{}", xprv);
+
+    let (descriptor, _key_map, _) = Bip86(xprv, KeychainKind::External)
+        .build(Network::Signet)
+        .expect("Failed to build external descriptor");
+    println!("external descriptor: {}", descriptor);
+
+    let (change_descriptor, _change_key_map, _) = Bip86(xprv, KeychainKind::Internal)
+        .build(Network::Signet)
+        .expect("Failed to build internal descriptor");
+    println!("internal descriptor: {}", change_descriptor);
 
     // Create the wallet
     let mut wallet: Wallet = Wallet::create(descriptor, change_descriptor)
@@ -43,5 +67,7 @@ fn main() -> () {
     let balance = wallet.balance();
     println!("Wallet balance: {} sat", balance.total().to_sat());
     // --8<-- [end:scan]
+
+    // TODO: tx build + broadcast, recovery, storage, etc.
 }
 // --8<-- [end:file]

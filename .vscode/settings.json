@@ -1,6 +1,7 @@
 {
   "rust-analyzer.linkedProjects": [
     "examples/descriptors/Cargo.toml",
-    "examples/rust/quickstart/Cargo.toml"
+    "examples/rust/quickstart/Cargo.toml",
+    "examples/rust/full-wallet/Cargo.toml"
   ]
 }

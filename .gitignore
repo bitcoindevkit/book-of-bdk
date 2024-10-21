@@ -8,11 +8,8 @@ drafts/
 target/
 *Cargo.lock
 
-# Tests
-tests/Cargo.lock
-tests/target
-tests/src
-tests/config.txt
+# MacOS
+*.DS_Store
 
 # Python virtual environments
 venv/
