@@ -14,6 +14,8 @@ This page details the code in the quickstart example in the `examples` folder of
 
     <a href="https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin/quickstart" target="_blank">Kotlin quickstart example -></a>
 
+Note that these examples are meant to be run at the command line. If you're building a mobile app in an IDE like xcode or androidstudio the process (of project creation, dependency selection and running the code) may be different.
+
 !!! tip
     This page is up-to-date with version `1.0.0-beta.5` of `bdk_wallet`.
 
@@ -22,17 +24,19 @@ This page details the code in the quickstart example in the `examples` folder of
 === "Rust"
 
     ```shell
-    cargo init fullwallet
-    cd fullwallet
+    cargo init quickstart
     ```
 
 === "Swift"
 
-    Create a new Swift project in Xcode.
+    ```shell
+    swift package init --type executable
+    ```
+    Or, if you're building an iOS app, create a new Swift project in Xcode.
 
 === "Kotlin"
 
-    Create a new Kotlin project in your preferred IDE.
+    Make a project folder and add the following files: `build.gradle.kts`, `src/main/kotlin/main.kt`
 
 ## Add required dependencies
 
@@ -44,13 +48,17 @@ This page details the code in the quickstart example in the `examples` folder of
 
 === "Swift"
 
+    ```toml title="Package.swift"
+    --8<-- "examples/swift/quickstart/Package.swift"
+    ```
+    Or, if you're building an iOS app:
     1. From the Xcode File menu, select Add Package Dependencies...
     2. Enter `https://github.com/bitcoindevkit/bdk-swift` into the package repository URL text field
 
 === "Kotlin"
 
-    ```kotlin title="build.gradle"
-    --8<-- "examples/kotlin/quickstart/build.gradle"
+    ```kotlin title="build.gradle.kts"
+    --8<-- "examples/kotlin/quickstart/build.gradle.kts"
     ```
 
 ## Create a wallet, sync it and display the balance
@@ -64,14 +72,14 @@ We'll give a breakdown of the key pieces of this code in the next section.
 
 === "Swift"
 
-    ```swift title="examples/swift/quickstart/main.swift"
-    --8<-- "examples/swift/quickstart/main.swift:file"
+    ```swift title="examples/swift/quickstart/Sources/main.swift"
+    --8<-- "examples/swift/quickstart/Sources/main.swift:file"
     ```
 
 === "Kotlin"
 
-    ```kotlin title="examples/kotlin/quickstart/main.kt"
-    --8<-- "examples/kotlin/quickstart/main.kt:file"
+    ```kotlin title="examples/kotlin/quickstart/src/main/kotlin/main.kt"
+    --8<-- "examples/kotlin/quickstart/src/main/kotlin/main.kt:file"
     ```
 
 ## Build and run:
@@ -86,11 +94,17 @@ The wallet will take a few seconds to sync, then you should see the wallet balan
 
 === "Swift"
 
-    Run the project in Xcode.
+    ```shell
+    swift run
+    ```
+    Or run the project in Xcode.
 
 === "Kotlin"
 
-    Run the project in your IDE.
+    ```shell
+    gradle build
+    gradle run
+    ```
 
 ## Let's take a closer look:
 
@@ -106,13 +120,13 @@ First we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/d
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:descriptors"
+    --8<-- "examples/swift/quickstart/Sources/main.swift:descriptors"
     ```
 
 === "Kotlin"
 
     ```kotlin
-    --8<-- "examples/kotlin/quickstart/main.kt:descriptors"
+    --8<-- "examples/kotlin/quickstart/src/main/kotlin/main.kt:descriptors"
     ```
 These are taproot `tr()` descriptors using a public key on testnet (or signet) `tpub` as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki" target="_blank">BIP86</a>. The `descriptor` is an HD wallet with a path for generating addresses to give out externally for payment. We also have a second `change_descriptor` that we can use to generate addresses to pay ourseves change when sending payments (remeber that <a href="https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch06_transactions.adoc#outpoint" target="_blank">UTXOs</a> must be spent if full, so you often want to make change).
 
@@ -128,13 +142,13 @@ This example is using an <a href="https://github.com/Blockstream/esplora" target
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:client"
+    --8<-- "examples/swift/quickstart/Sources/main.swift:client"
     ```
 
 === "Kotlin"
 
     ```kotlin
-    --8<-- "examples/kotlin/quickstart/main.kt:client"
+    --8<-- "examples/kotlin/quickstart/src/main/kotlin/main.kt:client"
     ```
 Other options for blockchain clients include running an Electrum light wallet or using RPC on a bitcoind fullnode. We are using Esplora in this example as it is the most powerfull of these three options.
 This example also used the Signet network, which is a test network that has some control mechanisms that ensure the network state is pretty similar to the blockchain mainnet (Testnet doesn't have those guarantees). You may alternatively want to run this example wallet using a locally hosted Regtest network, however the details of how to set that up are beyond the scope of this example.
@@ -151,13 +165,13 @@ Once we have our wallet setup and connected to the network, we scan the network 
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:scan"
+    --8<-- "examples/swift/quickstart/Sources/main.swift:scan"
     ```
 
 === "Kotlin"
 
     ```kotlin
-    --8<-- "examples/kotlin/quickstart/main.kt:scan"
+    --8<-- "examples/kotlin/quickstart/src/main/kotlin/main.kt:scan"
     ```
 This scanning process is detailed in [Full Scan vs Sync](./syncing/full-scan-vs-sync.md). The scanning process checks child pubkeys for the descriptors specified in the wallet to detect UTXOs that can be spent by the wallet. That scan data is then applied to the wallet.
 
