@@ -1,0 +1,23 @@
+name: Run Examples
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  run-examples:
+    name: "Build and run Rust examples"
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: examples/rust/
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Set default toolchain"
+        run: rustup default 1.77.1
+
+      - name: "Build + run quickstart example"
+        run: |
+          cd quickstart
+          cargo build
+          cargo run
