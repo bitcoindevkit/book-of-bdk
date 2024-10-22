@@ -1,4 +1,4 @@
-// detailed documentation for this code can be found at https://bitcoindevkit.github.io/book-of-bdk/cookbook/starter/
+// detailed documentation for this code can be found at https://bitcoindevkit.github.io/book-of-bdk/cookbook/quickstart/
 // --8<-- [start:file]
 use bdk_wallet::AddressInfo;
 use bdk_wallet::KeychainKind;

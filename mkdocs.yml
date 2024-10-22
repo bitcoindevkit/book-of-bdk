@@ -82,7 +82,7 @@ nav:
     - API Documentation: getting-started/api-documentation.md
     - Build a Wallet: getting-started/build-a-wallet.md
   - Cookbook:
-    - Starter Example: cookbook/starter.md
+    - Quick Start Example: cookbook/quickstart.md
     - Syncing:
       - Full Scan vs Sync: cookbook/syncing/full-scan-vs-sync.md
       - Electrum Sync: cookbook/syncing/electrum.md
