@@ -25,23 +25,27 @@ fn main() -> () {
         .create_wallet_no_persist()
         .unwrap();
 
-    // Reveal a new address from your external keychain
-        // doing this just to show it is an HD wallet 
-    let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
-    println!("Generated address {} at index {}", address.address, address.index);
-
     // Sync the wallet
     // --8<-- [start:client]
-    let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking();
+    let client: esplora_client::BlockingClient = Builder::new("https://mutinynet.com/api").build_blocking();
     // --8<-- [end:client]
     
+    println!("Syncing wallet...");
     // --8<-- [start:scan]
     let full_scan_request: FullScanRequestBuilder<KeychainKind> = wallet.start_full_scan();
     let update: FullScanResult<KeychainKind> = client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS).unwrap();
     // Apply the update from the full scan to the wallet
     wallet.apply_update(update).unwrap();
+
     let balance = wallet.balance();
     println!("Wallet balance: {} sat", balance.total().to_sat());
     // --8<-- [end:scan]
+
+    // Reveal a new address from your external keychain
+    // doing this just to show it is an HD wallet 
+    let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
+    println!("Generated address {} at index {}", address.address, address.index);
+
+        
 }
 // --8<-- [end:file]
