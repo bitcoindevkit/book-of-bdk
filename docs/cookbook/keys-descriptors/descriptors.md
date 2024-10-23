@@ -1,4 +1,4 @@
-# Working with Descriptors
+# Creating Seeds, Keys, and Descriptors
 BDK is a descriptor-first library. This page explores how to build them and how they interact with other standards like BIP-39 recovery phrases.
 
 !!!danger
@@ -7,32 +7,8 @@ BDK is a descriptor-first library. This page explores how to build them and how 
 ## Using descriptor templates
 BDK offers utility constructs called _descriptor templates_, which allow you to build descriptors for the four most common script types (BIP 44/49/84/86) with minimal effort.
 
-The following will build and print the full string representation of taproot ([BIP-86](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki)) internal and external descriptors.
+The following will build and print the full string representation of taproot ([BIP-86](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki)) internal and external descriptors. We print both the public key descriptors (for HD wallet address generation only) and private key descriptors (for full wallet functionality including transaction signing).
 
 ```rust
-use bdk_wallet::bitcoin::bip32::Xpriv;
-use bdk_wallet::bitcoin::Network;
-use bdk_wallet::bitcoin::secp256k1::rand;
-use bdk_wallet::bitcoin::secp256k1::rand::RngCore;
-use bdk_wallet::KeychainKind;
-use bdk_wallet::template::{Bip86, DescriptorTemplate};
-
-fn main() -> () {
-    let mut seed: [u8; 32] = [0u8; 32];
-    rand::thread_rng().fill_bytes(&mut seed);
-
-    let network: Network = Network::Signet;
-    let xprv: Xpriv = Xpriv::new_master(network, &seed).unwrap();
-    let (descriptor, key_map, _) = Bip86(xprv, KeychainKind::External).build(network).unwrap();
-    let (change_descriptor, change_key_map, _) = Bip86(xprv, KeychainKind::Internal).build(network).unwrap();
-
-    println!(
-        "Descriptor: {:?}",
-        descriptor.to_string_with_secret(&key_map)
-    );
-    println!(
-        "Change Descriptor: {:?}",
-        change_descriptor.to_string_with_secret(&change_key_map)
-    );
-}
+--8<-- "examples/rust/descriptors/src/main.rs"
 ```
