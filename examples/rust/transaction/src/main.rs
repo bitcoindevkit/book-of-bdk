@@ -17,9 +17,8 @@ const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
 const SEND_AMOUNT: Amount = Amount::from_sat(5000);
 
-// const RECOVERY_PHRASE: &str = "[your 12 word seed phrase here ...]";
-// const RECOVERY_PHRASE: &str = "one answer find clarify hire van aspect crystal brisk shoot rain permit"; // example
-const RECOVERY_PHRASE: &str = "holiday marble tide globe license stumble rescue antenna monitor sea half sauce"; // example
+const RECOVERY_PHRASE: &str = "[your 12 word seed phrase here ...]";
+// const RECOVERY_PHRASE: &str = "holiday marble tide globe license stumble rescue antenna monitor sea half sauce"; // example
 
 
 fn main() -> Result<(), anyhow::Error> {

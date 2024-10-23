@@ -1,5 +1,5 @@
 [package]
-name = "full-wallet"
+name = "transaction"
 version = "0.1.0"
 edition = "2021"
 

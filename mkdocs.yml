@@ -83,6 +83,7 @@ nav:
     - Build a Wallet: getting-started/build-a-wallet.md
   - Cookbook:
     - Quick Start Example: cookbook/quickstart.md
+    - Full Wallet Example: cookbook/full-wallet.md
     - Syncing:
       - Full Scan vs Sync: cookbook/syncing/full-scan-vs-sync.md
       - Electrum Sync: cookbook/syncing/electrum.md
