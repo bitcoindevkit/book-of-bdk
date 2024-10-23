@@ -30,7 +30,7 @@ fn main() -> () {
     let seed = mnemonic.to_seed("");
     let xprv: Xpriv =
         Xpriv::new_master(Network::Signet, &seed).expect("Failed to create master key");
-    println!("created Master Private Key:");
+    println!("Generated Master Private Key:");
     println!("{}", xprv);
 
     let (descriptor, _key_map, _) = Bip86(xprv, KeychainKind::External)

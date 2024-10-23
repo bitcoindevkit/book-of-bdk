@@ -1,0 +1,7 @@
+[package]
+name = "descriptors"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bdk_wallet = { version = "=1.0.0-beta.5", features = ["keys-bip39"] }

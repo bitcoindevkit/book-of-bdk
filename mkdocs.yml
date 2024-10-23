@@ -93,8 +93,8 @@ nav:
       - SQLite Database: cookbook/persistence/sqlite.md
       - Flat File Persistence: cookbook/persistence/flat-file.md
     - Keys and Descriptors:
-      - Working with Descriptors: cookbook/keys-descriptors/descriptors.md
-      - Seed Phrase to Descriptors: cookbook/keys-descriptors/seed-phrase.md
+      - Creating Descriptors: cookbook/keys-descriptors/descriptors.md
+      - Wallet Recovery: cookbook/keys-descriptors/wallet-recovery.md
   - Architecture:
     - Overview:
       - Design: architecture/design.md
