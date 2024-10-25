@@ -1,18 +1,6 @@
 # Quick Start Example
 
-This page details the code in the quickstart example in the `examples` folder of the _Book of BDK_. You can view and run the code for the example in your preferred language:
-
-=== "Rust"
-
-    <a href="https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust/quickstart" target="_blank">Rust quickstart example -></a>
-
-=== "Swift"
-
-    <a href="https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/swift/quickstart" target="_blank">Swift quickstart example -></a>
-
-=== "Kotlin"
-
-    <a href="https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin/quickstart" target="_blank">Kotlin quickstart example -></a>
+This page provides an overview of how BDK can be leveraged to create and sync a wallet using an Esplora client. You can find [working code examples](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples) of this workflow in three programming languages: [Rust](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust), [Swift](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/swift), and [Kotlin](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin).
 
 !!! tip
     This page is up-to-date with version `1.0.0-beta.5` of `bdk_wallet`.
@@ -22,8 +10,8 @@ This page details the code in the quickstart example in the `examples` folder of
 === "Rust"
 
     ```shell
-    cargo init fullwallet
-    cd fullwallet
+    cargo init quickstart
+    cd quickstart
     ```
 
 === "Swift"
@@ -32,7 +20,7 @@ This page details the code in the quickstart example in the `examples` folder of
 
 === "Kotlin"
 
-    Create a new Kotlin project in your preferred IDE.
+    Create a new Kotlin project.
 
 ## Add required dependencies
 
@@ -77,6 +65,7 @@ We'll give a breakdown of the key pieces of this code in the next section.
 ## Build and run:
 
 The wallet will take a few seconds to sync, then you should see the wallet balance printed in the terminal.
+
 === "Rust"
 
     ```shell
@@ -92,11 +81,12 @@ The wallet will take a few seconds to sync, then you should see the wallet balan
 
     Run the project in your IDE.
 
-## Let's take a closer look:
+## Let's take a closer look
 
-## Descriptors
+### Descriptors
 
-First we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md" target="_blank">descriptors</a> to instantiate our wallet. In this example we will use public key descriptors to simply display the balance of a wallet. To actually sign transactions you will need to use a wallet that is instantiated with private key descriptors. Refer to the [Working with Descriptors](./keys-descriptors/descriptors.md) page for information on how to generate your own private key descriptors.
+First we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md" target="_blank">descriptors</a> to instantiate our wallet. In this example we use public key descriptors to simply display the balance of a wallet. To sign transactions you will need to use a wallet that is instantiated with private key descriptors. Refer to the [Creating Descriptors](./keys-descriptors/descriptors.md) page for information on how to generate your own private descriptors.
+
 === "Rust"
 
     ```rust
@@ -114,11 +104,12 @@ First we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/d
     ```kotlin
     --8<-- "examples/kotlin/quickstart/main.kt:descriptors"
     ```
-These are taproot `tr()` descriptors using a public key on testnet (or signet) `tpub` as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki" target="_blank">BIP86</a>. The `descriptor` is an HD wallet with a path for generating addresses to give out externally for payment. We also have a second `change_descriptor` that we can use to generate addresses to pay ourseves change when sending payments (remeber that <a href="https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch06_transactions.adoc#outpoint" target="_blank">UTXOs</a> must be spent if full, so you often want to make change).
+These are taproot `tr()` descriptors using public keys on testnet (or signet) `tpub` as described in <a href="https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki" target="_blank">BIP86</a>. The `descriptor` is an HD wallet with a path for generating addresses to give out externally for payment. We also have a second `change_descriptor` that we can use to generate addresses to pay ourseves change when sending payments (remeber that <a href="https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch06_transactions.adoc#outpoint" target="_blank">UTXOs</a> must be spent if full, so you often want to make change).
 
-## Blockchain Client and Network
+### Blockchain Client and Network
 
-This example is using an <a href="https://github.com/Blockstream/esplora" target="_blank">Esplora</a> client on <a href="https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch11_blockchain.adoc#signet-the-proof-of-authority-testnet" target="_blank">Signet</a> hosted by the BDK team.
+This example is using an <a href="https://github.com/Blockstream/esplora" target="_blank">Esplora</a> client on the Mutinynet Signet network.
+
 === "Rust"
 
     ```rust
@@ -136,12 +127,15 @@ This example is using an <a href="https://github.com/Blockstream/esplora" target
     ```kotlin
     --8<-- "examples/kotlin/quickstart/main.kt:client"
     ```
-Other options for blockchain clients include running an Electrum light wallet or using RPC on a bitcoind fullnode. We are using Esplora in this example as it is the most powerfull of these three options.
-This example also used the Signet network, which is a test network that has some control mechanisms that ensure the network state is pretty similar to the blockchain mainnet (Testnet doesn't have those guarantees). You may alternatively want to run this example wallet using a locally hosted Regtest network, however the details of how to set that up are beyond the scope of this example.
 
-## Scan
+Other options for blockchain clients include running an Electrum light wallet or using RPC on a bitcoind fullnode. We are using Esplora in this example.
+
+This example also used the Signet network. You may alternatively want to run this example wallet using a locally hosted Regtest network. The details of how to set that up are beyond the scope of this example.
+
+### Scan
 
 Once we have our wallet setup and connected to the network, we scan the network to detect UTXOs relevant to our wallet.
+
 === "Rust"
 
     ```rust
@@ -159,7 +153,8 @@ Once we have our wallet setup and connected to the network, we scan the network 
     ```kotlin
     --8<-- "examples/kotlin/quickstart/main.kt:scan"
     ```
-This scanning process is detailed in [Full Scan vs Sync](./syncing/full-scan-vs-sync.md). The scanning process checks child pubkeys for the descriptors specified in the wallet to detect UTXOs that can be spent by the wallet. That scan data is then applied to the wallet.
+
+This scanning process is detailed on the [Full Scan vs Sync](./syncing/full-scan-vs-sync.md) page. The scanning process checks child pubkeys for the descriptors specified in the wallet to detect UTXOs that are relevant to the wallet. That data is then applied to the wallet.
 
 ### Display Wallet Balance
 
