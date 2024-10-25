@@ -1,6 +1,6 @@
 // detailed documentation for this code can be found at https://bitcoindevkit.github.io/book-of-bdk/cookbook/quickstart/
 // --8<-- [start:file]
-use bdk_wallet::AddressInfo;
+use bdk_wallet::bitcoin::Address;
 use bdk_wallet::KeychainKind;
 use bdk_wallet::bitcoin::{Network, Amount};
 use bdk_wallet::SignOptions;
@@ -9,6 +9,8 @@ use bdk_esplora::EsploraExt;
 use bdk_esplora::esplora_client::Builder;
 use bdk_esplora::esplora_client;
 use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResult};
+
+use std::str::FromStr;
 
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
@@ -21,12 +23,13 @@ const DESCRIPTOR_PRIVATE_INTERNAL: &str = "[your private internal descriptor her
 fn main() -> Result<(), anyhow::Error> {
     let (mut wallet, client) = recover_wallet();
 
-    // Reveal a new address from your external keychain
-        // we will send a payment to ourselves to demonstrate tx building and broadcasting
-    let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
-    println!("Generated address {} at index {}", address.address, address.index);
+    // Use the Mutinynet faucet return address
+    let address = Address::from_str("tb1qd28npep0s8frcm3y7dxqajkcy2m40eysplyr9v")
+        .unwrap()
+        .require_network(Network::Signet)
+        .unwrap();
 
-    // Transaction Logic:
+    // Transaction Logic
     let mut tx_builder = wallet.build_tx();
     tx_builder.add_recipient(address.script_pubkey(), SEND_AMOUNT);
 

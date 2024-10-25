@@ -21,12 +21,15 @@ fn main() -> () {
     let (change_descriptor, change_key_map, _) = Bip86(xprv, KeychainKind::Internal)
         .build(Network::Signet)
         .expect("Failed to build internal descriptor");
+
+    let descriptor_string_priv = descriptor.to_string_with_secret(&key_map);
+    let change_descriptor_string_priv = descriptor.to_string_with_secret(&change_key_map);
     // --8<-- [end:main]
     
     println!(
         "----------------  Descriptors  ------------------------------\nPrivate Key, External:\n{:?}\nPrivate Key, Internal:\n{:?}\nPublic Key, External:\n{:?}\nPublic Key, Internal:\n{:?}\n",
-        descriptor.to_string_with_secret(&key_map), // privkey
-        change_descriptor.to_string_with_secret(&change_key_map),
+        descriptor_string_priv, // privkey
+        change_descriptor_string_priv,
         descriptor.to_string(), // pubkey
         change_descriptor.to_string()
     );
