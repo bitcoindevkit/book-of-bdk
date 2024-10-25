@@ -10,7 +10,7 @@ Note: the logic to do this is in 3 separate examples, if you're following along 
 
 ## Generating Descriptors
 
-First lets run the [descriptors](../keys-descriptors/descriptors) example to our descriptors which will define our HD wallet:
+First lets run the [descriptors](keys-descriptors/descriptors.md) example to our descriptors which will define our HD wallet:
 
 ```rust title="examples/rust/descriptors/src/main.rs"
 // ...
