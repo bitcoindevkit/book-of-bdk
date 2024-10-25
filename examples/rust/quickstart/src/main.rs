@@ -41,11 +41,11 @@ fn main() -> () {
     println!("Wallet balance: {} sat", balance.total().to_sat());
     // --8<-- [end:scan]
 
+    // --8<-- [start:address]
     // Reveal a new address from your external keychain
-    // doing this just to show it is an HD wallet 
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
     println!("Generated address {} at index {}", address.address, address.index);
-
+    // --8<-- [end:address]
         
 }
 // --8<-- [end:file]

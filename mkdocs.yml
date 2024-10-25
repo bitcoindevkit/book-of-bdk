@@ -95,7 +95,7 @@ nav:
       - Flat File Persistence: cookbook/persistence/flat-file.md
     - Keys and Descriptors:
       - Creating Descriptors: cookbook/keys-descriptors/descriptors.md
-      - Wallet Recovery: cookbook/keys-descriptors/wallet-recovery.md
+      - Seed Phrase to Descriptors: cookbook/keys-descriptors/seed-phrase.md
   - Architecture:
     - Overview:
       - Design: architecture/design.md

@@ -9,17 +9,14 @@ use bdk_esplora::EsploraExt;
 use bdk_esplora::esplora_client::Builder;
 use bdk_esplora::esplora_client;
 use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResult};
-use bdk_wallet::bitcoin::bip32::Xpriv;
-use bdk_wallet::template::{Bip86, DescriptorTemplate};
-use bdk_wallet::keys::bip39::Mnemonic;
 
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
 const SEND_AMOUNT: Amount = Amount::from_sat(5000);
 
-const RECOVERY_PHRASE: &str = "[your 12 word seed phrase here ...]";
-// const RECOVERY_PHRASE: &str = "holiday marble tide globe license stumble rescue antenna monitor sea half sauce"; // example
-
+// --8<-- [start:main]
+const DESCRIPTOR_PRIVATE_EXTERNAL: &str = "[your private external descriptor here ...]";
+const DESCRIPTOR_PRIVATE_INTERNAL: &str = "[your private internal descriptor here ...]";
 
 fn main() -> Result<(), anyhow::Error> {
     let (mut wallet, client) = recover_wallet();
@@ -43,20 +40,11 @@ fn main() -> Result<(), anyhow::Error> {
 
     Ok(())
 }
+// --8<-- [end:main]
 
 fn recover_wallet() -> (Wallet, esplora_client::BlockingClient) {
-    // see examples/rust/wallet-recovery for more details
-    let mnemonic = Mnemonic::parse(RECOVERY_PHRASE).expect("Invalid seed! Be sure to replace the value of RECOVERY_PHRASE with your own 12 word seed phrase.");
-    let seed = mnemonic.to_seed("");
-    let xprv: Xpriv =
-        Xpriv::new_master(Network::Signet, &seed).expect("Failed to create master key");
-    let (descriptor, key_map, _) = Bip86(xprv, KeychainKind::External)
-        .build(Network::Signet)
-        .expect("Failed to build external descriptor");
-    let (change_descriptor, change_key_map, _) = Bip86(xprv, KeychainKind::Internal)
-        .build(Network::Signet)
-        .expect("Failed to build internal descriptor");
-    let mut wallet: Wallet = Wallet::create(descriptor.to_string_with_secret(&key_map), change_descriptor.to_string_with_secret(&change_key_map))
+    // see examples/rust/quickstart for more details
+    let mut wallet: Wallet = Wallet::create(DESCRIPTOR_PRIVATE_EXTERNAL, DESCRIPTOR_PRIVATE_INTERNAL)
         .network(Network::Signet)
         .create_wallet_no_persist()
         .unwrap();

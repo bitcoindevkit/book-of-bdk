@@ -1,4 +1,4 @@
-# Creating Seeds, Keys, and Descriptors
+# Creating Keys and Descriptors
 BDK is a descriptor-first library. This page explores how to build them and how they interact with other standards like BIP-39 recovery phrases.
 
 !!!danger

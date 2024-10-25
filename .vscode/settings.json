@@ -2,7 +2,7 @@
   "rust-analyzer.linkedProjects": [
     "examples/rust/quickstart/Cargo.toml",
     "examples/rust/descriptors/Cargo.toml",
-    "examples/rust/wallet-recovery/Cargo.toml",
+    "examples/rust/seed-phrase/Cargo.toml",
     "examples/rust/transaction/Cargo.toml"
   ]
 }
