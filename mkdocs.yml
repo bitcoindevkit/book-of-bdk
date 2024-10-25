@@ -71,7 +71,8 @@ markdown_extensions:
       alternate_style: true
   - def_list
   - md_in_html
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      dedent_subsections: True
 
 nav:
   - Getting Started: 
