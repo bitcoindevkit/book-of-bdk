@@ -3,6 +3,6 @@
     "examples/rust/quickstart/Cargo.toml",
     "examples/rust/descriptors/Cargo.toml",
     "examples/rust/seed-phrase/Cargo.toml",
-    "examples/rust/transaction/Cargo.toml"
+    "examples/rust/full-wallet/Cargo.toml"
   ]
 }
