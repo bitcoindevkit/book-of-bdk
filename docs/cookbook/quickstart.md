@@ -2,6 +2,8 @@
 
 This page provides an overview of how BDK can be leveraged to create and sync a wallet using an Esplora client. You can find [working code examples](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples) of this workflow in three programming languages: [Rust](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust), [Swift](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/swift), and [Kotlin](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin).
 
+Note that these examples are meant to be run at the command line. If you're building a mobile app in an IDE like xcode or androidstudio the process (of project creation, dependency selection and running the code) may be different.
+
 !!! tip
     This page is up-to-date with version `1.0.0-beta.5` of `bdk_wallet`.
 
@@ -16,7 +18,10 @@ This page provides an overview of how BDK can be leveraged to create and sync a 
 
 === "Swift"
 
-    Create a new Swift project in Xcode.
+    ```shell
+    swift package init --type executable
+    ```
+    Or, if you're building an iOS app, create a new Swift project in Xcode.
 
 === "Kotlin"
 
@@ -32,8 +37,14 @@ This page provides an overview of how BDK can be leveraged to create and sync a 
 
 === "Swift"
 
+    ```toml title="Package.swift"
+    --8<-- "examples/swift/quickstart/Package.swift"
+    ```
+    Or, if you're building an iOS app:
+    
     1. From the Xcode File menu, select Add Package Dependencies...
-    2. Enter `https://github.com/bitcoindevkit/bdk-swift` into the package repository URL text field
+    2. Enter `https://github.com/bitcoindevkit/bdk-swift` into the package repository URL search field and bdk-swift should come up
+    3. For the Dependency Rule select `Exact Version`, enter the version number (same as Package.swift) and click Add Package
 
 === "Kotlin"
 
@@ -52,8 +63,8 @@ We'll give a breakdown of the key pieces of this code in the next section.
 
 === "Swift"
 
-    ```swift title="examples/swift/quickstart/main.swift"
-    --8<-- "examples/swift/quickstart/main.swift:file"
+    ```swift title="examples/swift/quickstart/Sources/main.swift"
+    --8<-- "examples/swift/quickstart/Sources/main.swift:file"
     ```
 
 === "Kotlin"
@@ -75,7 +86,10 @@ The wallet will take a few seconds to sync, then you should see the wallet balan
 
 === "Swift"
 
-    Run the project in Xcode.
+    ```shell
+    swift run
+    ```
+    Or run the project in Xcode.
 
 === "Kotlin"
 
@@ -96,7 +110,7 @@ First we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/d
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:descriptors"
+    --8<-- "examples/swift/quickstart/Sources/main.swift:descriptors"
     ```
 
 === "Kotlin"
@@ -119,7 +133,7 @@ This example is using an <a href="https://github.com/Blockstream/esplora" target
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:client"
+    --8<-- "examples/swift/quickstart/Sources/main.swift:client"
     ```
 
 === "Kotlin"
@@ -145,7 +159,7 @@ Once we have our wallet setup and connected to the network, we scan the network 
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:scan"
+    --8<-- "examples/swift/quickstart/Sources/main.swift:scan"
     ```
 
 === "Kotlin"
