@@ -16,7 +16,7 @@ This page provides an overview of how BDK can be leveraged to create and sync a 
 
 === "Swift"
 
-    Create a new Swift project in Xcode.
+    Create a new Swift project in Xcode (the example code uses a MacOS > Command Line Tool template)
 
 === "Kotlin"
 
@@ -33,7 +33,8 @@ This page provides an overview of how BDK can be leveraged to create and sync a 
 === "Swift"
 
     1. From the Xcode File menu, select Add Package Dependencies...
-    2. Enter `https://github.com/bitcoindevkit/bdk-swift` into the package repository URL text field
+    2. Enter `https://github.com/bitcoindevkit/bdk-swift` into the package repository URL search field and `bdk-swift` should come up
+    3. For the Dependency Rule select `Exact Version`, enter `1.0.0-beta.5` for the version number and click Add Package
 
 === "Kotlin"
 
@@ -52,8 +53,8 @@ We'll give a breakdown of the key pieces of this code in the next section.
 
 === "Swift"
 
-    ```swift title="examples/swift/quickstart/main.swift"
-    --8<-- "examples/swift/quickstart/main.swift:file"
+    ```swift title="examples/swift/quickstart/quickstart/main.swift"
+    --8<-- "examples/swift/quickstart/quickstart/main.swift:file"
     ```
 
 === "Kotlin"
@@ -96,7 +97,7 @@ First we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/d
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:descriptors"
+    --8<-- "examples/swift/quickstart/quickstart/main.swift:descriptors"
     ```
 
 === "Kotlin"
@@ -119,7 +120,7 @@ This example is using an <a href="https://github.com/Blockstream/esplora" target
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:client"
+    --8<-- "examples/swift/quickstart/quickstart/main.swift:client"
     ```
 
 === "Kotlin"
@@ -145,7 +146,7 @@ Once we have our wallet setup and connected to the network, we scan the network 
 === "Swift"
 
     ```swift
-    --8<-- "examples/swift/quickstart/main.swift:scan"
+    --8<-- "examples/swift/quickstart/quickstart/main.swift:scan"
     ```
 
 === "Kotlin"
