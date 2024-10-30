@@ -8,39 +8,38 @@ use bdk_esplora::EsploraExt;
 use bdk_esplora::esplora_client::Builder;
 use bdk_esplora::esplora_client;
 use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResult, SyncRequestBuilder, SyncResult};
-use bdk_wallet::file_store::Store;
 use std::str::FromStr;
+use bdk_wallet::rusqlite::Connection;
 
-const DB_MAGIC: &str = "full_wallet_example";
-const DB_PATH: &str = "full-wallet.db";
+const DB_PATH: &str = "full-wallet.sqlite3";
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
 
 // --8<-- [start:descriptors]
 const DESCRIPTOR_PRIVATE_EXTERNAL: &str = "[your private external descriptor here ...]";
 const DESCRIPTOR_PRIVATE_INTERNAL: &str = "[your private internal descriptor here ...]";
-// Example private key descriptors
+// Example private descriptors
 // const DESCRIPTOR_PRIVATE_EXTERNAL: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfdgKEcCQB1FMKfSoaFz9JHZU71HwXAqTsjHripkLM62kUQar14SDD8brsmhFKqVUPXGrZLc/86'/1'/0'/0/*)#fv8tutn2";
 // const DESCRIPTOR_PRIVATE_INTERNAL: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfdgKEcCQB1FMKfSoaFz9JHZU71HwXAqTsjHripkLM62kUQar14SDD8brsmhFKqVUPXGrZLc/86'/1'/0'/1/*)#ccz2p7rj";
 // --8<-- [end:descriptors]
 
 fn main() -> Result<(), anyhow::Error> {
     // --8<-- [start:persist]
-    let mut db = Store::<bdk_wallet::ChangeSet>::open_or_create_new(DB_MAGIC.as_bytes(), DB_PATH)?;
+    let mut conn = Connection::open(DB_PATH)?;
 
     let wallet_opt = Wallet::load()
         .descriptor(KeychainKind::External, Some(DESCRIPTOR_PRIVATE_EXTERNAL))
         .descriptor(KeychainKind::Internal, Some(DESCRIPTOR_PRIVATE_INTERNAL))
         .extract_keys()
         .check_network(Network::Signet)
-        .load_wallet(&mut db)?;
+        .load_wallet(&mut conn)?;
 
     let (mut wallet, is_new_wallet) = if let Some(loaded_wallet) = wallet_opt {
         (loaded_wallet, false)
     } else {
         (Wallet::create(DESCRIPTOR_PRIVATE_EXTERNAL, DESCRIPTOR_PRIVATE_INTERNAL)
             .network(Network::Signet)
-            .create_wallet(&mut db)?, true)
+            .create_wallet(&mut conn)?, true)
     };
     // --8<-- [end:persist]
 
@@ -60,14 +59,14 @@ fn main() -> Result<(), anyhow::Error> {
         let update: SyncResult = client.sync(sync_request, PARALLEL_REQUESTS)?;
         wallet.apply_update(update).unwrap();
     };
-    wallet.persist(&mut db)?;
+    wallet.persist(&mut conn)?;
     // --8<-- [end:scan]
 
     // --8<-- [start:address]
     // Reveal a new address from your external keychain
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
     println!("Generated address {} at index {}", address.address, address.index);
-    wallet.persist(&mut db)?;
+    wallet.persist(&mut conn)?;
     // --8<-- [end:address]
 
     let balance = wallet.balance();
@@ -81,8 +80,6 @@ fn main() -> Result<(), anyhow::Error> {
         .unwrap();
 
     let send_amount: Amount = Amount::from_sat(5000);
-    // return all sats to mutinynet faucet
-    // let send_amount: Amount = Amount::from_sat(balance.total().to_sat() - 100);// min fee is 100 sat
     // --8<-- [end:faucet]
 
     // --8<-- [start:transaction]

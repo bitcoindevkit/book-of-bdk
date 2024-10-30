@@ -8,7 +8,7 @@ This page illustrates core wallet functionality, including:
 - Creating and broadcasting a transaction
 
 !!! tip
-    The logic for this page is split between 2 separate examples in the [examples source code](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust). One to create descriptors and a second for everything else.If you are following along with the code examples you will need to copy and paste your private key descriptors you get from the first example into the second. We leave descriptor creation in a separate example because bdk does not handle private key descriptor storage, that is up to the wallet developer.
+    The logic for this page is split between 2 separate examples in the [examples source code](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust). One to create descriptors and a second for everything else.If you are following along with the code examples you will need to copy and paste your private descriptors you get from the first example into the second. We leave descriptor creation in a separate example because bdk does not handle private descriptor (or private key) storage, that is up to the wallet developer.
 
 ## Generating Descriptors
 
@@ -20,28 +20,28 @@ First we [create signet descriptors](keys-descriptors/descriptors.md) for our wa
 
 Notice we are creating private descriptors here in order to sign transactions later on.
 
-## Full Scan and Invoice Address Generation (First Run)
+## Full Scan and Address Generation (First Run)
 
-Next, lets use those descriptors to load up our wallet. Replace the placeholder descriptors in the `full-wallet` example with your private key descriptors:
+Next, lets use those descriptors to load up our wallet. Replace the placeholder descriptors in the `full-wallet` example with your private descriptors:
 
 ```rust title="examples/rust/full-wallet/src/main.rs"
 --8<-- "examples/rust/full-wallet/src/main.rs:descriptors"
 ```
 
-We are going to run this example twice. On the first run it will do a full scan for your wallet, persist that chain data, generate a new invoice address for you, and display your current wallet balance, it will then attempt to build a transaction, but will fail becuase we don't have any funds yet. We will use the invoice address from the first run to request funds from the [Mutinynet faucet](https://faucet.mutinynet.com/) so we can build a transaction on the second run. On the second run it will load the data from the previous run, do a light weight sync to check for updates (no need to repeat the full scan), and then build and broadcast a transaction. Let's go through this step by step.
+We are going to run this example twice. On the first run it will do a full scan for your wallet, persist that chain data, generate a new address for you, and display your current wallet balance, it will then attempt to build a transaction, but will fail becuase we don't have any funds yet. We will use the new address (from the first run) to request funds from the [Mutinynet faucet](https://faucet.mutinynet.com/) so we can build a transaction on the second run. On the second run it will load the data from the previous run, do a light weight sync to check for updates (no need to repeat the full scan), and then build and broadcast a transaction. Let's go through this step by step.
 
 ```rust title="examples/rust/full-wallet/src/main.rs"
 --8<-- "examples/rust/full-wallet/src/main.rs:persist"
 ```
 
-In the quickstart example we simply used an in-memory wallet, with no persistence. But here we are saving wallet data to a file. Notice that we are providing our private key descriptors during wallet load. This is because bdk never stores private keys, that responsibility is on the wallet developer (you). The data we are loading here does not include the private keys, but we want our wallet to have signing capabilities, so we need to provide our private key descriptors during wallet load. If we get a wallet back from the load attempt, we'll use that, otherwise we'll create a new one. Since this is our first run nothing will be loaded and a new wallet will be created.
+In the quickstart example we simply used an in-memory wallet, with no persistence. But here we are saving wallet data to a file. Notice that we are providing our private descriptors during wallet load. This is because bdk never stores private keys, that responsibility is on the wallet developer (you). The data we are loading here does not include the private keys, but we want our wallet to have signing capabilities, so we need to provide our private descriptors during wallet load. If we get a wallet back from the load attempt, we'll use that, otherwise we'll create a new one. Since this is our first run nothing will be loaded and a new wallet will be created.
 
 ```rust title="examples/rust/full-wallet/src/main.rs"
 --8<-- "examples/rust/full-wallet/src/main.rs:scan"
 ```
 
 Next we'll fetch data from our blockchain client. On the first run, we don't yet have any data, so we need to do a full scan. We then persist the data from the scan.
-Finally, we'll print out an invoice that we can use to request funds. You should also see the current balance printed out, it should be 0 since this is a brand new wallet. Note that we persist the wallet after generating the invoice address. This is to avoid re-using the same address as that would compromise our privacy (on subsequent runs you'll notice the address index incremented).
+Finally, we'll print out an address that we can use to request funds. You should also see the current balance printed out, it should be 0 since this is a brand new wallet. Note that we persist the wallet after generating the new address; this is to avoid re-using the same address as that would compromise our privacy (on subsequent runs you'll notice the address index incremented).
 
 ```rust title="examples/rust/full-wallet/src/main.rs"
 --8<-- "examples/rust/full-wallet/src/main.rs:address"
@@ -55,7 +55,7 @@ We can now use our new address to request some sats from the [Mutinynet faucet](
 
 ## Load, Sync, and Send a Transaction (Second Run)
 
-Now that we have some funds, we can re-run the `full-wallet` example. Since we persisted data from the previous run, this time our wallet will be loaded. You do not need to provide descriptors to load wallet data, however, if you don't you will not have signing capabilities, so here we do provide our private key descriptors in the loading process:
+Now that we have some funds, we can re-run the `full-wallet` example. Since we persisted data from the previous run, this time our wallet will be loaded. You do not need to provide descriptors to load wallet data, however, if you don't you will not have signing capabilities, so here we do provide our private descriptors in the loading process:
 
 ```rust title="examples/rust/full-wallet/src/main.rs"
 --8<-- "examples/rust/full-wallet/src/main.rs:persist"
@@ -73,7 +73,7 @@ Now that we have funds, let's prepare to send a transaction. We need to decide w
 --8<-- "examples/rust/full-wallet/src/main.rs:faucet"
 ```
 
-Here we are preparing to send 5000 sats back to the mutiny faucet. When you're done testing things out with this wallet you can uncomment the bottom line here to send all the rest of your remaining funds back (we subtract 100 sats from the total wallet balance as that is the minimum transaction fee).
+Here we are preparing to send 5000 sats back to the mutiny faucet (it's good practice to send test sats back to the faucet when you're done using them).
 
 Finally we are ready to build, sign, and broadcast the transaction:
 

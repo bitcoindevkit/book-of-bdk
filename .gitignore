@@ -7,7 +7,7 @@ dist/
 drafts/
 target/
 *Cargo.lock
-*.db
+*.sqlite3
 
 # MacOS
 *.DS_Store
