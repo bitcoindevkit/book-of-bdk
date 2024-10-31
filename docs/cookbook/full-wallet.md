@@ -73,7 +73,7 @@ Now that we have funds, let's prepare to send a transaction. We need to decide w
 --8<-- "examples/rust/full-wallet/src/main.rs:faucet"
 ```
 
-Here we are preparing to send 5000 sats back to the mutiny faucet (it's good practice to send test sats back to the faucet when you're done using them).
+Here we are preparing to send 5000 sats back to the mutiny faucet, so you'll need to request at more sats than that or change this value (it's good practice to send test sats back to the faucet when you're done using them).
 
 Finally we are ready to build, sign, and broadcast the transaction:
 
@@ -81,4 +81,20 @@ Finally we are ready to build, sign, and broadcast the transaction:
 --8<-- "examples/rust/full-wallet/src/main.rs:transaction"
 ```
 
+We are manually determining the fee rate to be 4 sat/vb (satoshis per virtual byte).
+
 Again we can view the transaction in the Mutinynet explorer or re-run the `full-wallet` example to see that our wallet has less funds.
+
+### Drain the Wallet
+
+When you're done with the test sats that you got from the faucet, you should send the remaining funds back to the faucet by draining the wallet:
+
+1. Comment the code between `// --8<-- [start:transaction]` and `// --8<-- [end:transaction]`
+2. Uncomment the code between `// --8<-- [start:drain]` and `// --8<-- [end:drain]`
+3. Re-run the `full-wallet` example:
+
+```rust title="uncomment this code block to drain wallet"
+--8<-- "examples/rust/full-wallet/src/main.rs:drain"
+```
+
+If you run the example one more time you should see it errors out while trying to make the transaction because we don't have any funds left!
