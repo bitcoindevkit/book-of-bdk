@@ -29,6 +29,7 @@ pub struct WalletWrapper {
 
 #[wasm_bindgen]
 impl WalletWrapper {
+    // --8<-- [start:new]
     #[wasm_bindgen(constructor)]
     pub fn new(
         network: String,
@@ -71,7 +72,9 @@ impl WalletWrapper {
             client: Rc::new(RefCell::new(client)),
         })
     }
+    // --8<-- [end:new]
 
+    // --8<-- [start:scan]
     #[wasm_bindgen]
     pub async fn sync(&self, stop_gap: usize) -> Result<(), String> {
         let wallet = Rc::clone(&self.wallet);
@@ -105,7 +108,9 @@ impl WalletWrapper {
 
         Ok(())
     }
+    // --8<-- [end:scan]
 
+    // --8<-- [start:utils]
     #[wasm_bindgen]
     pub fn balance(&self) -> u64 {
         let balance = self.wallet.borrow().balance();
@@ -121,6 +126,7 @@ impl WalletWrapper {
 
         address.to_string()
     }
+    // --8<-- [end:utils]
 
     #[wasm_bindgen]
     pub fn peek_address(&self, index: u32) -> String {

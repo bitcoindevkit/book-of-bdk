@@ -100,6 +100,7 @@ nav:
       - Seed Phrase to Descriptors: cookbook/keys-descriptors/seed-phrase.md
     - Transactions:
       - Transaction Builder: cookbook/transactions/transaction-builder.md
+    - WASM: cookbook/wasm.md
   - Architecture:
     - Overview:
       - Design: architecture/design.md
