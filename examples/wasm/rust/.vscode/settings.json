@@ -1,0 +1,8 @@
+{
+    "rust-analyzer.server.extraEnv": {
+        "AR": "/opt/homebrew/opt/llvm/bin/llvm-ar",
+        "CC": "/opt/homebrew/opt/llvm/bin/clang"
+    },
+    "rust-analyzer.cargo.target": "wasm32-unknown-unknown",
+    "rust-analyzer.checkOnSave.allTargets": false
+}
