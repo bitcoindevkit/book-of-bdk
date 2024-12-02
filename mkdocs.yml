@@ -82,6 +82,7 @@ nav:
     - Getting Started: getting-started/getting-started.md
     - API Documentation: getting-started/api-documentation.md
     - Build a Wallet: getting-started/build-a-wallet.md
+    - Migrating from 0.x: getting-started/migrating.md
   - Cookbook:
     - Quick Start Example: cookbook/quickstart.md
     - Full Wallet Example: cookbook/full-wallet.md

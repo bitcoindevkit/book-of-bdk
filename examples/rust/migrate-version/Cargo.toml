@@ -1,0 +1,11 @@
+[package]
+name = "migrate-version"
+version = "0.1.0"
+edition = "2021"
+
+# --8<-- [start:deps]
+[dependencies]
+anyhow = "1"
+bdk = { version = "0.30", features = ["sqlite"] }
+bdk_wallet = { version = "=1.0.0-beta.5", features = ["rusqlite"] }
+# --8<-- [end:deps]

@@ -18,3 +18,6 @@ architecture:
 
 descriptors:
   cd descriptors/ && cargo run --bin descriptors
+
+migrate:
+  cd rust/migrate-version/ && cargo run --bin migrate-version
