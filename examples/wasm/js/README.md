@@ -1,8 +1,8 @@
-Server app to test a bdk-wasm package
+# WASM App Example
 
-works when next to (in same parent folder as) copy of https://github.com/darioAnongba/bdk-wasm built successfully
+## Server app to test a WASM package
 
-to build successfully on mac required installing llvm with homebrew (even though there's a default version) https://github.com/bitcoindevkit/bdk/issues/1671#issuecomment-2456858895
+Works when next to (in same parent folder as) the `rust` counter-part (pulls from `../rust` as a custom local npm package).
 
 run with `npm start`
 open browser to http://localhost:8080/

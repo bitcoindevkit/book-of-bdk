@@ -1,5 +1,3 @@
-mod utils;
-
 use bdk_esplora::{
     esplora_client::{self, AsyncClient},
     EsploraAsyncExt,

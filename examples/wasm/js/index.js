@@ -42,7 +42,7 @@ async function run() {
     console.log(greet()); // Should print "Hello, bdk-wasm!"
     
     // --8<-- [start:wallet]
-    const walletData = Store.load();
+    let walletData = Store.load();
     console.log("Wallet data:", walletData);
 
     let wallet;
@@ -63,6 +63,7 @@ async function run() {
 
         Store.save(stagedData);
         console.log("Wallet data saved to local storage");
+        walletData = stagedData;
     } else {
         console.log("Loading wallet");
         wallet = WalletWrapper.load(
@@ -74,6 +75,12 @@ async function run() {
 
         console.log("Syncing...");
         await wallet.sync(2);
+
+        const stagedData = wallet.take_staged();
+        console.log("Staged:", stagedData);
+
+        Store.save(stagedData);
+        console.log("Wallet data saved to local storage");
     }
     // --8<-- [end:wallet]
     

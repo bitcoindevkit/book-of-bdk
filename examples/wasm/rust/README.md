@@ -1,3 +1,21 @@
+
+# WASM Example
+
+To run this example, cd into this folder and run:
+`wasm-pack build`
+then open a new terminal and cd to the `js` folder (next to this one) and follow the instructions in the README there.
+
+### Note
+
+to build successfully on mac required installing llvm with homebrew (even though there's a default version) https://github.com/bitcoindevkit/bdk/issues/1671#issuecomment-2456858895
+
+<br/><br/><br/><br/><br/><br/><br/><br/>
+
+
+
+
+# original wasm-pack-template README
+
 <div align="center">
 
   <h1><code>wasm-pack-template</code></h1>
