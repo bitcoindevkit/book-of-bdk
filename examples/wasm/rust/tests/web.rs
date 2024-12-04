@@ -43,6 +43,15 @@ async fn test_wallet() {
     let wallet = new_test_wallet().expect("wallet");
     wallet.sync(5).await.expect("sync");
 
+    let staged = wallet.take_staged().expect("staged");
+    console::log_1(&format!("staged: {}", staged).into());
+
+    let staged2 = wallet.take_staged().expect("staged");
+    console::log_1(&format!("staged2: {}", staged2).into());
+
+    let merged = wallet.take_merged(staged).expect("merged");
+    console::log_1(&format!("merged: {}", merged).into());
+
     let first_address = wallet.peek_address(0);
     assert_eq!(
         first_address,

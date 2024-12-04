@@ -1,17 +1,17 @@
 mod utils;
 
-use std::{cell::RefCell, collections::BTreeSet, io::Write, rc::Rc};
-
 use bdk_esplora::{
     esplora_client::{self, AsyncClient},
     EsploraAsyncExt,
 };
-use bdk_wallet::{bitcoin::Network, ChangeSet, KeychainKind, Wallet};
+use bdk_wallet::{chain::Merge, bitcoin::Network, ChangeSet, KeychainKind, Wallet};
 use js_sys::Date;
 use wasm_bindgen::prelude::*;
-use web_sys::console;
+use serde_wasm_bindgen::{from_value, to_value};
 
 const PARALLEL_REQUESTS: usize = 1;
+
+pub type JsResult<T> = Result<T, JsError>;
 
 #[wasm_bindgen]
 extern "C" {}
@@ -23,13 +23,13 @@ pub fn greet() -> String {
 
 #[wasm_bindgen]
 pub struct WalletWrapper {
-    wallet: Rc<RefCell<Wallet>>,
-    client: Rc<RefCell<AsyncClient>>,
+    wallet: Wallet,
+    client: AsyncClient,
 }
 
 #[wasm_bindgen]
 impl WalletWrapper {
-    // --8<-- [start:new]
+    // --8<-- [start:wallet]
     #[wasm_bindgen(constructor)]
     pub fn new(
         network: String,
@@ -68,73 +68,102 @@ impl WalletWrapper {
             .map_err(|e| format!("{:?}", e))?;
 
         Ok(WalletWrapper {
-            wallet: Rc::new(RefCell::new(wallet)),
-            client: Rc::new(RefCell::new(client)),
+            wallet: wallet,
+            client: client,
         })
     }
-    // --8<-- [end:new]
 
-    // --8<-- [start:scan]
-    #[wasm_bindgen]
-    pub async fn sync(&self, stop_gap: usize) -> Result<(), String> {
-        let wallet = Rc::clone(&self.wallet);
-        let client = Rc::clone(&self.client);
+    pub fn load(changeset: JsValue, url: &str, external_descriptor: &str, internal_descriptor: &str) -> JsResult<WalletWrapper> {
+        let changeset = from_value(changeset)?;
+        let wallet_opt = Wallet::load()
+            .descriptor(KeychainKind::External, Some(external_descriptor.to_string()))
+            .descriptor(KeychainKind::Internal, Some(internal_descriptor.to_string()))
+            .extract_keys()
+            .load_wallet_no_persist(changeset)?;
 
-        let request = wallet.borrow().start_full_scan().inspect({
-            let mut stdout = std::io::stdout();
-            let mut once = BTreeSet::<KeychainKind>::new();
-            move |keychain, spk_i, _| {
-                if once.insert(keychain) {
-                    console::log_1(&format!("\nScanning keychain [{:?}]", keychain).into());
-                }
-                console::log_1(&format!(" {:<3}", spk_i).into());
-                stdout.flush().expect("must flush")
-            }
-        });
+
+        let wallet = match wallet_opt {
+            Some(wallet) => wallet,
+            None => return Err(JsError::new("Failed to load wallet, check the changeset")),
+        };
+
+        let client = esplora_client::Builder::new(&url).build_async()?;
+
+        Ok(WalletWrapper { wallet, client })
+    }
+
+    pub async fn scan(&mut self, stop_gap: usize) -> Result<(), String> {
+        let wallet = &mut self.wallet;
+        let client = &self.client;
+
+        let request = wallet.start_full_scan();
 
         let update = client
-            .borrow()
             .full_scan(request, stop_gap, PARALLEL_REQUESTS)
             .await
             .map_err(|e| format!("{:?}", e))?;
 
         let now = (Date::now() / 1000.0) as u64;
         wallet
-            .borrow_mut()
             .apply_update_at(update, Some(now))
             .map_err(|e| format!("{:?}", e))?;
 
-        console::log_1(&"after apply".into());
+        Ok(())
+    }
+
+    pub async fn sync(&mut self, parallel_requests: usize) -> JsResult<()> {
+        let request = self.wallet.start_sync_with_revealed_spks();
+        let update = self.client.sync(request, parallel_requests).await?;
+
+        let now = (Date::now() / 1000.0) as u64;
+        self.wallet.apply_update_at(update, Some(now))?;
 
         Ok(())
     }
-    // --8<-- [end:scan]
+    // --8<-- [end:wallet]
 
     // --8<-- [start:utils]
-    #[wasm_bindgen]
     pub fn balance(&self) -> u64 {
-        let balance = self.wallet.borrow().balance();
+        let balance = self.wallet.balance();
         balance.total().to_sat()
     }
 
-    #[wasm_bindgen]
-    pub fn get_new_address(&self) -> String {
+    pub fn get_new_address(&mut self) -> String {
         let address = self
             .wallet
-            .borrow_mut()
-            .next_unused_address(KeychainKind::External);
+            .reveal_next_address(KeychainKind::External);
 
         address.to_string()
     }
     // --8<-- [end:utils]
 
-    #[wasm_bindgen]
-    pub fn peek_address(&self, index: u32) -> String {
+    pub fn peek_address(&mut self, index: u32) -> String {
         let address = self
             .wallet
-            .borrow_mut()
             .peek_address(KeychainKind::External, index);
 
         address.to_string()
     }
+
+    // --8<-- [start:store]
+    pub fn take_staged(&mut self) -> JsResult<JsValue> {
+        match self.wallet.take_staged() {
+            Some(changeset) => {
+                Ok(to_value(&changeset)?)
+            }
+            None => Ok(JsValue::null()),
+        }
+    }
+
+    pub fn take_merged(&mut self, previous: JsValue) -> JsResult<JsValue> {
+        match self.wallet.take_staged() {
+            Some(curr_changeset) => {
+                let mut changeset: ChangeSet = from_value(previous)?;
+                changeset.merge(curr_changeset);
+                Ok(to_value(&changeset)?)
+            }
+            None => Ok(JsValue::null()),
+        }
+    }
+    // --8<-- [end:store]
 }
