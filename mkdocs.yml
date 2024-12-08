@@ -91,6 +91,7 @@ nav:
       - Electrum Sync: cookbook/syncing/electrum.md
       - Esplora Sync: cookbook/syncing/esplora.md
       - RPC Sync: cookbook/syncing/rpc.md
+      - Kyoto Sync: cookbook/syncing/kyoto.md
     - Persistence:
       - In-Memory Wallet: cookbook/persistence/memory.md
       - SQLite Database: cookbook/persistence/sqlite.md
