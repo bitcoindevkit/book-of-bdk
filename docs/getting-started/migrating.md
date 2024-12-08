@@ -22,7 +22,7 @@ This is important because without that metadata the new wallet may end up reusin
 1. Create new wallet
 1. Restore revealed addresses
 1. Write to new database
-1. Rescan (recommended)
+1. Sync
 
 <!-- overview -->
 ```rust title="examples/rust/migrate-version/src/main.rs"
@@ -74,8 +74,8 @@ If the given descriptors contain secret keys, then the wallet will be able to si
 ```
 
 <!-- sync -->
-Now that we have a new database and have properly restored our addresses, you'll likely want to rescan the blockchain to recover the wallet's transactions.
-Below is an example of doing a `full_scan` using `bdk_esplora` but the exact method of syncing will depend on your application.
+Now that we have a new database and have properly restored our addresses, you will want to sync with the blockchain to recover the wallet's transactions.
+Below is an example of doing a `sync` using `bdk_esplora` but the exact method of syncing will depend on your application.
 Happy migrating and see you on [v1.0][1]!
 
 ```rust title="examples/rust/migrate-version/src/main.rs"

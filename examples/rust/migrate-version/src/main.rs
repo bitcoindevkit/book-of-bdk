@@ -93,19 +93,18 @@ use bdk_esplora::{esplora_client, EsploraExt};
 
 let client = esplora_client::Builder::new(ESPLORA_URL).build_blocking();
 
-let request = wallet.start_full_scan().inspect({
-    let mut stdout = std::io::stdout();
-    let mut once = BTreeSet::<KeychainKind>::new();
-    move |keychain, spk_i, _| {
-        if once.insert(keychain) {
-            print!("\nScanning keychain [{:?}] ", keychain);
+let request = wallet
+    .start_sync_with_revealed_spks()
+    .inspect(|item, prog| {
+        if let SyncItem::Spk(index, script) = item {
+            let address = Address::from_script(script, NETWORK).unwrap();
+            let progress = prog.consumed() as f32 / prog.total() as f32;
+            eprintln!("[ SYNCING {:.2}% ] {:?} {}", 100.0 * progress, index, address);
+            std::io::stdout().flush().unwrap();
         }
-        print!(" {:<3}", spk_i);
-        stdout.flush().unwrap();
-    }
-});
+    });
 
-let update = client.full_scan(request, STOP_GAP, PARALLEL_REQUESTS)?;
+let update = client.sync(request, PARALLEL_REQUESTS)?;
 
 wallet.apply_update(update)?;
 wallet.persist(&mut db)?;
