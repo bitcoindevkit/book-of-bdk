@@ -1,7 +1,7 @@
 use bdk_wallet::bitcoin::Address;
 use bdk_wallet::AddressInfo;
 use bdk_wallet::KeychainKind;
-use bdk_wallet::bitcoin::{Network, Amount};
+use bdk_wallet::bitcoin::{Network, Amount, FeeRate};
 use bdk_wallet::SignOptions;
 use bdk_wallet::Wallet;
 use bdk_esplora::EsploraExt;
@@ -85,6 +85,7 @@ fn main() -> Result<(), anyhow::Error> {
     // --8<-- [start:transaction]
     // Transaction Logic
     let mut tx_builder = wallet.build_tx();
+    tx_builder.fee_rate(FeeRate::from_sat_per_vb(4).unwrap());
     tx_builder.add_recipient(address.script_pubkey(), send_amount);
 
     let mut psbt = tx_builder.finish()?;
@@ -95,6 +96,21 @@ fn main() -> Result<(), anyhow::Error> {
     client.broadcast(&tx)?;
     println!("Tx broadcasted! Txid: {}", tx.compute_txid());
     // --8<-- [end:transaction]
+
+    // --8<-- [start:drain]
+    // // Drain Transaction Logic
+    // let mut tx_builder = wallet.build_tx();
+    // tx_builder.drain_wallet();
+    // tx_builder.drain_to(address.script_pubkey());
+
+    // let mut psbt = tx_builder.finish()?;
+    // let finalized = wallet.sign(&mut psbt, SignOptions::default())?;
+    // assert!(finalized);
+
+    // let tx = psbt.extract_tx()?;
+    // client.broadcast(&tx)?;
+    // println!("Tx broadcasted! Txid: {}", tx.compute_txid());
+    // --8<-- [end:drain]
 
     Ok(())
 }
