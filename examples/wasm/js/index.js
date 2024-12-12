@@ -8,27 +8,10 @@ const Store = {
             console.log("No data to save");
             return;
         }
-        const serializedStaged = JSON.stringify(data, (key, value) => {
-            if (value instanceof Map) {
-                return {
-                    dataType: 'Map',
-                    value: Array.from(value.entries())
-                };
-            }
-            return value;
-        });
-        localStorage.setItem("walletData", serializedStaged);
+        localStorage.setItem("walletData", data);  // data is already a JSON string
     },
     load: () => {
-        const walletDataString = localStorage.getItem("walletData");
-        // Convert serialized Maps back to Map objects when loading
-        const walletData = JSON.parse(walletDataString, (key, value) => {
-            if (value?.dataType === 'Map') {
-                return new Map(value.value);
-            }
-            return value;
-        });
-        return walletData;
+        return localStorage.getItem("walletData");  // return the JSON string directly
     }
 }
 // --8<-- [end:store]

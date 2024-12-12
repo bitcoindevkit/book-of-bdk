@@ -1,3 +1,4 @@
+use std::iter::FromIterator;
 use bdk_esplora::{
     esplora_client::{self, AsyncClient},
     EsploraAsyncExt,
@@ -6,6 +7,7 @@ use bdk_wallet::{chain::Merge, bitcoin::Network, ChangeSet, KeychainKind, Wallet
 use js_sys::Date;
 use wasm_bindgen::prelude::*;
 use serde_wasm_bindgen::{from_value, to_value};
+use serde_json::{self, Value};
 
 const PARALLEL_REQUESTS: usize = 1;
 
@@ -71,14 +73,17 @@ impl WalletWrapper {
         })
     }
 
-    pub fn load(changeset: JsValue, url: &str, external_descriptor: &str, internal_descriptor: &str) -> JsResult<WalletWrapper> {
-        let changeset = from_value(changeset)?;
+    pub fn load(changeset_str: &str, url: &str, external_descriptor: &str, internal_descriptor: &str) -> JsResult<WalletWrapper> {
+        // Parse the JSON string and restore maps
+        let changeset_value: Value = serde_json::from_str(changeset_str)?;
+        let restored_value = restore_maps(changeset_value);
+        let changeset: ChangeSet = serde_json::from_value(restored_value)?;
+
         let wallet_opt = Wallet::load()
             .descriptor(KeychainKind::External, Some(external_descriptor.to_string()))
             .descriptor(KeychainKind::Internal, Some(internal_descriptor.to_string()))
             .extract_keys()
             .load_wallet_no_persist(changeset)?;
-
 
         let wallet = match wallet_opt {
             Some(wallet) => wallet,
@@ -144,24 +149,92 @@ impl WalletWrapper {
     }
 
     // --8<-- [start:store]
-    pub fn take_staged(&mut self) -> JsResult<JsValue> {
+    pub fn take_staged(&mut self) -> JsResult<String> {
         match self.wallet.take_staged() {
             Some(changeset) => {
-                Ok(to_value(&changeset)?)
+                // First convert to a generic Value that we can modify
+                let mut value = serde_json::to_value(&changeset)?;
+                
+                // Handle Map serialization
+                transform_maps(&mut value);
+                
+                // Convert to JSON string
+                Ok(serde_json::to_string(&value)?)
             }
-            None => Ok(JsValue::null()),
+            None => Ok("null".to_string()),
         }
     }
 
-    pub fn take_merged(&mut self, previous: JsValue) -> JsResult<JsValue> {
+    pub fn take_merged(&mut self, previous: String) -> JsResult<String> {
         match self.wallet.take_staged() {
             Some(curr_changeset) => {
-                let mut changeset: ChangeSet = from_value(previous)?;
-                changeset.merge(curr_changeset);
-                Ok(to_value(&changeset)?)
+                // Parse the previous JSON string
+                let previous_value: Value = serde_json::from_str(&previous)?;
+                
+                // Convert back from our custom Map format
+                let mut previous_changeset: ChangeSet = 
+                    serde_json::from_value(restore_maps(previous_value))?;
+                
+                previous_changeset.merge(curr_changeset);
+                
+                // Convert to Value and handle Map serialization
+                let mut final_value = serde_json::to_value(&previous_changeset)?;
+                transform_maps(&mut final_value);
+                
+                // Convert to JSON string
+                Ok(serde_json::to_string(&final_value)?)
             }
-            None => Ok(JsValue::null()),
+            None => Ok("null".to_string()),
         }
     }
     // --8<-- [end:store]
+}
+
+fn transform_maps(value: &mut Value) {
+    match value {
+        Value::Object(map) => {
+            for (_, v) in map.iter_mut() {
+                transform_maps(v);
+            }
+        }
+        Value::Array(arr) => {
+            for v in arr.iter_mut() {
+                transform_maps(v);
+            }
+        }
+        Value::Object(obj) if obj.contains_key("entries") => {
+            // This assumes Map-like structures have an "entries" field
+            *value = Value::Object(serde_json::Map::from_iter([
+                ("dataType".to_string(), Value::String("Map".to_string())),
+                ("value".to_string(), obj["entries"].clone()),
+            ]));
+        }
+        _ => {}
+    }
+}
+
+fn restore_maps(mut value: Value) -> Value {
+    match &value {
+        Value::Object(map) => {
+            if map.get("dataType").and_then(Value::as_str) == Some("Map") {
+                if let Some(entries) = map.get("value") {
+                    let mut new_obj = serde_json::Map::new();
+                    new_obj.insert("entries".to_string(), entries.clone());
+                    Value::Object(new_obj)
+                } else {
+                    value
+                }
+            } else {
+                let mut new_map = serde_json::Map::new();
+                for (k, v) in map {
+                    new_map.insert(k.clone(), restore_maps(v.clone()));
+                }
+                Value::Object(new_map)
+            }
+        }
+        Value::Array(arr) => {
+            Value::Array(arr.iter().map(|v| restore_maps(v.clone())).collect())
+        }
+        _ => value,
+    }
 }
