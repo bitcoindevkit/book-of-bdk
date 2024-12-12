@@ -23,7 +23,7 @@ fn main() -> () {
         .expect("Failed to build internal descriptor");
 
     let descriptor_string_priv = descriptor.to_string_with_secret(&key_map);
-    let change_descriptor_string_priv = descriptor.to_string_with_secret(&change_key_map);
+    let change_descriptor_string_priv = change_descriptor.to_string_with_secret(&change_key_map);
     // --8<-- [end:main]
     
     println!(
