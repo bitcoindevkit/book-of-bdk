@@ -5,7 +5,8 @@ use bdk_esplora::{
 use bdk_wallet::{chain::Merge, bitcoin::Network, ChangeSet, KeychainKind, Wallet};
 use js_sys::Date;
 use wasm_bindgen::prelude::*;
-use serde_wasm_bindgen::{from_value, to_value};
+// use serde_wasm_bindgen::{from_value, to_value};
+use serde_json::{self, Value};
 
 const PARALLEL_REQUESTS: usize = 1;
 
@@ -71,14 +72,15 @@ impl WalletWrapper {
         })
     }
 
-    pub fn load(changeset: JsValue, url: &str, external_descriptor: &str, internal_descriptor: &str) -> JsResult<WalletWrapper> {
-        let changeset = from_value(changeset)?;
+    pub fn load(changeset_str: &str, url: &str, external_descriptor: &str, internal_descriptor: &str) -> JsResult<WalletWrapper> {
+        let changeset_value: Value = serde_json::from_str(changeset_str)?;
+        let changeset: ChangeSet = serde_json::from_value(changeset_value)?;
+
         let wallet_opt = Wallet::load()
             .descriptor(KeychainKind::External, Some(external_descriptor.to_string()))
             .descriptor(KeychainKind::Internal, Some(internal_descriptor.to_string()))
             .extract_keys()
             .load_wallet_no_persist(changeset)?;
-
 
         let wallet = match wallet_opt {
             Some(wallet) => wallet,
@@ -126,7 +128,7 @@ impl WalletWrapper {
         balance.total().to_sat()
     }
 
-    pub fn get_new_address(&mut self) -> String {
+    pub fn reveal_next_address(&mut self) -> String {
         let address = self
             .wallet
             .reveal_next_address(KeychainKind::External);
@@ -144,23 +146,26 @@ impl WalletWrapper {
     }
 
     // --8<-- [start:store]
-    pub fn take_staged(&mut self) -> JsResult<JsValue> {
+    pub fn take_staged(&mut self) -> JsResult<String> {
         match self.wallet.take_staged() {
             Some(changeset) => {
-                Ok(to_value(&changeset)?)
+                let value = serde_json::to_value(&changeset)?;
+                Ok(serde_json::to_string(&value)?)
             }
-            None => Ok(JsValue::null()),
+            None => Ok("null".to_string()),
         }
     }
 
-    pub fn take_merged(&mut self, previous: JsValue) -> JsResult<JsValue> {
+    pub fn take_merged(&mut self, previous: String) -> JsResult<String> {
         match self.wallet.take_staged() {
             Some(curr_changeset) => {
-                let mut changeset: ChangeSet = from_value(previous)?;
-                changeset.merge(curr_changeset);
-                Ok(to_value(&changeset)?)
+                let previous_value: Value = serde_json::from_str(&previous)?;
+                let mut previous_changeset: ChangeSet = serde_json::from_value(previous_value)?;
+                previous_changeset.merge(curr_changeset);
+                let final_value = serde_json::to_value(&previous_changeset)?;
+                Ok(serde_json::to_string(&final_value)?)
             }
-            None => Ok(JsValue::null()),
+            None => Ok("null".to_string()),
         }
     }
     // --8<-- [end:store]

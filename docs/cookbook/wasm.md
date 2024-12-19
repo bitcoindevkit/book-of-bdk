@@ -53,25 +53,25 @@ Here is the relevant rust code:
 --8<-- "examples/wasm/rust/src/lib.rs:wallet"
 ```
 
-The first time you load the page in your browser, you should see info in the console confirming that a new wallet was created and a full scan was performed. If you reload the page you should see that the wallet was loaded from the previously saved data and a sync was performed instead of a scan.
+The first time you load the page in your browser, you should see info in the console confirming that a new wallet was created and a full scan was performed. If you then reload the page you should see that the wallet was loaded from the previously saved data and a sync was performed instead of a full scan.
 
 #### System Time Consideration
 Notice we are using a JS binding to access system time with `js_sys::Date::now()`, then passing that timestamp to the `apply_update_at()` function, rather than attempting to use the `.apply_update()` function which would throw an error.
 
 #### Persistence Consideration
-Also notice we are using an in-memory wallet with `.create_wallet_no_persist()`. If you try to use persistence through file or database you will get an error becuase those features require OS access. Instead we have to create a binding to pass the wallet data to the JavaScript environment where we can handle persistence. The rust side methods to extract the wallet data are:
+Also notice we are using an in-memory wallet with `.create_wallet_no_persist()`. If you try to use persistence through file or database you will get an error becuase those features require OS access. Instead we have to create a binding to pass the wallet data to the JavaScript environment where we can handle persistence. We have a method to grab the new updates to the wallet data, and a method to merge new updates with existing data. With this simple approach to persistence we must always merge existing data with the updates unless there is no existing data (i.e. after new wallet creation). The rust side methods to extract the wallet data are:
 
 ```rust
 --8<-- "examples/wasm/rust/src/lib.rs:store"
 ```
 
-And they are called from our minimal custom browser store:
+Notice we're converting the wallet data to a JSON string so that it plays nicely with WASM; and on the JS side we'll save our data string with a minimal custom browser store:
 
 ```javascript
 --8<-- "examples/wasm/js/index.js:store"
 ```
 
-This is just to show an example of how the wallet data can be persisted. We're using local storage here and stringifying the data (which takes some special logic to handle the Map values in the data). In practice a wallet app should probably use cloud storage of some sort since browser local storage is relatively temporary.
+This is just to show an example of how the wallet data can be persisted. We're using local storage here, but in practice a wallet app would generally use cloud storage of some sort since browser local storage tends to be temporary.
 
 ### Balance and Addresses
 

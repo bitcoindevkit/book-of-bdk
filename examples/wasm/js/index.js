@@ -1,34 +1,17 @@
 import {  WalletWrapper, greet } from '../rust/pkg';
 
 // --8<-- [start:store]
-// needed to handle js Map serialization
+// simple string storage example
 const Store = {
     save: data => {
         if (!data) {
             console.log("No data to save");
             return;
         }
-        const serializedStaged = JSON.stringify(data, (key, value) => {
-            if (value instanceof Map) {
-                return {
-                    dataType: 'Map',
-                    value: Array.from(value.entries())
-                };
-            }
-            return value;
-        });
-        localStorage.setItem("walletData", serializedStaged);
+        localStorage.setItem("walletData", data);  // data is already a JSON string
     },
     load: () => {
-        const walletDataString = localStorage.getItem("walletData");
-        // Convert serialized Maps back to Map objects when loading
-        const walletData = JSON.parse(walletDataString, (key, value) => {
-            if (value?.dataType === 'Map') {
-                return new Map(value.value);
-            }
-            return value;
-        });
-        return walletData;
+        return localStorage.getItem("walletData");  // return the JSON string directly
     }
 }
 // --8<-- [end:store]
@@ -42,11 +25,11 @@ async function run() {
     console.log(greet()); // Should print "Hello, bdk-wasm!"
     
     // --8<-- [start:wallet]
-    let walletData = Store.load();
-    console.log("Wallet data:", walletData);
+    let walletDataString = Store.load();
+    console.log("Wallet data:", walletDataString);
 
     let wallet;
-    if (!walletData) {
+    if (!walletDataString) {
         console.log("Creating new wallet");
         wallet = new WalletWrapper(
             "signet",
@@ -58,16 +41,16 @@ async function run() {
         console.log("Performing Full Scan...");
         await wallet.scan(2);
 
-        const stagedData = wallet.take_staged();
-        console.log("Staged:", stagedData);
+        const stagedDataString = wallet.take_staged();
+        console.log("Staged:", stagedDataString);
 
-        Store.save(stagedData);
+        Store.save(stagedDataString);
         console.log("Wallet data saved to local storage");
-        walletData = stagedData;
+        walletDataString = stagedDataString;
     } else {
         console.log("Loading wallet");
         wallet = WalletWrapper.load(
-            walletData,
+            walletDataString,
             "https://mutinynet.com/api",
             externalDescriptor,
             internalDescriptor
@@ -76,10 +59,10 @@ async function run() {
         console.log("Syncing...");
         await wallet.sync(2);
 
-        const stagedData = wallet.take_staged();
-        console.log("Staged:", stagedData);
+        const stagedDataString = wallet.take_staged();
+        console.log("Staged:", stagedDataString);
 
-        Store.save(stagedData);
+        Store.save(stagedDataString);
         console.log("Wallet data saved to local storage");
     }
     // --8<-- [end:wallet]
@@ -89,12 +72,14 @@ async function run() {
     console.log("Balance:", wallet.balance());
     
     // Test address generation
-    console.log("New address:", wallet.get_new_address());
+    console.log("New address:", wallet.reveal_next_address());
 
-    const mergedData = wallet.take_merged(walletData);
-    console.log("Merged:", mergedData);
+    // handle changeset merge on rust side
+    const mergedDataString = wallet.take_merged(walletDataString);
+    
+    console.log("Merged:", mergedDataString);
 
-    Store.save(mergedData);
+    Store.save(mergedDataString);
     console.log("new address saved");
     // --8<-- [end:utils]
 }
