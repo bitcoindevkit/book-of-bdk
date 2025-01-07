@@ -1,0 +1,9 @@
+[workspace]
+resolver = "2"
+members = [
+    "descriptors", "full-wallet", "memory-wallet", "migrate-version", "quickstart", "seed-phrase",
+    "syncing/electrum", "syncing/esplora", "syncing/kyoto", "syncing/rpc"
+]
+
+[workspace.package]
+authors = ["Bitcoin Dev Kit Developers"]

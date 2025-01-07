@@ -1,0 +1,11 @@
+[package]
+name = "esplora"
+version = "0.1.0"
+edition = "2021"
+
+# --8<-- [start:deps]
+[dependencies]
+bdk_wallet = { version = "1.0.0" }
+bdk_esplora = { version = "0.20.1", features = ["blocking"] }
+# --8<-- [start:deps]
+anyhow = "1"

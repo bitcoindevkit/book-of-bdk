@@ -1,15 +1,17 @@
+use bdk_esplora::esplora_client;
+use bdk_esplora::esplora_client::Builder;
+use bdk_esplora::EsploraExt;
 use bdk_wallet::bitcoin::Address;
+use bdk_wallet::bitcoin::{Amount, Network};
+use bdk_wallet::chain::spk_client::{
+    FullScanRequestBuilder, FullScanResponse, SyncRequestBuilder, SyncResponse,
+};
+use bdk_wallet::rusqlite::Connection;
 use bdk_wallet::AddressInfo;
 use bdk_wallet::KeychainKind;
-use bdk_wallet::bitcoin::{Network, Amount};
 use bdk_wallet::SignOptions;
 use bdk_wallet::Wallet;
-use bdk_esplora::EsploraExt;
-use bdk_esplora::esplora_client::Builder;
-use bdk_esplora::esplora_client;
-use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResult, SyncRequestBuilder, SyncResult};
 use std::str::FromStr;
-use bdk_wallet::rusqlite::Connection;
 
 const DB_PATH: &str = "full-wallet.sqlite3";
 const STOP_GAP: usize = 50;
@@ -37,26 +39,32 @@ fn main() -> Result<(), anyhow::Error> {
     let (mut wallet, is_new_wallet) = if let Some(loaded_wallet) = wallet_opt {
         (loaded_wallet, false)
     } else {
-        (Wallet::create(DESCRIPTOR_PRIVATE_EXTERNAL, DESCRIPTOR_PRIVATE_INTERNAL)
-            .network(Network::Signet)
-            .create_wallet(&mut conn)?, true)
+        (
+            Wallet::create(DESCRIPTOR_PRIVATE_EXTERNAL, DESCRIPTOR_PRIVATE_INTERNAL)
+                .network(Network::Signet)
+                .create_wallet(&mut conn)?,
+            true,
+        )
     };
     // --8<-- [end:persist]
 
     // --8<-- [start:scan]
-    let client: esplora_client::BlockingClient = Builder::new("https://mutinynet.com/api").build_blocking();
+    let client: esplora_client::BlockingClient =
+        Builder::new("https://mutinynet.com/api").build_blocking();
     // Sync the wallet
     if is_new_wallet {
         // Perform a full scan
         println!("Performing full scan...");
         let full_scan_request: FullScanRequestBuilder<KeychainKind> = wallet.start_full_scan();
-        let update: FullScanResult<KeychainKind> = client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS)?;
+        let update: FullScanResponse<KeychainKind> =
+            client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS)?;
         wallet.apply_update(update).unwrap();
     } else {
         // Perform a regular sync
         println!("Performing regular sync...");
-        let sync_request: SyncRequestBuilder<(KeychainKind, u32)> = wallet.start_sync_with_revealed_spks();
-        let update: SyncResult = client.sync(sync_request, PARALLEL_REQUESTS)?;
+        let sync_request: SyncRequestBuilder<(KeychainKind, u32)> =
+            wallet.start_sync_with_revealed_spks();
+        let update: SyncResponse = client.sync(sync_request, PARALLEL_REQUESTS)?;
         wallet.apply_update(update).unwrap();
     };
     wallet.persist(&mut conn)?;
@@ -65,7 +73,10 @@ fn main() -> Result<(), anyhow::Error> {
     // --8<-- [start:address]
     // Reveal a new address from your external keychain
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
-    println!("Generated address {} at index {}", address.address, address.index);
+    println!(
+        "Generated address {} at index {}",
+        address.address, address.index
+    );
     wallet.persist(&mut conn)?;
     // --8<-- [end:address]
 

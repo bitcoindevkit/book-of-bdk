@@ -15,7 +15,7 @@ just --list
 Alternatively, you can use cargo to run the examples directly using something like
 
 ```shell
-cd syncing/<cratename>
+cd examples/rust
 cargo run --bin <cratename>
 ```
 

@@ -35,29 +35,17 @@ This workflow ensures that the wallet structure is not blocked while the syncing
 #### Full Scan With Esplora
 
 ```rust
-// Create the Esplora client
-let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking();
+--8<-- "examples/rust/syncing/esplora/src/main.rs:client"
 
-// Full scan the wallet
-let full_scan_request: FullScanRequest<KeychainKind> = wallet.start_full_scan()
-let update: FullScanResult<KeychainKind> = client.full_scan(full_scan_request, STOP_GAP, PARALLEL_REQUESTS)?;
-
-// Apply the update to the wallet
-wallet.apply_update(update)?;
+--8<-- "examples/rust/syncing/esplora/src/main.rs:scan"
 ```
 
 #### Sync With Esplora
 
 ```rust
-// Create the Esplora client
-let client: esplora_client::BlockingClient = Builder::new("http://signet.bitcoindevkit.net").build_blocking();
+--8<-- "examples/rust/syncing/esplora/src/main.rs:client"
 
-// Sync the wallet
-let sync_request: SyncRequest = wallet.start_sync_with_revealed_spks()
-let update: SyncResult = client.sync(sync_request, PARALLEL_REQUESTS)?;
-
-// Apply the update to the wallet
-wallet.apply_update(update)?;
+--8<-- "examples/rust/syncing/esplora/src/main.rs:sync"
 ```
 
 <br>

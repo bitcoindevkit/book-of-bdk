@@ -1,8 +1,8 @@
 use bdk_wallet::bitcoin::bip32::Xpriv;
 use bdk_wallet::bitcoin::Network;
-use bdk_wallet::KeychainKind;
-use bdk_wallet::template::{Bip86, DescriptorTemplate};
 use bdk_wallet::keys::bip39::Mnemonic;
+use bdk_wallet::template::{Bip86, DescriptorTemplate};
+use bdk_wallet::KeychainKind;
 
 const RECOVERY_PHRASE: &str = "[your 12 word seed phrase here ...]";
 // const RECOVERY_PHRASE: &str = "holiday marble tide globe license stumble rescue antenna monitor sea half sauce"; // example

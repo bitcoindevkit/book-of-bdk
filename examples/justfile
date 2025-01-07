@@ -1,23 +1,10 @@
 @default:
   just --list
 
-fullwallet:
-  cd fullwallet/ && cargo run --bin fullwallet
+# build all rust examples
+build-rust:
+  cd rust && cargo build
 
-sync-electrum:
-  cd syncing/electrum/ && cargo run --bin electrum
-
-sync-esplora:
-  cd syncing/esplora/ && cargo run --bin esplora
-
-sync-rpc:
-  cd syncing/rpc/ && cargo run --bin rpc
-
-architecture:
-  cd architecture/ && cargo run --bin architecture
-
-descriptors:
-  cd descriptors/ && cargo run --bin descriptors
-
-migrate:
-  cd rust/migrate-version/ && cargo run --bin migrate-version
+# format all rust examples
+fmt-rust:
+  cd rust && cargo fmt

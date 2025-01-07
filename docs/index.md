@@ -7,10 +7,6 @@ The core components of BDK are written in the [Rust] language and live in the [`
 The BDK team also maintains the [`bitcoindevkit/bdk-ffi`][bitcoindevkit/bdk-ffi] repository which provide cross-platform versions of the high level BDK APIs. Current supported platforms are: [Kotlin] (Android, Linux, macOS), [Swift] (iOS, macOS), and [Python] (Linux, macOS, Windows).
 
 !!! warning
-    The BDK developers are in the process of rewriting major components of the software to be released in an upcoming `1.0` version. BDK 1.0 is still under active development and should be considered "alpha" quality.
-    This means APIs may change and full testing and documentation has not been completed.
-    For current status and release timeline please see the [`bdk`][bitcoindevkit/bdk] project repository.
-
     The [`bitcoindevkit/bdk-ffi`][bitcoindevkit/bdk-ffi] project has not yet been updated to use the new `BDK 1.0` crates. For current status and timeline for bdk-ffi, see the [`bdk-ffi`][bitcoindevkit/bdk-ffi] project repository.
 
 [bitcoindevkit/bdk]: https://github.com/bitcoindevkit/bdk

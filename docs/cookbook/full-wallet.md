@@ -8,7 +8,7 @@ This page illustrates core wallet functionality, including:
 - Creating and broadcasting a transaction
 
 !!! tip
-    The logic for this page is split between 2 separate examples in the [examples source code](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust). One to create descriptors and a second for everything else.If you are following along with the code examples you will need to copy and paste your private descriptors you get from the first example into the second. We leave descriptor creation in a separate example because bdk does not handle private descriptor (or private key) storage, that is up to the wallet developer.
+    The logic for this page is split between 2 separate examples in the [examples source code](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust). One to create descriptors and a second for everything else. If you are following along with the code examples you will need to copy and paste your private descriptors you get from the first example into the second. We leave descriptor creation in a separate example because bdk does not handle private descriptor (or private key) storage, that is up to the wallet developer.
 
 ## Generating Descriptors
 

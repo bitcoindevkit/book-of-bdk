@@ -72,7 +72,7 @@ let psbt = wallet.build_tx()
 
 ### Set the nSequence value
 
-The [`TxBuilder::set_exact_sequence`](https://docs.rs/bdk_wallet/1.0.0-beta.5/bdk_wallet/struct.TxBuilder.html#method.set_exact_sequence
+The [`TxBuilder::set_exact_sequence`](https://docs.rs/bdk_wallet/1.0.0/bdk_wallet/struct.TxBuilder.html#method.set_exact_sequence
 ) method allows users to set their nSequence value directly. This is also the way you would disable signaling for RBF, as the TxBuilder will by default enable it.
 
 ```rust

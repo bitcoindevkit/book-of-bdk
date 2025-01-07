@@ -21,7 +21,7 @@ The sqlite wallet does not require any additional dependencies above the `bdk_wa
 
 ```toml
 [dependencies]
-bdk_wallet = { version = "=1.0.0-beta.1", features = ["rusqlite"] }
+bdk_wallet = { version = "1.0.0", features = ["rusqlite"] }
 ```
 
 To create a sqlite-based persisted wallet, simply call the `create_wallet()` with a valid db connection on the wallet builder:

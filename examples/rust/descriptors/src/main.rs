@@ -1,9 +1,9 @@
 use bdk_wallet::bitcoin::bip32::Xpriv;
-use bdk_wallet::bitcoin::Network;
-use bdk_wallet::KeychainKind;
-use bdk_wallet::template::{Bip86, DescriptorTemplate};
 use bdk_wallet::bitcoin::secp256k1::rand;
 use bdk_wallet::bitcoin::secp256k1::rand::RngCore;
+use bdk_wallet::bitcoin::Network;
+use bdk_wallet::template::{Bip86, DescriptorTemplate};
+use bdk_wallet::KeychainKind;
 
 fn main() -> () {
     // --8<-- [start:main]
@@ -25,7 +25,7 @@ fn main() -> () {
     let descriptor_string_priv = descriptor.to_string_with_secret(&key_map);
     let change_descriptor_string_priv = change_descriptor.to_string_with_secret(&change_key_map);
     // --8<-- [end:main]
-    
+
     println!(
         "----------------  Descriptors  ------------------------------\nPrivate Key, External:\n{:?}\nPrivate Key, Internal:\n{:?}\nPublic Key, External:\n{:?}\nPublic Key, Internal:\n{:?}\n",
         descriptor_string_priv, // privkey

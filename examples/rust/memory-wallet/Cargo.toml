@@ -1,0 +1,10 @@
+[package]
+name = "memory-wallet"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# --8<-- [start:deps]
+bdk_wallet = { version = "1.0.0", features = ["keys-bip39"] }
+# --8<-- [stop:deps]
+anyhow = "1"

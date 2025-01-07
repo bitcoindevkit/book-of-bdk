@@ -1,8 +1,5 @@
 # Migrating from 0.X
 
-!!! tip
-    This page is up-to-date with version `1.0.0-beta.5` of bdk.
-
 So you're ready to migrate to BDK version 1.0, congratulations!
 This document contains some helpful tips that, with the help of some automation, should make the process as seamless as possible.
 
@@ -81,4 +78,4 @@ Happy migrating and see you on [v1.0][1]!
 ```
 
 [0]: https://docs.rs/bdk/0.30.0/bdk/
-[1]: https://docs.rs/bdk_wallet/1.0.0-beta.5/bdk_wallet/
+[1]: https://docs.rs/bdk_wallet/1.0.0/bdk_wallet/

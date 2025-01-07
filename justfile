@@ -1,8 +1,8 @@
 default:
   just --list
 
-test:
-  cd tests && ./generate.sh && cargo test
+rust:
+  cd examples/rust && cargo build
 
 serve:
   mkdocs serve

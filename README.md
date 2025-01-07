@@ -31,10 +31,10 @@ You can serve the site with [`just`](https://just.systems/man/en/):
 just serve
 ```
 
-All the rust code can be tested with:
+All the rust code can be compiled with:
 
 ```shell
-just test
+just rust
 ```
 
 NOTE: Some tests need additional dependencies on macOS such as `libiconv`.

@@ -1,8 +1,5 @@
 # Sync a wallet with Kyoto
 
-!!! tip 
-    This page is up-to-date with version `1.0.0-beta.5` of bdk.
-
 [BIP157](https://github.com/bitcoin/bips/blob/master/bip-0157.mediawiki) and [BIP158](https://github.com/bitcoin/bips/blob/master/bip-0158.mediawiki) define a protocol for light clients to sync with the Bitcoin network without downloading the entire set of blocks in the chain of most work. These proposals define _compact block filters_, which allow a client to download a small commitment
 for the scripts contained in each block. These commitments, or filters, may be checked for inclusion of scripts owned by a user. In the event of a match, the light client may download and verify a block indeed contains a relevant transaction. Syncing via compact block filters offers privacy advantages over other chain sources, as the nodes serving the blocks to the client are only aware that the client is interested in an entire block, which may contain thousands of transactions.
 
@@ -13,13 +10,13 @@ The following example uses the `bdk_kyoto` crate to recover and update a `bdk_wa
 ### Add required bdk dependencies to your `Cargo.toml` file
 
 ```toml title="Cargo.toml"
---8<-- "examples/syncing/kyoto/Cargo.toml"
+--8<-- "examples/rust/syncing/kyoto/Cargo.toml"
 ```
 
 ### Create and sync the wallet
 
 ```rust title="main.rs"
---8<-- "examples/syncing/kyoto/src/main.rs"
+--8<-- "examples/rust/syncing/kyoto/src/main.rs"
 ```
 
 ### A note on unconfirmed transactions, recoveries, sync and full-scan

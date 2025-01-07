@@ -14,7 +14,7 @@ The in-memory wallet does _not_ require any additional dependencies beyond the `
 
 ```toml
 [dependencies]
-bdk_wallet = { version = "=1.0.0-beta.1" }
+bdk_wallet = { version = "1.0.0" }
 ```
 
 To create an in-memory wallet, simply call `create_wallet_no_persist()` on the `Wallet` builder:
