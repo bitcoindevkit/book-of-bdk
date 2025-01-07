@@ -7,7 +7,7 @@ use bdk_wallet::KeychainKind;
 const RECOVERY_PHRASE: &str = "[your 12 word seed phrase here ...]";
 // const RECOVERY_PHRASE: &str = "holiday marble tide globe license stumble rescue antenna monitor sea half sauce"; // example
 
-fn main() -> () {
+fn main() {
     let mnemonic = Mnemonic::parse(RECOVERY_PHRASE).expect("Invalid seed! Be sure to replace the value of RECOVERY_PHRASE with your own 12 word seed phrase.");
     let seed = mnemonic.to_seed("");
     let xprv: Xpriv =

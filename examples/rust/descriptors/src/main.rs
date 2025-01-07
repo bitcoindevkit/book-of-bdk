@@ -5,7 +5,7 @@ use bdk_wallet::bitcoin::Network;
 use bdk_wallet::template::{Bip86, DescriptorTemplate};
 use bdk_wallet::KeychainKind;
 
-fn main() -> () {
+fn main() {
     // --8<-- [start:main]
     let mut seed: [u8; 32] = [0u8; 32];
     rand::thread_rng().fill_bytes(&mut seed);
