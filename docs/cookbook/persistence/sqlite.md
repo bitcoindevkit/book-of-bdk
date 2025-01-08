@@ -19,28 +19,26 @@ See our page on the [difference between the full scan and sync operations](../sy
 
 The sqlite wallet does not require any additional dependencies above the `bdk_wallet` dependency:
 
-```toml
-[dependencies]
-bdk_wallet = { version = "1.0.0", features = ["rusqlite"] }
+```toml title="Cargo.toml"
+--8<-- "examples/rust/persistence/sqlite/Cargo.toml:deps"
 ```
 
-To create a sqlite-based persisted wallet, simply call the `create_wallet()` with a valid db connection on the wallet builder:
+To load an existing sqlite-based persisted wallet use `Wallet::load()`. You may then optionally verify the loaded descriptors match what you expect. If the provided descriptors contain private keys you can also extract these keys into the wallets keystore. Private keys are never stored in the wallet database. You may also verify the wallet network during loading.
 
 ```rust
-use bdk_wallet::rusqlite::Connection;
+--8<-- "examples/rust/persistence/sqlite/src/main.rs:load"
+```
 
-let mut conn = Connection::open(file_path)?;
-let wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
-    .network(Network::Signet)
-    .create_wallet(&mut conn)
-    .expect("valid wallet and db connection");
+If during wallet loading no wallet database file is found you can create a sqlite-based persisted wallet with `Wallet::create()` with a valid db connection and other wallet builder parameters:
+
+```rust
+--8<-- "examples/rust/persistence/sqlite/src/main.rs:create"
 ```
 
 After performing an operation that returns data that should be persisted, use the `persist()` method on the wallet:
 
 ```rust
-let address = wallet.next_unused_address(KeychainKind::External);
-wallet.persist(&mut conn)?;
+--8<-- "examples/rust/persistence/sqlite/src/main.rs:address"
 ```
 
 <br>

@@ -1,8 +1,10 @@
 default:
   just --list
 
-rust:
-  cd examples/rust && cargo build
+# Build mkdocs
+build:
+  mkdocs build
 
+# Serve mkdocs
 serve:
   mkdocs serve

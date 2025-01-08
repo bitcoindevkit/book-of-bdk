@@ -12,18 +12,14 @@ See our page on the [difference between the full scan and sync operations](../sy
 
 The in-memory wallet does _not_ require any additional dependencies beyond the `bdk_wallet` dependency:
 
-```toml
-[dependencies]
-bdk_wallet = { version = "1.0.0" }
+```toml title="Cargo.toml"
+--8<-- "examples/rust/persistence/memory/Cargo.toml:deps"
 ```
 
 To create an in-memory wallet, simply call `create_wallet_no_persist()` on the `Wallet` builder:
 
-```rust
-let mut wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
-    .network(Network::Signet)
-    .create_wallet_no_persist()
-    .expect("valid wallet");
+```rust title="main.rs"
+--8<-- "examples/rust/persistence/memory/src/main.rs:create"
 ```
 
 <br>

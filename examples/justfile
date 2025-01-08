@@ -1,10 +1,6 @@
 @default:
   just --list
 
-# build all rust examples
-build-rust:
-  cd rust && cargo build
-
-# format all rust examples
-fmt-rust:
-  cd rust && cargo fmt
+# Rust examples: fmt, clippy check, and build
+rust:
+  cd rust && cargo fmt && cargo clippy && cargo build
