@@ -5,8 +5,10 @@ This document contains some helpful tips that, with the help of some automation,
 
 The below steps are for migrating wallet details from the old [`bdk` v0.30][0] to the new [`bdk_wallet` v1.0][1].
 This procedure can be applied to wallets backed by a SQLite database.
-Of particular concern is the ability to restore the _last known address index_ for each keychain.
-This is important because without that metadata the new wallet may end up reusing receive addresses, which should be avoided for privacy reasons, although it should not cause loss of funds.
+
+To migrate your wallet data to a new version of bdk, essentially all you need to do is grab the _last known address index_ for each keychain from the old db, add them to the new db, and sync to refetch the rest of the data. Doing this means we don't need to perform a full scan because we already have the indexes (doing a full scan would check for used addresses based on the stop gap which is unnecessary).
+
+This migration is important because without that metadata the new wallet may end up reusing receive addresses, which should be avoided for privacy reasons, although it should not cause loss of funds.
 
 !!! tip
     NB: The migration process outlined below will not automatically restore the wallet's transaction data or local view of the blockchain.
@@ -70,12 +72,13 @@ If the given descriptors contain secret keys, then the wallet will be able to si
 
 <!-- sync -->
 Now that we have a new database and have properly restored our addresses, you will want to sync with the blockchain to recover the wallet's transactions.
-Below is an example of doing a `sync` using `bdk_esplora` but the exact method of syncing will depend on your application.
-Happy migrating and see you on [v1.0][1]!
+Below is an example of doing a `sync` using `bdk_esplora` but the exact method of syncing will depend on your application. Remember we don't need to do a full scan here since we already have the indexes.
 
 ```rust title="examples/rust/migrate-version/src/main.rs"
 --8<-- "examples/rust/migrate-version/src/main.rs:sync"
 ```
+
+Happy migrating and see you on [v1.0][1]!
 
 [0]: https://docs.rs/bdk/0.30.0/bdk/
 [1]: https://docs.rs/bdk_wallet/1.0.0/bdk_wallet/
