@@ -2,7 +2,7 @@ use bdk_esplora::esplora_client;
 use bdk_esplora::esplora_client::Builder;
 use bdk_esplora::EsploraExt;
 use bdk_wallet::bitcoin::Address;
-use bdk_wallet::bitcoin::{Amount, Network};
+use bdk_wallet::bitcoin::{Amount, FeeRate, Network};
 use bdk_wallet::chain::spk_client::{
     FullScanRequestBuilder, FullScanResponse, SyncRequestBuilder, SyncResponse,
 };
@@ -85,7 +85,7 @@ fn main() -> Result<(), anyhow::Error> {
 
     // --8<-- [start:faucet]
     // Use the Mutinynet faucet return address
-    let address = Address::from_str("tb1qd28npep0s8frcm3y7dxqajkcy2m40eysplyr9v")
+    let faucet_address = Address::from_str("tb1qd28npep0s8frcm3y7dxqajkcy2m40eysplyr9v")
         .unwrap()
         .require_network(Network::Signet)
         .unwrap();
@@ -96,7 +96,8 @@ fn main() -> Result<(), anyhow::Error> {
     // --8<-- [start:transaction]
     // Transaction Logic
     let mut tx_builder = wallet.build_tx();
-    tx_builder.add_recipient(address.script_pubkey(), send_amount);
+    tx_builder.fee_rate(FeeRate::from_sat_per_vb(4).unwrap());
+    tx_builder.add_recipient(faucet_address.script_pubkey(), send_amount);
 
     let mut psbt = tx_builder.finish()?;
     let finalized = wallet.sign(&mut psbt, SignOptions::default())?;
@@ -106,6 +107,26 @@ fn main() -> Result<(), anyhow::Error> {
     client.broadcast(&tx)?;
     println!("Tx broadcasted! Txid: {}", tx.compute_txid());
     // --8<-- [end:transaction]
+
+    // Resync to see new tx in mempool
+    println!("Performing regular sync...");
+    let sync_request: SyncRequestBuilder<(KeychainKind, u32)> =
+        wallet.start_sync_with_revealed_spks();
+    let update: SyncResponse = client.sync(sync_request, PARALLEL_REQUESTS)?;
+    wallet.apply_update(update).unwrap();
+
+    // Drain all the remaining sats back to Mutinynet
+    // --8<-- [start:drain]
+    let mut tx_builder = wallet.build_tx();
+    tx_builder.drain_wallet();
+    tx_builder.drain_to(faucet_address.script_pubkey());
+    // --8<-- [end:drain]
+    let mut psbt = tx_builder.finish()?;
+    let finalized = wallet.sign(&mut psbt, SignOptions::default())?;
+    assert!(finalized);
+    let tx = psbt.extract_tx()?;
+    client.broadcast(&tx)?;
+    println!("Drain Tx broadcasted! Txid: {}", tx.compute_txid());
 
     Ok(())
 }

@@ -28,7 +28,7 @@ Next, lets use those descriptors to load up our wallet. Replace the placeholder 
 --8<-- "examples/rust/full-wallet/src/main.rs:descriptors"
 ```
 
-We are going to run this example twice. On the first run it will do a full scan for your wallet, persist that chain data, generate a new address for you, and display your current wallet balance, it will then attempt to build a transaction, but will fail becuase we don't have any funds yet. We will use the new address (from the first run) to request funds from the [Mutinynet faucet](https://faucet.mutinynet.com/) so we can build a transaction on the second run. On the second run it will load the data from the previous run, do a light weight sync to check for updates (no need to repeat the full scan), and then build and broadcast a transaction. Let's go through this step by step.
+We are going to run this example twice. On the first run it will do a full scan for your wallet, persist that chain data, generate a new address for you, and display your current wallet balance, it will then attempt to build a transaction, but will fail becuase we don't have any funds yet. We will use the new address (from the first run) to request funds from the <a href="https://faucet.mutinynet.com/" target="_blank" rel="noopener noreferrer">Mutinynet faucet</a> so we can build a transaction on the second run. On the second run it will load the data from the previous run, do a light weight sync to check for updates (no need to repeat the full scan), and then build and broadcast a transaction. Let's go through this step by step.
 
 ```rust title="examples/rust/full-wallet/src/main.rs"
 --8<-- "examples/rust/full-wallet/src/main.rs:persist"
@@ -51,7 +51,7 @@ The process will then error out, indicating we don't have enough funds to send a
 
 ### Request satoshis from the Mutinynet faucet
 
-We can now use our new address to request some sats from the [Mutinynet faucet](https://faucet.mutinynet.com/). After requesting sats, you can view the transaction in their [Mempool Explorer instance](https://mutinynet.com/) (click the link on the faucet confirmation page or put the txid in the search bar of the mempool explorer). After a minute or so you should see the transaction confirmed. We can also re-run the `full-wallet` example and see that our wallet now has some funds!
+We can now use our new address to request some sats from the <a href="https://faucet.mutinynet.com/" target="_blank" rel="noopener noreferrer">Mutinynet faucet</a>. After requesting sats, you can view the transaction in their <a href="https://mutinynet.com/" target="_blank" rel="noopener noreferrer">Mempool Explorer instance</a> (click the link on the faucet confirmation page or put the txid in the search bar of the mempool explorer). After a minute or so you should see the transaction confirmed. We can also re-run the `full-wallet` example and see that our wallet now has some funds!
 
 ## Load, Sync, and Send a Transaction (Second Run)
 
@@ -73,7 +73,7 @@ Now that we have funds, let's prepare to send a transaction. We need to decide w
 --8<-- "examples/rust/full-wallet/src/main.rs:faucet"
 ```
 
-Here we are preparing to send 5000 sats back to the mutiny faucet (it's good practice to send test sats back to the faucet when you're done using them).
+Here we are preparing to send 5000 sats back to the mutiny faucet, so you'll need to request at more sats than that or change this value (it's good practice to send test sats back to the faucet when you're done using them).
 
 Finally we are ready to build, sign, and broadcast the transaction:
 
@@ -81,4 +81,10 @@ Finally we are ready to build, sign, and broadcast the transaction:
 --8<-- "examples/rust/full-wallet/src/main.rs:transaction"
 ```
 
+We are manually determining the fee rate to be 4 sat/vb (satoshis per virtual byte).
+
 Again we can view the transaction in the Mutinynet explorer or re-run the `full-wallet` example to see that our wallet has less funds.
+
+### Drain the Wallet
+
+When you're done with the test sats that you got from the faucet, you should send the remaining funds back to the faucet by [draining the wallet](/cookbook/transactions/transaction-builder/#spend-all-funds).

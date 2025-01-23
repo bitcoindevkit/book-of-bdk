@@ -65,9 +65,7 @@ Note that if you set the fee using both the fee_absolute and the fee_rate method
 The transaction builder has a convenience method that will spend all UTXOs available to it (while respecting the unspendable UTXOs if any). Simple use of this method will simply increase the size of your change output, but you can combine it with the `TxBuilder::drain_to` method to ensure all funds are sent to a specific address:
 
 ```rust
-let psbt = wallet.build_tx()
-    .drain_wallet()
-    .drain_to(address.script_pubkey())
+--8<-- "examples/rust/full-wallet/src/main.rs:drain"
 ```
 
 ### Set the nSequence value
