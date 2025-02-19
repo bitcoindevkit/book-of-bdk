@@ -1,6 +1,6 @@
 # Quick Start Example
 
-This page provides an overview of how BDK can be leveraged to create and sync a wallet using an Esplora client. You can find [working code examples](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples) of this workflow in three programming languages: [Rust](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust), [Swift](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/swift), and [Kotlin](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin).
+This page provides an overview of how BDK can be leveraged to create and sync a wallet using an Esplora client. You can find [working code examples](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples) of this workflow in three programming languages: [Rust](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust), [Swift](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/swift), and [Kotlin](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin). (Note: some additional language bindings are available for BDK, see [3rd Party Bindings](../getting-started/3rd-party-bindings.md))
 
 ## Create a new project
 
