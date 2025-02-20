@@ -1,9 +1,15 @@
+use bdk_esplora::esplora_client::Sleeper;
 use bdk_esplora::{
     esplora_client::{self, AsyncClient},
     EsploraAsyncExt,
 };
-use bdk_wallet::{chain::Merge, bitcoin::Network, ChangeSet, KeychainKind, Wallet};
+use bdk_wallet::{bitcoin::Network, chain::Merge, ChangeSet, KeychainKind, Wallet};
+use gloo_timers::future::{sleep, TimeoutFuture};
 use js_sys::Date;
+use std::future::Future;
+use std::pin::Pin;
+use std::task::{Context, Poll};
+use std::time::Duration;
 use wasm_bindgen::prelude::*;
 // use serde_wasm_bindgen::{from_value, to_value};
 use serde_json::{self, Value};
@@ -16,6 +22,45 @@ pub type JsResult<T> = Result<T, JsError>;
 extern "C" {}
 
 #[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = window)]
+    fn setTimeout(callback: &Closure<dyn FnMut()>, timeout: u32) -> i32;
+}
+
+#[derive(Clone)]
+struct WebSleeper;
+
+// Implement Sleeper trait using JS sleep function, from `bdk-wasm`
+impl Sleeper for WebSleeper {
+    type Sleep = SendSyncWrapper<TimeoutFuture>;
+
+    fn sleep(dur: Duration) -> Self::Sleep {
+        SendSyncWrapper(sleep(dur))
+    }
+}
+
+// Wrap a future that is not `Send` or `Sync` and make it `Send` and `Sync`, from `bdk-wasm`
+pub struct SendSyncWrapper<F>(pub F);
+
+unsafe impl<F> Send for SendSyncWrapper<F> {}
+unsafe impl<F> Sync for SendSyncWrapper<F> {}
+
+impl<F> Future for SendSyncWrapper<F>
+where
+    F: Future,
+{
+    type Output = F::Output;
+
+    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
+        // SAFETY: Since we're in a single-threaded WASM environment, this is safe.
+        unsafe {
+            let this = self.get_unchecked_mut();
+            Pin::new_unchecked(&mut this.0).poll(cx)
+        }
+    }
+}
+
+#[wasm_bindgen]
 pub fn greet() -> String {
     "Hello, bdk-wasm!".into()
 }
@@ -23,7 +68,7 @@ pub fn greet() -> String {
 #[wasm_bindgen]
 pub struct WalletWrapper {
     wallet: Wallet,
-    client: AsyncClient,
+    client: AsyncClient<WebSleeper>,
 }
 
 #[wasm_bindgen]
@@ -63,22 +108,30 @@ impl WalletWrapper {
 
         let client = esplora_client::Builder::new(&esplora_url)
             .max_retries(6)
-            .build_async()
+            .build_async_with_sleeper()
             .map_err(|e| format!("{:?}", e))?;
 
-        Ok(WalletWrapper {
-            wallet: wallet,
-            client: client,
-        })
+        Ok(WalletWrapper { wallet, client })
     }
 
-    pub fn load(changeset_str: &str, url: &str, external_descriptor: &str, internal_descriptor: &str) -> JsResult<WalletWrapper> {
+    pub fn load(
+        changeset_str: &str,
+        url: &str,
+        external_descriptor: &str,
+        internal_descriptor: &str,
+    ) -> JsResult<WalletWrapper> {
         let changeset_value: Value = serde_json::from_str(changeset_str)?;
         let changeset: ChangeSet = serde_json::from_value(changeset_value)?;
 
         let wallet_opt = Wallet::load()
-            .descriptor(KeychainKind::External, Some(external_descriptor.to_string()))
-            .descriptor(KeychainKind::Internal, Some(internal_descriptor.to_string()))
+            .descriptor(
+                KeychainKind::External,
+                Some(external_descriptor.to_string()),
+            )
+            .descriptor(
+                KeychainKind::Internal,
+                Some(internal_descriptor.to_string()),
+            )
             .extract_keys()
             .load_wallet_no_persist(changeset)?;
 
@@ -87,7 +140,7 @@ impl WalletWrapper {
             None => return Err(JsError::new("Failed to load wallet, check the changeset")),
         };
 
-        let client = esplora_client::Builder::new(&url).build_async()?;
+        let client = esplora_client::Builder::new(&url).build_async_with_sleeper()?;
 
         Ok(WalletWrapper { wallet, client })
     }
@@ -105,7 +158,7 @@ impl WalletWrapper {
 
         let now = (Date::now() / 1000.0) as u64;
         wallet
-            .apply_update_at(update, Some(now))
+            .apply_update_at(update, now)
             .map_err(|e| format!("{:?}", e))?;
 
         Ok(())
@@ -116,7 +169,7 @@ impl WalletWrapper {
         let update = self.client.sync(request, parallel_requests).await?;
 
         let now = (Date::now() / 1000.0) as u64;
-        self.wallet.apply_update_at(update, Some(now))?;
+        self.wallet.apply_update_at(update, now)?;
 
         Ok(())
     }
@@ -129,18 +182,14 @@ impl WalletWrapper {
     }
 
     pub fn reveal_next_address(&mut self) -> String {
-        let address = self
-            .wallet
-            .reveal_next_address(KeychainKind::External);
+        let address = self.wallet.reveal_next_address(KeychainKind::External);
 
         address.to_string()
     }
     // --8<-- [end:utils]
 
     pub fn peek_address(&mut self, index: u32) -> String {
-        let address = self
-            .wallet
-            .peek_address(KeychainKind::External, index);
+        let address = self.wallet.peek_address(KeychainKind::External, index);
 
         address.to_string()
     }
