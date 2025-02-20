@@ -2,12 +2,24 @@
 # WASM Example
 
 To run this example, cd into this folder and run:
+
 `wasm-pack build`
+
 then open a new terminal and cd to the `js` folder (next to this one) and follow the instructions in the README there.
 
-### Note
+Note: you will need to install wasm-pack if you don't have it (see below)
 
-to build successfully on mac required installing llvm with homebrew (even though there's a default version) https://github.com/bitcoindevkit/bdk/issues/1671#issuecomment-2456858895
+### Note for Mac
+
+To build successfully on mac required installing llvm with homebrew (even though there's a default version) https://github.com/bitcoindevkit/bdk/issues/1671#issuecomment-2456858895
+
+To resolve this we point to llvm in .cargo and .vscode folders.
+
+### Non Mac
+
+You may need to remove the pointers to llvm or point them to the appropriate location.
+
+
 
 <br/><br/><br/><br/><br/><br/><br/><br/>
 
