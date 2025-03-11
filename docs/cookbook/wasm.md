@@ -1,5 +1,10 @@
 # WASM Example
 
+WASM bindings can be used to access rust code from virtually any JavaScript environment: browsers, Node.js, ReactNative, etc.
+
+!!! info
+    This page details how to build a custom WASM package that uses BDK rust crate under the hood. If you want an out of the box solution for JS(WASM) bindings for BDK which don't require writing any rust code, see the WASM section on the [3rd Party Bindings](https://bitcoindevkit.github.io/book-of-bdk/getting-started/3rd-party-bindings/) page for a pre-packaged npm module.
+
 Because rust can compile to WASM, it is possible to use BDK in the browser. However, there are a few limitations to keep in mind which will be highlighted in this example. That being said, there are perfectly viable work-arounds for these limitations that should suffice for most use cases.
 
 !!! warning
