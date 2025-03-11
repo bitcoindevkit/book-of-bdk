@@ -17,6 +17,7 @@ The core project is split up into several crates in the `bdk/crates` directory:
 - [`bdk_electrum`][bdk-crates]: Extends the [`electrum-client`][electrum-client]
    crate with methods to fetch chain data from an electrum server in the form that
    [`bdk_chain`][bdk-crates] and `Wallet` can consume.
+- [`bdk_bitcoind_rpc`][bdk-crates]: For extracting and emitting blockchain data from `bitcoind` RPC interface. 
 
 [bdk-crates]: https://github.com/bitcoindevkit/bdk/tree/master/crates
 [esplora-client]: https://docs.rs/esplora-client/
