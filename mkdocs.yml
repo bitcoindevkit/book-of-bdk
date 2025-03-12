@@ -81,6 +81,7 @@ nav:
     - Project Organization: getting-started/organization.md
     - Getting Started: getting-started/getting-started.md
     - API Documentation: getting-started/api-documentation.md
+    - BDK CLI: getting-started/bdk-cli.md
     - Migrating from 0.x: getting-started/migrating.md
     - 3rd Party Bindings: getting-started/3rd-party-bindings.md
     - More BDK!: getting-started/more-bdk.md
