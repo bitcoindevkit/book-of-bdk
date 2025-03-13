@@ -20,5 +20,5 @@ cargo run --bin <cratename>
 ```
 
 
-### rust-analyzer vscode extention
+### rust-analyzer vscode extension
 To enable rust-analyzer features for a rust example in the project you must add the path to the `Cargo.toml` file for the example to `.vscode/settings.json`

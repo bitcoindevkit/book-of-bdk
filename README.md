@@ -14,7 +14,7 @@ Here's an example using [venv](https://docs.python.org/3/library/venv.html) on M
 mkdir ~/.venv
 python3 -m venv ~/.venv
 ```
-Then start the virtual environemnt:
+Then start the virtual environment:
 ```shell
 source ~/.venv/bin/activate
 ```

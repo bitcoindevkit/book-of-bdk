@@ -90,7 +90,7 @@ let psbt = wallet.build_tx()
 
 The result is a PSBT ready to be signed and later on broadcast to the network.
 
-## Signing the PSBT and extrating the transaction
+## Signing the PSBT and extracting the transaction
 
 Sign the PSBT using the `Wallet::sign` method and extract the finalized transaction from it using the Psbt::extract_tx` method for a ready-to-be-broadcast transaction.
 

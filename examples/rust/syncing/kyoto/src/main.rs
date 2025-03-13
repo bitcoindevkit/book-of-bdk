@@ -37,7 +37,7 @@ async fn main() {
         .create_wallet_no_persist()
         .unwrap();
 
-    // Build a node that will find and connect to peers, gather relevant blocks, and broadcast transacitons.
+    // Build a node that will find and connect to peers, gather relevant blocks, and broadcast transactions.
     // In addition, receive a client that allows for communication with a running node to receive wallet
     // updates, relay transactions to the node, and get updates on the node's actions.
     let LightClient {
