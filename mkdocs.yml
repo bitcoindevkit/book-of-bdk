@@ -84,6 +84,8 @@ nav:
     - Build a Wallet: getting-started/build-a-wallet.md
     - Migrating from 0.x: getting-started/migrating.md
     - 3rd Party Bindings: getting-started/3rd-party-bindings.md
+    - More BDK!: getting-started/more-bdk.md
+
   - Cookbook:
     - Quick Start Example: cookbook/quickstart.md
     - Full Wallet Example: cookbook/full-wallet.md
@@ -102,6 +104,7 @@ nav:
     - Transactions:
       - Transaction Builder: cookbook/transactions/transaction-builder.md
     - WASM: cookbook/wasm.md
+
   - Architecture:
     - Overview:
       - Design: architecture/design.md
