@@ -22,30 +22,12 @@ The following heuristics work well for most standard wallets:
 2. If you are loading a wallet from persistence for which a _full scan_ has already been performed and related data has been persisted, your syncing operations should be _sync_.
 3. If you are operating on a wallet which is shared with other entities which might reveal addresses, your local wallet and its `TxGraph` will not know about these revealed scripts. In this case, and if you suspect addresses might have been revealed, you should perform a _full scan_.
 
-## Examples
+## Additional Considerations — Really Big Wallets
 
-The workflow for a full scan or sync consists of a 3-step process:
+On really big wallets, a custom, application-defined choice of which spks to sync at any given time/trigger is probably more appropriate.
 
-1. Ask the wallet for the data structure required.
-2. Pass it to your blockchain client and request a full scan or sync.
-3. The client returns an update, which you then apply to the wallet.
+For example, if a wallet has 2500 addresss revealed and your application tries to stay on a 10s loop... it is not a good idea (and doesn't really make sense anyway) to try and sync it all on every iteration.
 
-This workflow ensures that the wallet structure is not blocked while the syncing operation is performed.
-
-#### Full Scan With Esplora
-
-```rust
---8<-- "examples/rust/syncing/esplora/src/main.rs:client"
-
---8<-- "examples/rust/syncing/esplora/src/main.rs:scan"
-```
-
-#### Sync With Esplora
-
-```rust
---8<-- "examples/rust/syncing/esplora/src/main.rs:client"
-
---8<-- "examples/rust/syncing/esplora/src/main.rs:sync"
-```
+Some pooling of the spks in different buckets would probably work best, and this would be defined at the application layer. Variables to include in the choice of which SPKs to sync would probably include last known transaction for the SPK and last time it was synced.
 
 <br>
