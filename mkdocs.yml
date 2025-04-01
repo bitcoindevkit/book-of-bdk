@@ -104,7 +104,3 @@ nav:
     - Transactions:
       - Transaction Builder: cookbook/transactions/transaction-builder.md
     - WASM: cookbook/wasm.md
-
-  - Architecture:
-    - Overview:
-      - Design: architecture/design.md
