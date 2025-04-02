@@ -87,4 +87,4 @@ Again we can view the transaction in the Mutinynet explorer or re-run the `full-
 
 ### Drain the Wallet
 
-When you're done with the test sats that you got from the faucet, you should send the remaining funds back to the faucet by [draining the wallet](/cookbook/transactions/transaction-builder/#spend-all-funds).
+When you're done with the test sats that you got from the faucet, you should send the remaining funds back to the faucet by [draining the wallet](transactions/transaction-builder.md/#spend-all-funds).
