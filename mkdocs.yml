@@ -86,8 +86,8 @@ nav:
     - More BDK!: getting-started/more-bdk.md
 
   - Cookbook:
-    - Building a Wallet: cookbook/building-a-wallet.md
-    - Full Wallet Example: cookbook/full-wallet.md
+    # - Building a Wallet: cookbook/building-a-wallet.md
+    - Starter Example: cookbook/starter-example.md
     - Syncing:
       - Full Scan vs Sync: cookbook/syncing/full-scan-vs-sync.md
       - Electrum Sync: cookbook/syncing/electrum.md

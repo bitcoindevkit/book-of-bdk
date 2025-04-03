@@ -1,9 +1,16 @@
 [workspace]
 resolver = "2"
 members = [
-    "descriptors", "full-wallet", "migrate-version", "quickstart", "seed-phrase",
-    "syncing/electrum", "syncing/esplora", "syncing/kyoto", "syncing/rpc",
-    "persistence/memory", "persistence/sqlite"
+    "descriptors", 
+    "migrate-version",
+    "seed-phrase",
+    "syncing/electrum",
+    "syncing/esplora",
+    "syncing/kyoto",
+    "syncing/rpc",
+    "persistence/memory",
+    "persistence/sqlite",
+    "starter-example",
 ]
 
 [workspace.package]
