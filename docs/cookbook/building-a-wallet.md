@@ -1,4 +1,4 @@
-# I Want To Build A Wallet Using BDK
+# Building A Wallet With BDK
 
 So you want to build a bitcoin wallet using BDK. Great! Here is the rough outline of what you need to do just that. A standard, simple example of a bitcoin wallet in BDK-land would require 3 core pillars:
 

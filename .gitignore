@@ -116,3 +116,6 @@ dmypy.json
 
 # Pyre
 .pyre/
+
+# Other
+notes/
