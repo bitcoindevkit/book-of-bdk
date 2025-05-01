@@ -1,4 +1,4 @@
-# Using `bdk-cli` binary crate to test the BDK Library
+# BDK CLI
 
 ### Purpose
 
