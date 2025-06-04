@@ -60,7 +60,7 @@ To get usage information for the bdk-cli binary use the below command which retu
 cargo run
 ```
 
-Follow the instruction in [descriptors](./keys-descriptors/descriptors.md) to generate descriptors, selecting your preferred network and descriptor type.
+Follow the instruction in [descriptors](../cookbook/keys-descriptors/descriptors.md) to generate descriptors, selecting your preferred network and descriptor type.
 
 Assuming you exported your external and internal descriptors as `EXT_DESC` and `INT_DESC`, we can generate a new address by running the following command:
 
