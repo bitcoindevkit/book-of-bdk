@@ -1,7 +1,7 @@
-# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 site_name: The Book of BDK
-repo_name: bitcoindevkit/bdk
-repo_url: https://github.com/bitcoindevkit/bdk
+repo_name: bitcoindevkit/bdk_wallet
+repo_url: https://github.com/bitcoindevkit/bdk_wallet
+
 plugins:
   - search
 
