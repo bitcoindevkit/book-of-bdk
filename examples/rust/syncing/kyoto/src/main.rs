@@ -82,7 +82,7 @@ async fn main() {
 
     // Sync and apply updates to the wallet. We can do this a continual loop while the application is running.
     // Often this would occur on a separate thread than the underlying application user interface.
-    let update = update_subscriber.update().await;
+    let update = update_subscriber.update().await.unwrap();
     wallet.apply_update(update).unwrap();
     tracing::info!("Tx count: {}", wallet.transactions().count());
     tracing::info!("Balance: {}", wallet.balance().total().to_sat());
