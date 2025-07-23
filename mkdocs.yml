@@ -103,3 +103,6 @@ nav:
     - Transactions:
       - Transaction Builder: cookbook/transactions/transaction-builder.md
     - WASM: cookbook/wasm.md
+
+  - Design:
+    - Compact Block Filters: design/cbf.md
