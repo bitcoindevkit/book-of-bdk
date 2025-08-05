@@ -12,7 +12,7 @@ fn main() {
     let seed = mnemonic.to_seed("");
     let xprv: Xpriv =
         Xpriv::new_master(Network::Signet, &seed).expect("Failed to create master key");
-    println!("Generated Master Private Key:\n{}\nWarning: be very careful with seeds and private keys when using MainNet! We are logging these values for convenience only because this is an example on SigNet.\n", xprv);
+    println!("Generated Master Private Key:\n{xprv}\nWarning: be very careful with seeds and private keys when using MainNet! We are logging these values for convenience only because this is an example on SigNet.\n");
 
     let (descriptor, key_map, _) = Bip86(xprv, KeychainKind::External)
         .build(Network::Signet)
