@@ -1,60 +1,49 @@
-name: Rust examples checks
+name: Rust Examples Checks
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build_examples:
-    name: Build Rust examples
+    name: "Build Rust examples"
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./examples/rust/
     steps:
-      - name: Checkout
+      - name: "Checkout"
         uses: actions/checkout@v4
+      
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
+          toolchain: 1.89.0
           override: true
-      - name: Rust Cache
+          profile: minimal
+      
+      - name: "Rust cache"
         uses: Swatinem/rust-cache@v2.7.5
+      
       - name: "Build all examples"
         run: cargo build
 
-  fmt_check:
-    name: Rust fmt check
+  fmt_clippy_check:
+    name: "Rust fmt and clippy check"
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./examples/rust/
     steps:
-      - name: Checkout
+      - name: "Checkout"
         uses: actions/checkout@v4
-      - name: Install Rust toolchain
+      
+      - name: "Install Rust toolchain"
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
+          toolchain: 1.89.0
           override: true
           profile: minimal
-          components: rustfmt
-      - name: Check fmt
+          components: rustfmt, clippy
+      
+      - name: "Check fmt"
         run: cargo fmt --all -- --config format_code_in_doc_comments=true --check
 
-  clippy_check:
-    name: Rust clippy check
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./examples/rust/
-    permissions:
-      checks: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          components: clippy
-          override: true
-      - name: Rust Cache
-        uses: Swatinem/rust-cache@v2.7.5
-      - name: Check clippy
-        run: cargo clippy --all-features --all-targets -- -D warnings
+      - name: "Check clippy"
+        run: cargo clippy --all-features --all-targets -- -D warnings 
