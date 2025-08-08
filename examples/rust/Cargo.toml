@@ -3,7 +3,7 @@ resolver = "2"
 members = [
     "descriptors", 
     "migrate-version",
-    "seed-phrase",
+    "recovery-phrases",
     "syncing/electrum",
     "syncing/esplora",
     "syncing/kyoto",
