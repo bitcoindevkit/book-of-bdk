@@ -1,0 +1,27 @@
+[group("Just")]
+[doc("List all available commands.")]
+@list:
+  just --list --unsorted
+
+[group("Examples")]
+[doc("List all available examples.")]
+@list-examples:
+  echo ""
+  echo "Here is the list of examples you can run using:"
+  echo "just run <examplBne>"
+  echo ""
+  echo "starter-example     # Start here"
+  echo "descriptors         # Creating descriptors"
+  echo "migrate-version     # Migrating bdk_wallet 0.X to 1.X"
+  echo "recovery-phrases    # Work with recovery phrases"
+  echo "memory-wallet       # Wallet with in-memory persistence"
+  echo "sqlite-wallet       # Wallet with sqlite persistence"
+  echo "esplora             # Wallet coupled with Esplora client"
+  echo "electrum            # Wallet coupled with Electrum client"
+  echo "kyoto               # Wallet coupled with Kyoto client"
+  echo "rpc                 # Wallet coupled with Bitcoin Core RPC client"
+
+[group("Examples")]
+[doc("Run a single example.")]
+run EXAMPLE:
+  cargo run --package {{EXAMPLE}}
