@@ -5,7 +5,7 @@ edition = "2021"
 
 # --8<-- [start:deps]
 [dependencies]
-bdk_wallet = { version = "1.0.0" }
-bdk_esplora = { version = "0.20.1", features = ["blocking"] }
+bdk_wallet = { version = "2.1.0" }
+bdk_esplora = { version = "0.22.1", features = ["blocking"] }
 # --8<-- [start:deps]
 anyhow = "1"
