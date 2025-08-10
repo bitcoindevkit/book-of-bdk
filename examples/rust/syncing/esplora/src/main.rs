@@ -16,7 +16,7 @@ const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsR
 
 fn main() -> Result<(), Error> {
     let mut wallet: Wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
-        .network(Network::Signet)
+        .network(Network::Testnet)
         .create_wallet_no_persist()?;
 
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
@@ -28,7 +28,7 @@ fn main() -> Result<(), Error> {
     //--8<-- [start:client]
     // Create the Esplora client
     let client: esplora_client::BlockingClient =
-        Builder::new("http://signet.bitcoindevkit.net").build_blocking();
+        Builder::new("https://blockstream.info/testnet/api/").build_blocking();
     //--8<-- [end:client]
 
     //--8<-- [start:scan]
