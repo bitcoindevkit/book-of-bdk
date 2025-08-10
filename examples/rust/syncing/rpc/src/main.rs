@@ -1,5 +1,7 @@
+use std::sync::Arc;
+
 use bdk_bitcoind_rpc::bitcoincore_rpc::{Auth, Client, RpcApi};
-use bdk_bitcoind_rpc::Emitter;
+use bdk_bitcoind_rpc::{Emitter, NO_EXPECTED_MEMPOOL_TXS};
 use bdk_wallet::bitcoin::{Network, Transaction};
 use bdk_wallet::chain::local_chain::CheckPoint;
 use bdk_wallet::{AddressInfo, Balance, KeychainKind, Wallet};
@@ -43,7 +45,12 @@ fn main() {
         &wallet_tip.height()
     );
 
-    let mut emitter = Emitter::new(&rpc_client, wallet_tip.clone(), wallet_tip.height());
+    let mut emitter = Emitter::new(
+        &rpc_client,
+        wallet_tip.clone(),
+        wallet_tip.height(),
+        NO_EXPECTED_MEMPOOL_TXS,
+    );
 
     println!("Syncing blocks...");
     while let Some(block) = emitter.next_block().unwrap() {
@@ -55,7 +62,7 @@ fn main() {
     println!();
 
     println!("Syncing mempool...");
-    let mempool_emissions: Vec<(Transaction, u64)> = emitter.mempool().unwrap();
+    let mempool_emissions: Vec<(Arc<Transaction>, u64)> = emitter.mempool().unwrap().update;
     wallet.apply_unconfirmed_txs(mempool_emissions);
 
     let balance: Balance = wallet.balance();
