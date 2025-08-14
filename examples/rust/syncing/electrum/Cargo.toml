@@ -5,6 +5,6 @@ edition = "2021"
 
 # --8<-- [start:deps]
 [dependencies]
-bdk_wallet = { version = "1.0.0" }
-bdk_electrum = { version = "0.20.1" }
+bdk_wallet = { version = "2.1.0" }
+bdk_electrum = { version = "0.23.1" }
 # --8<-- [end:deps]
