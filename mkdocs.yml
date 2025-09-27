@@ -13,16 +13,16 @@ theme:
   favicon: assets/favicon.ico
   palette:
     - scheme: default
-      primary: white
-      accent: deep orange
+      primary: indigo
+      accent: indigo
       toggle:
-        icon: material/brightness-7
+        icon: material/lightbulb
         name: Switch to dark mode
     - scheme: slate
-      primary: black
-      accent: deep orange
+      primary: indigo
+      accent: indigo
       toggle:
-        icon: material/brightness-4
+        icon: material/lightbulb-outline
         name: Switch to light mode
   font:
     text: Roboto
