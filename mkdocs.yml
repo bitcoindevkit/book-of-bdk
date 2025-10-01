@@ -104,5 +104,14 @@ nav:
       - Transaction Builder: cookbook/transactions/transaction-builder.md
     - WASM: cookbook/wasm.md
 
+  - Release Guide:
+    - Release 2.2:
+      - Release Notes: release-guide/2.2/notes.md
+      - Wallet Events: release-guide/2.2/wallet-events.md
+    - Release 2.1:
+      - Release Notes: release-guide/2.1/notes.md
+      - Exclude Inputs When Building Transactions: release-guide/2.1/txbuilder-exclude.md
+      - Support for Public Multipath Descriptors: release-guide/2.1/multipath.md
+
   - Design:
     - Compact Block Filters: design/cbf.md
