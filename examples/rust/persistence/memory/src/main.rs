@@ -4,11 +4,9 @@ use bdk_wallet::KeychainKind;
 use bdk_wallet::Wallet;
 
 // --8<-- [start:descriptors]
-const EXTERNAL_DESCRIPTOR: &str = "[your external descriptor here ...]";
-const INTERNAL_DESCRIPTOR: &str = "[your internal descriptor here ...]";
 // Example private descriptors
-// const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfdgKEcCQB1FMKfSoaFz9JHZU71HwXAqTsjHripkLM62kUQar14SDD8brsmhFKqVUPXGrZLc/86'/1'/0'/0/*)#fv8tutn2";
-// const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfdgKEcCQB1FMKfSoaFz9JHZU71HwXAqTsjHripkLM62kUQar14SDD8brsmhFKqVUPXGrZLc/86'/1'/0'/1/*)#ccz2p7rj";
+const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfdgKEcCQB1FMKfSoaFz9JHZU71HwXAqTsjHripkLM62kUQar14SDD8brsmhFKqVUPXGrZLc/86'/1'/0'/0/*)#fv8tutn2";
+const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfdgKEcCQB1FMKfSoaFz9JHZU71HwXAqTsjHripkLM62kUQar14SDD8brsmhFKqVUPXGrZLc/86'/1'/0'/1/*)#ccz2p7rj";
 // --8<-- [end:descriptors]
 
 fn main() -> Result<(), anyhow::Error> {
