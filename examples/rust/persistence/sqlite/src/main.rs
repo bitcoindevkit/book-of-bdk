@@ -45,7 +45,10 @@ fn main() -> Result<(), anyhow::Error> {
     let address = wallet.reveal_next_address(KeychainKind::External);
     wallet.persist(&mut conn)?;
     // Only share new address with user after successfully persisting wallet
-    println!("Wallet address[{}]: {}", address.index, address.address);
+    println!(
+        "Generated address {} at index {}",
+        address.address, address.index
+    );
     // --8<-- [end:address]
 
     Ok(())
