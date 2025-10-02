@@ -99,7 +99,7 @@ nav:
       - SQLite Database: cookbook/persistence/sqlite.md
     - Keys and Descriptors:
       - Creating Descriptors: cookbook/keys-descriptors/descriptors.md
-      - Seed Phrase to Descriptors: cookbook/keys-descriptors/seed-phrase.md
+      - Recovery Phrases to Descriptors: cookbook/keys-descriptors/recovery-phrases.md
     - Transactions:
       - Transaction Builder: cookbook/transactions/transaction-builder.md
     - WASM: cookbook/wasm.md
