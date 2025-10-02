@@ -27,10 +27,10 @@ fn main() {
     // --8<-- [end:main]
 
     println!(
-        "----------------  Descriptors  ------------------------------\nPrivate Key, External:\n{:?}\nPrivate Key, Internal:\n{:?}\nPublic Key, External:\n{:?}\nPublic Key, Internal:\n{:?}\n",
-        descriptor_string_priv, // privkey
+        "----------------  Descriptors  ------------------------------\n# Private Key (External)\n{:?}\n\n# Private Key (Internal)\n{:?}\n\n# Public Key (External)\n{:?}\n\n# Public Key (Internal)\n{:?}\n",
+        descriptor_string_priv,
         change_descriptor_string_priv,
-        descriptor.to_string(), // pubkey
+        descriptor.to_string(),
         change_descriptor.to_string()
     );
 }
