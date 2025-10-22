@@ -11,7 +11,7 @@ fn main() {
     let recovery_phrase: &str = "awesome awesome awesome awesome awesome awesome awesome awesome awesome awesome awesome awesome";
     let mnemonic = Mnemonic::parse(recovery_phrase).expect("Invalid seed! Be sure to replace the value of RECOVERY_PHRASE with your own 12 word seed phrase.");
     let seed = mnemonic.to_seed("");
-    let xprv: Xpriv = Xpriv::new_master(Network::Signet, &seed).expect("Failed to create master key");
+    let xprv = Xpriv::new_master(Network::Signet, &seed).expect("Failed to create master key");
 
     println!("# Master Private Key\n{xprv}\nWarning: be very careful with seeds and private keys when using MainNet! We are logging these values for convenience and demonstration purposes only.\n");
 
