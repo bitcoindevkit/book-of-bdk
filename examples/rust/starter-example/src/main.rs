@@ -7,7 +7,9 @@ use bdk_wallet::bitcoin::{Address, Amount, FeeRate, Network, Psbt};
 use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResponse};
 use bdk_wallet::rusqlite::Connection;
 use bdk_wallet::Wallet;
-use bdk_wallet::{AddressInfo, KeychainKind, SignOptions};
+use bdk_wallet::{AddressInfo, KeychainKind};
+#[allow(deprecated)]
+use bdk_wallet::SignOptions;
 use std::process::exit;
 use std::str::FromStr;
 
@@ -15,6 +17,7 @@ const STOP_GAP: usize = 20;
 const PARALLEL_REQUESTS: usize = 1;
 const DB_PATH: &str = "starter.sqlite3";
 
+#[allow(deprecated)]
 fn main() {
     println!("\nWelcome to the Book of BDK Starter Example Wallet!");
     // --8<-- [start:descriptors]
