@@ -6,10 +6,10 @@ use bdk_esplora::EsploraExt;
 use bdk_wallet::bitcoin::{Address, Amount, FeeRate, Network, Psbt};
 use bdk_wallet::chain::spk_client::{FullScanRequestBuilder, FullScanResponse};
 use bdk_wallet::rusqlite::Connection;
-use bdk_wallet::Wallet;
-use bdk_wallet::{AddressInfo, KeychainKind};
 #[allow(deprecated)]
 use bdk_wallet::SignOptions;
+use bdk_wallet::Wallet;
+use bdk_wallet::{AddressInfo, KeychainKind};
 use std::process::exit;
 use std::str::FromStr;
 
