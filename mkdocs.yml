@@ -105,6 +105,9 @@ nav:
     - WASM: cookbook/wasm.md
 
   - Release Guide:
+    - Release 2.3:
+      - Release Notes: release-guide/2.3/notes.md
+      - Wallet Events: release-guide/2.3/wallet-events.md
     - Release 2.2:
       - Release Notes: release-guide/2.2/notes.md
       - Wallet Events: release-guide/2.2/wallet-events.md
