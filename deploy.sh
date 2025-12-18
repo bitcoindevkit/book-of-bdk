@@ -1,6 +1,8 @@
 # This script will build the website and push it to the `prod` branch of the repo,
 # publishing it automatically to https://bookofbdk.com.
 
+set -euo pipefail
+
 rm -rf ./site/
 mkdocs build
 cd site
