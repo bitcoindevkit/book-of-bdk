@@ -4,10 +4,9 @@
 
 So you want to build a bitcoin wallet using BDK. Great! Here is the rough outline of what you need to do just that. A standard, simple example of a bitcoin wallet in BDK-land would require 3 core pillars:
 
-<figure markdown="span">
-  ![Image title](../assets/wallets.png){ width="400" }
-  <figcaption>The 3 core pieces of a BDK wallet.</figcaption>
-</figure>
+<p style="text-align: center;">
+    <img src="../../../assets/wallets.png" style="height: 300px;">
+</p>
 
 1. **The `bdk_wallet` library**, which will provide two core types: the `Wallet` and the `TxBuilder`. This library will handle all the domain logic related to keeping track of which UTXOs you own, what your total balance is, creating and signing transactions, etc.
 2. **A blockchain client**. Your wallet will need to keep track of blockchain data, like new transactions that have been added to the blockchain that impact your wallet, requesting these transactions from a Bitcoin Core node, an Electrum or Esplora server, etc.
@@ -129,6 +128,20 @@ Next let's load up our wallet.
 ## Sync the wallet
 
 Now let's build an Esplora client and use it to request transaction history for the wallet.
+
+## Test 1
+
+```rs
+--8<--
+examples/rust/starter-example/src/main.rs:12:20
+--8<--
+```
+
+## Test 2
+
+```rs
+--8<-- "examples/rust/starter-example/src/main.rs:client"
+```
 
 === "Rust"
 

@@ -1,9 +1,3 @@
----
-hide:
-  - toc
-  - footer
----
-
 # Applying Blocks to a Wallet Returns A List of Events
 
 !!! note "Overview"

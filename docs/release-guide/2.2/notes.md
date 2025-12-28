@@ -1,8 +1,3 @@
----
-hide:
-  - toc
----
-
 # 2.2 Release Notes
 
 !!! note "Overview"
