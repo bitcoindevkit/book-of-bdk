@@ -1,10 +1,10 @@
 default:
   just --list
 
-# Build mkdocs
+# Build the website
 build:
-  mkdocs build
+  uv run zensical build
 
-# Serve mkdocs
+# Serve the site locally
 serve:
-  mkdocs serve
+  uv run zensical serve
