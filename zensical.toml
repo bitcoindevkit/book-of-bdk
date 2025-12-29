@@ -324,4 +324,14 @@ toggle.name = "Switch to light mode"
 #link = "https://github.com/user/repo"
 
 [project.markdown_extensions.toc]
+permalink = true
 toc_depth = 3
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.inlinehilite]
+[project.markdown_extensions.pymdownx.snippets]
+[project.markdown_extensions.pymdownx.superfences]
