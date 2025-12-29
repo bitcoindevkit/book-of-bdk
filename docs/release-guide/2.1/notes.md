@@ -1,11 +1,6 @@
----
-hide:
-  - toc
----
-
 # 2.1 Release Notes
 
-!!! note "Overview"
+!!! info "Overview"
 
     * **Release Date:** August 6, 2025
     * **Changelog:** [Link](https://github.com/bitcoindevkit/bdk_wallet/blob/wallet-2.1.0/wallet/CHANGELOG.md)  

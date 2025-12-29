@@ -49,6 +49,7 @@ nav = [
         "cookbook/wasm.md",
     ]},
     { "Release Guide" = [
+        { "About" = "release-guide/guide.md" },
         { "Release 2.3" = [
             { "Release Notes" = "release-guide/2.3/notes.md" },
             { "Wallet Events" = "release-guide/2.3/wallet-events.md" },

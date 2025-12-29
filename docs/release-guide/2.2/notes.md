@@ -1,6 +1,6 @@
 # 2.2 Release Notes
 
-!!! note "Overview"
+!!! info "Overview"
 
     * **Release Date:** October 1, 2025
     * **Changelog:** [Link](https://github.com/bitcoindevkit/bdk_wallet/blob/wallet-2.2.0/wallet/CHANGELOG.md)  
