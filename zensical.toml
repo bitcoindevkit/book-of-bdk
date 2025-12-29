@@ -17,10 +17,9 @@ docs_dir = "docs"
 # Read more: https://zensical.org/docs/setup/navigation/
 nav = [
     { "Getting Started" = [
-        "getting-started/about.md",
+        { "About" = "getting-started/about.md" },
         "getting-started/why-book.md",
         "getting-started/organization.md",
-        "getting-started/getting-started.md",
         "getting-started/api-documentation.md",
         "getting-started/bdk-cli.md",
         "getting-started/migrating.md",
@@ -69,14 +68,6 @@ nav = [
     ]},
 ]
 
-[project.markdown_extensions.pymdownx.highlight]
-anchor_linenums = true
-line_spans = "__span"
-pygments_lang_class = true
-[project.markdown_extensions.pymdownx.inlinehilite]
-[project.markdown_extensions.pymdownx.snippets]
-[project.markdown_extensions.pymdownx.superfences]
-
 # With the "extra_css" option you can add your own CSS styling to customize
 # your Zensical project according to your needs. You can add any number of
 # CSS files.
@@ -99,6 +90,7 @@ pygments_lang_class = true
 # Section for configuring theme options
 # ----------------------------------------------------------------------------
 [project.theme]
+# logo = "assets/bdk-logo.svg"
 
 # change this to "classic" to use the traditional Material for MkDocs look.
 #variant = "classic"
@@ -326,3 +318,15 @@ toggle.name = "Switch to light mode"
 [project.markdown_extensions.toc]
 permalink = true
 toc_depth = 3
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.inlinehilite]
+[project.markdown_extensions.pymdownx.snippets]
+[project.markdown_extensions.pymdownx.superfences]
+
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.pymdownx.details]

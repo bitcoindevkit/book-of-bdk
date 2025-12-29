@@ -4,6 +4,8 @@ Here are some other places you can find BDK-related content:
 
 ## Youtube
 
+- We have [our own YouTube channel](https://www.youtube.com/@bitcoindevkit)!
+- Check out the [BDK Tech Talks](https://www.youtube.com/playlist?list=PLFQTgyPgNM1iP9vqO6-Oic02x-MhxrNQu) series for in-depth talks about BDK.
 - [Building on bitcoin with the Bitcoin Development Kit (BitDevsLA)](https://youtu.be/ydfrRl5n5-8?si=vB8y6k3iZlakxEvL)
 - The _Bitcoin Developers_ channel has a [series of videos on BDK](https://www.youtube.com/playlist?list=PLmyfVqsSelG0h2PQwcHZFsxBy2VsPZLFn).
 - [Building on BDK with Ben Carman, Alekos Filini & Steve Myers](https://www.youtube.com/watch?v=Qlbwxbe7xHE)

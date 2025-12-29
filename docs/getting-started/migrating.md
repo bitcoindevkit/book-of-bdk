@@ -8,45 +8,41 @@ This procedure can be applied to wallets backed by a SQLite database.
 
 To migrate your wallet data to a new version of bdk, essentially all you need to do is grab the _last known address index_ for each keychain from the old db, add them to the new db, and sync to refetch the rest of the data. Doing this means we don't need to perform a full scan because we already have the indexes (doing a full scan would check for used addresses based on the stop gap which is unnecessary).
 
-This migration is important because without that metadata the new wallet may end up reusing receive addresses, which should be avoided for privacy reasons, although it should not cause loss of funds.
+This migration is important because without that metadata the new wallet may end up reusing receive addresses, which should be avoided for privacy reasons.
 
-!!! tip
-    NB: The migration process outlined below will not automatically restore the wallet's transaction data or local view of the blockchain.
-    Thanks to the public ledger however, we can restore all the pertinent information for this wallet using one of the blockchain client libraries supported by BDK.
+!!! note
+    The migration process outlined below will not automatically restore the wallet's transaction data or local view of the blockchain. Thanks to the public ledger however, we can restore all the pertinent information for this wallet using one of the blockchain client libraries supported by BDK.
 
 ## Overview
 
 1. Load an old database
-1. Get last revealed addresses
-1. Create new wallet
-1. Restore revealed addresses
-1. Write to new database
-1. Sync
+2. Get last revealed addresses
+3. Create new wallet
+4. Restore revealed addresses
+5. Write to new database
+6. Sync
 
-<!-- overview -->
 ```rust title="examples/rust/migrate-version/src/main.rs"
 --8<-- "examples/rust/migrate-version/src/main.rs:main"
 ```
 
 ## Walkthrough
 
-In a new rust project add these dependencies to Cargo.toml
+In a new Rust project add these dependencies to `Cargo.toml`
 
-<!-- deps -->
 ```toml title="Cargo.toml"
 --8<-- "examples/rust/migrate-version/Cargo.toml:deps"
 ```
 
 Because there are two versions of bdk in the same project, we need to pay attention to how types are imported.
+
 To avoid name clashes or any sort of mismatch resolving types that appear similar, we use fully qualified syntax, for example `bdk::bitcoin::Network::Testnet`.
 You'll notice in some cases we can get around this annoyance by casting a value to another rust primitive or standard library type such as `String`.
 
-<!-- imports -->
 ```rust title="examples/rust/migrate-version/src/main.rs"
 --8<-- "examples/rust/migrate-version/src/main.rs:use"
 ```
 
-<!-- setup -->
 Take a minute to define a few constants, for example the file path to the current database and the path to be used for the new database.
 The descriptors and network shown here are for illustration; you should substitute them with your own.
 Note that because we'll be creating a fresh database there should not already exist a persisted wallet at the new path.
@@ -55,14 +51,12 @@ Note that because we'll be creating a fresh database there should not already ex
 --8<-- "examples/rust/migrate-version/src/main.rs:setup"
 ```
 
-<!-- old -->
 Now retrieve the last revealed addresses from the `old_wallet`.
 
 ```rust title="examples/rust/migrate-version/src/main.rs"
 --8<-- "examples/rust/migrate-version/src/main.rs:old"
 ```
 
-<!-- new -->
 For the `new_wallet` we should be using the same descriptors and network as before.
 If the given descriptors contain secret keys, then the wallet will be able to sign transactions as well.
 
@@ -70,7 +64,6 @@ If the given descriptors contain secret keys, then the wallet will be able to si
 --8<-- "examples/rust/migrate-version/src/main.rs:new"
 ```
 
-<!-- sync -->
 Now that we have a new database and have properly restored our addresses, you will want to sync with the blockchain to recover the wallet's transactions.
 Below is an example of doing a `sync` using `bdk_esplora` but the exact method of syncing will depend on your application. Remember we don't need to do a full scan here since we already have the indexes.
 
