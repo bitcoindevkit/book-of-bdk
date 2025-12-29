@@ -1,8 +1,8 @@
-# Preface
+# Compact Block Filters
 
-In my conversations with wallet developers, I've seen some common themes come up when it comes to compact block filters. Generally developers can quantify some of the _properties_ of syncing wallets with compact block filters, but oftentimes the implementation details are fuzzy. With this blog, I am going to dive into the details, and share what to expect if you are considering block filters. Not all platforms, wallets and users would benefit from block filters, but my hope is to convince you, the developer, that both simple and private wallet syncing is possible for your app!
+In conversations with wallet developers, we've seen some common themes come up when it comes to compact block filters. Generally developers can quantify some of the _properties_ of syncing wallets with compact block filters, but oftentimes the implementation details are fuzzy. With this article we are going to dive into the details, and share what to expect if you are considering block filters. Not all platforms, wallets and users would benefit from block filters, but our hope is to convince you, the developer, that both simple and private wallet syncing is possible for your app!
 
-# The Protocol
+## The Protocol
 
 It's best to start with what it means to be a "compact block filter client". A compact block filter is a concise representation of what bitcoin scripts are in a block. These filters can be queried for a match against scripts that the user owns. Oftentimes these filters are only a few hundred bytes. A client is simply a program that downloads these filters for a particular range of blocks, queries them, and downloads the block in the case of a match.
 
@@ -17,7 +17,7 @@ The answer to 1. is relatively simple. Any computer running a full-archival bitc
 
 This implies a few things. First, the client must communicate using the bitcoin peer-to-peer protocol, which is facilitated directly using TCP connections. This can be an advantage to your apps, as no HTTPS dependencies are required, reducing the binary size and potential for CVE vulnerabilities. Next, the client must store some information about chain, albeit not that much data. Third, the client must maintain a list and find peers to connect to, which we will dive into later.
 
-# Why do all of this?
+## Why do all of this?
 
 A primary advantage of using block filters is user privacy. Requesting the block filters does not reveal any sensitive information, and bitcoin blocks are often full of many transactions. The client may also connect to multiple nodes and randomly select who to request blocks from. For users that have low resource devices, but would like strong privacy guarantees, block filters are the perfect option.
 
@@ -25,7 +25,7 @@ The reliability of block filters is also dependent on the properties of the bitc
 
 On the experimental side, the block filter client is a "pseudo-node" itself. New types of wallets may run the client 24/7, and constantly sync the user's wallet with the chain. From the perspective of the user, their sync speed would be as fast as it takes to log-in to their dedicated server! My hope is block filters will invigorate self-hosting businesses and products for users to run their own infrastructure.
 
-# The Numbers
+## The Numbers
 
 We've reviewed some of the properties, let's look at the metrics. We will begin with some on-device data, and transition into network-wide statistics.
 
@@ -57,7 +57,7 @@ On the one hand, having 1,000 potential peers is low considering how many bitcoi
 
 A mitigation to polling a bunch of peers is using DNS seeders. These seeders are constantly crawling the bitcoin network and finding good peers, but relying solely on DNS implies a trust in the seeder. This is tricky for wallet developers and users, as they may want a fast syncing experience, but do not want to fully trust the seeder. A great option is to pick some peers from DNS for a sync, and others from the local address book.
 
-# Challenges
+## Challenges
 
 Now we turn to the design space to improve the user experience of light clients. I hope by now you are considering a block filter integration for your users, so here are the last couple caveats to consider.
 
@@ -76,4 +76,3 @@ Due to the construction of a bitcoin block, the amounts for each input cannot be
 Servers are available to estimate fees, but this re-introduces HTTPs dependencies in the stack. If your use cases involves a small binary and strict dependency graph, there is still a solution to give fee rate approximation. The average fee rate paid in a block may be computed by taking `(Coinbase output - Block subidy) / Block Weight`. Averages are more effected by outliers, so exceptionally low or high fee rates on individual transactions may skew this number. Yet, it may be good enough for your users. 
 
 This is an open area of research, and may be further improved with light weight machine learning models. However, if HTTPs is used in your app already, a server is recommended to fetch fees. As a final note, there are a mounting number of use cases for sending the "undo data" over the peer-to-peer network. If this feature is implemented, many aspects of the light client experience may be improved, including fee rate estimation.
-
