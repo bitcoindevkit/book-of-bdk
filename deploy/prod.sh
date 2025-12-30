@@ -1,11 +1,11 @@
-# This script will build the website and push it to the `prod` branch of the repo,
+# This script will build the website and push it to the prod branch,
 # publishing it automatically to https://bookofbdk.com.
 
 set -euo pipefail
 
-rm -rf ./site/
-mkdocs build
-cd site
+rm -rf ./site/*
+just build
+cd ./site/
 git init .
 git switch --create prod
 git add .
