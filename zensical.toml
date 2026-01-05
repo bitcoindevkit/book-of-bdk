@@ -46,7 +46,14 @@ nav = [
         { "Transactions" = [
             "cookbook/transactions/transaction-builder.md",
         ]},
-        "cookbook/wasm.md",
+        { "Language Bindings" = [
+            "cookbook/bindings/about.md",
+            "cookbook/bindings/starter-example.md",
+            "cookbook/bindings/wasm.md",
+        ]},
+    ]},
+    { "Design" = [
+        { "Compact Block Filters" = "design/cbf.md" },
     ]},
     { "Release Guide" = [
         { "About" = "release-guide/guide.md" },
@@ -63,9 +70,6 @@ nav = [
             { "Support for Multipath Descriptors" = "release-guide/2.1/multipath.md" },
             { "Exclude Inputs When Building Transactions" = "release-guide/2.1/txbuilder-exclude.md" },
         ]},
-    ]},
-    { "Design" = [
-        { "Compact Block Filters" = "design/cbf.md" },
     ]},
 ]
 
@@ -331,3 +335,6 @@ pygments_lang_class = true
 
 [project.markdown_extensions.admonition]
 [project.markdown_extensions.pymdownx.details]
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
