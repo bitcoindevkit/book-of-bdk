@@ -1,7 +1,7 @@
 # 
 
 <p style="text-align: center;">
-  <img src="/assets/bdk-logo.svg" style="height: 180px;">
+  <img src="./assets/bdk-logo.svg" style="height: 180px;">
 </p>
 
 <br>
