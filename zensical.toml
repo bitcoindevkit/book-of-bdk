@@ -25,6 +25,7 @@ nav = [
         "getting-started/migrating.md",
         "getting-started/3rd-party-bindings.md",
         "getting-started/more.md",
+        "getting-started/tiers.md",
     ]},
     { "Cookbook" = [
         "cookbook/starter-example.md",
