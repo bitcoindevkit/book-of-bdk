@@ -16,19 +16,12 @@ So you want to build a bitcoin wallet using BDK. Great! Here is the rough outlin
 
 This page provides a starter example showcasing how BDK can be used to create, sync, and manage a wallet using an Esplora client as a blockchain data source. Familiarity with this example will help you work through the more advanced pages in this section.
 
-You can find [working code examples](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples) of this example in three programming languages: [Rust](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/rust), [Swift](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/swift), and [Kotlin](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin). (Note: some additional language bindings are available for BDK, see [3rd Party Bindings](../getting-started/3rd-party-bindings.md)).
+You can find [working code examples](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples) of this example in two programming languages: [Swift](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/swift) and [Kotlin](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin). (Note: some additional language bindings are available for BDK, see [3rd Party Bindings](../getting-started/3rd-party-bindings.md)).
 
 !!!tip
     To complete this example from top to bottom, you'll need to create new descriptors and replace the ones provided. Once you do so, you'll run the example twice; on first run the wallet will not have any balance and will exit with an address to send funds to. Once that's done, you can run the example again and the wallet will be able to perform the later steps, namely creating and broadcasting a new transaction.
 
 ## Create a new project
-
-=== "Rust"
-
-    ```shell
-    cargo init starter-example
-    cd starter-example
-    ```
 
 === "Swift"
 
@@ -43,12 +36,6 @@ You can find [working code examples](https://github.com/bitcoindevkit/book-of-bd
     ```
 
 ## Add required dependencies
-
-=== "Rust"
-
-    ```toml title="Cargo.toml"
-    --8<-- "examples/rust/starter-example/Cargo.toml"
-    ```
 
 === "Swift"
 
@@ -83,12 +70,6 @@ To create a wallet using BDK, we need some <a href="https://github.com/bitcoin/b
 !!!warning
     Note that if you replace the descriptors after running the example using the provided ones, you must delete or rename the database file or will get an error on wallet load.
 
-=== "Rust"
-
-    ```rust
-    --8<-- "examples/rust/starter-example/src/main.rs:descriptors"
-    ```
-
 === "Swift"
 
     ```swift
@@ -107,12 +88,6 @@ These are taproot descriptors (`tr()`) using public keys on Signet (`tpub`) as d
 
 Next let's load up our wallet.
 
-=== "Rust"
-
-    ```rust title="examples/rust/starter-example/src/main.rs"
-    --8<-- "examples/rust/starter-example/src/main.rs:wallet"
-    ```
-
 === "Swift"
 
     ```swift
@@ -129,26 +104,6 @@ Next let's load up our wallet.
 
 Now let's build an Esplora client and use it to request transaction history for the wallet.
 
-## Test 1
-
-```rs
---8<--
-examples/rust/starter-example/src/main.rs:12:20
---8<--
-```
-
-## Test 2
-
-```rs
---8<-- "examples/rust/starter-example/src/main.rs:client"
-```
-
-=== "Rust"
-
-    ```rust title="examples/rust/starter-example/src/main.rs"
-    --8<-- "examples/rust/starter-example/src/main.rs:client"
-    ```
-
 === "Swift"
 
     ```swift
@@ -162,12 +117,6 @@ examples/rust/starter-example/src/main.rs:12:20
     ```
 
 In cases where you are using new descriptors that do not have a balance yet, the example will request a new address from the wallet and print it out so you can fund the wallet. Remember that this example uses Signet coins!
-
-=== "Rust"
-
-    ```rust title="examples/rust/starter-example/src/main.rs"
-    --8<-- "examples/rust/starter-example/src/main.rs:address"
-    ```
 
 === "Swift"
 
@@ -187,12 +136,6 @@ For this step you'll need a wallet built with private keys, funded with some Sig
 
 Let's prepare to send a transaction. The two core choices here are where to send the funds and how much to send. We will send funds back to the faucet return address; it's good practice to send test sats back to the faucet when you're done using them.
 
-=== "Rust"
-
-    ```rust title="examples/rust/starter-example/src/main.rs"
-    --8<-- "examples/rust/starter-example/src/main.rs:recipient"
-    ```
-
 === "Swift"
 
     ```swift
@@ -208,12 +151,6 @@ Let's prepare to send a transaction. The two core choices here are where to send
 Here we are sending 5000 sats back to the faucet (make sure the wallet has at least this much balance, or change this value).
 
 Finally we are ready to build, sign, and broadcast the transaction:
-
-=== "Rust"
-
-    ```rust title="examples/rust/starter-example/src/main.rs"
-    --8<-- "examples/rust/starter-example/src/main.rs:transaction"
-    ```
 
 === "Swift"
 
