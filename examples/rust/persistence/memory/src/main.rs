@@ -9,22 +9,25 @@ const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfd
 const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfdgKEcCQB1FMKfSoaFz9JHZU71HwXAqTsjHripkLM62kUQar14SDD8brsmhFKqVUPXGrZLc/86'/1'/0'/1/*)#ccz2p7rj";
 // --8<-- [end:descriptors]
 
-fn main() -> Result<(), anyhow::Error> {
-    // --8<-- [start:create]
-    let mut wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
-        .network(Network::Signet)
-        .create_wallet_no_persist()
-        .expect("valid wallet");
-    // --8<-- [end:create]
+// The codeblocks in https://bookofbdk.com pull their code from these examples. Since we do not want an indent on the 
+// codeblocks on the website, we also remove the indents here.
 
-    // --8<-- [start:address]
-    // Reveal a new address from your external keychain
-    let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
-    println!(
-        "Generated address {} at index {}",
-        address.address, address.index
-    );
-    // --8<-- [end:address]
+fn main() -> Result<(), anyhow::Error> {
+// --8<-- [start:create]
+let mut wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
+    .network(Network::Signet)
+    .create_wallet_no_persist()
+    .expect("valid wallet");
+// --8<-- [end:create]
+
+// --8<-- [start:address]
+// Reveal a new address from your external keychain
+let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
+println!(
+    "Generated address {} at index {}",
+    address.address, address.index
+);
+// --8<-- [end:address]
 
     Ok(())
 }

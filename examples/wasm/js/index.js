@@ -24,64 +24,64 @@ const internalDescriptor = "tr([12071a7c/86'/1'/0']tpubDCaLkqfh67Qr7ZuRrUNrCYQ54
 async function run() {    
     console.log(greet()); // Should print "Hello, bdk-wasm!"
     
-    // --8<-- [start:wallet]
-    let walletDataString = Store.load();
-    console.log("Wallet data:", walletDataString);
+// --8<-- [start:wallet]
+let walletDataString = Store.load();
+console.log("Wallet data:", walletDataString);
 
-    let wallet;
-    if (!walletDataString) {
-        console.log("Creating new wallet");
-        wallet = new WalletWrapper(
-            "signet",
-            externalDescriptor,
-            internalDescriptor,
-            "https://mutinynet.com/api"
-        );
+let wallet;
+if (!walletDataString) {
+    console.log("Creating new wallet");
+    wallet = new WalletWrapper(
+        "signet",
+        externalDescriptor,
+        internalDescriptor,
+        "https://mutinynet.com/api"
+    );
 
-        console.log("Performing Full Scan...");
-        await wallet.scan(2);
+    console.log("Performing Full Scan...");
+    await wallet.scan(2);
 
-        const stagedDataString = wallet.take_staged();
-        console.log("Staged:", stagedDataString);
+    const stagedDataString = wallet.take_staged();
+    console.log("Staged:", stagedDataString);
 
-        Store.save(stagedDataString);
-        console.log("Wallet data saved to local storage");
-        walletDataString = stagedDataString;
-    } else {
-        console.log("Loading wallet");
-        wallet = WalletWrapper.load(
-            walletDataString,
-            "https://mutinynet.com/api",
-            externalDescriptor,
-            internalDescriptor
-        );
+    Store.save(stagedDataString);
+    console.log("Wallet data saved to local storage");
+    walletDataString = stagedDataString;
+} else {
+    console.log("Loading wallet");
+    wallet = WalletWrapper.load(
+        walletDataString,
+        "https://mutinynet.com/api",
+        externalDescriptor,
+        internalDescriptor
+    );
 
-        console.log("Syncing...");
-        await wallet.sync(2);
+    console.log("Syncing...");
+    await wallet.sync(2);
 
-        const stagedDataString = wallet.take_staged();
-        console.log("Staged:", stagedDataString);
+    const stagedDataString = wallet.take_staged();
+    console.log("Staged:", stagedDataString);
 
-        Store.save(stagedDataString);
-        console.log("Wallet data saved to local storage");
-    }
-    // --8<-- [end:wallet]
+    Store.save(stagedDataString);
+    console.log("Wallet data saved to local storage");
+}
+// --8<-- [end:wallet]
     
-    // --8<-- [start:utils]
-    // Test balance
-    console.log("Balance:", wallet.balance());
-    
-    // Test address generation
-    console.log("New address:", wallet.reveal_next_address());
+// --8<-- [start:utils]
+// Test balance
+console.log("Balance:", wallet.balance());
 
-    // handle changeset merge on rust side
-    const mergedDataString = wallet.take_merged(walletDataString);
-    
-    console.log("Merged:", mergedDataString);
+// Test address generation
+console.log("New address:", wallet.reveal_next_address());
 
-    Store.save(mergedDataString);
-    console.log("new address saved");
-    // --8<-- [end:utils]
+// handle changeset merge on rust side
+const mergedDataString = wallet.take_merged(walletDataString);
+
+console.log("Merged:", mergedDataString);
+
+Store.save(mergedDataString);
+console.log("new address saved");
+// --8<-- [end:utils]
 }
 
 run().catch(console.error);

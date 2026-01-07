@@ -8,3 +8,6 @@ build:
 # Serve the site locally
 serve:
   uv run zensical serve
+
+clean:
+  rm -rf .cache/
