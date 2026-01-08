@@ -102,6 +102,7 @@ nav:
     - Keys and Descriptors:
       - Creating Descriptors: cookbook/keys-descriptors/descriptors.md
       - Recovery Phrases to Descriptors: cookbook/keys-descriptors/recovery-phrases.md
+      - Descriptors to Public Keys: cookbook/keys-descriptors/public-keys.md
     - Transactions:
       - Transaction Builder: cookbook/transactions/transaction-builder.md
     - WASM: cookbook/wasm.md
