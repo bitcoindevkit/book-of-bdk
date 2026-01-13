@@ -2,6 +2,8 @@
 site_name = "Book of BDK"
 site_description = "Book of BDK"
 docs_dir = "docs"
+repo_url = "https://github.com/bitcoindevkit/book-of-bdk"
+repo_name = "book-of-bdk"
 
 # The site_url is the canonical URL for your site. When building online
 # documentation you should set this.
