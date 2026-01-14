@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-rm -rf ./site/*
+just clean
 just build
 cd ./site/
 git init .
