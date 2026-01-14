@@ -57,8 +57,6 @@ nav = [
     ]},
     { "Design" = [
         { "Compact Block Filters" = "design/cbf.md" },
-        { "Chain Crate" = "design/chain-crate.md" },
-        { "Language Bindings" = "design/bindings.md" },
     ]},
     { "Release Guide" = [
         { "About" = "release-guide/guide.md" },
