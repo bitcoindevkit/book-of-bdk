@@ -1,0 +1,3018 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Book of BDK">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/bdk-logo.svg">
+      <meta name="generator" content="zensical-0.0.17">
+    
+    
+      
+        <title>Chain Crate: The Foundation for Wallet State - Book of BDK</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.d4922b3c.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.dfe2e883.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chain-crate-the-foundation-for-wallet-state" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Book of BDK" class="md-header__button md-logo" aria-label="Book of BDK" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Book of BDK
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chain Crate: The Foundation for Wallet State
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/bitcoindevkit/book-of-bdk" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    book-of-bdk
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/about/" class="md-tabs__link">
+          
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cookbook/starter-example/" class="md-tabs__link">
+          
+  
+  Cookbook
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cbf/" class="md-tabs__link">
+          
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../release-guide/guide/" class="md-tabs__link">
+          
+  
+  Release Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Book of BDK" class="md-nav__button md-logo" aria-label="Book of BDK" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    Book of BDK
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/bitcoindevkit/book-of-bdk" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    book-of-bdk
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/why-book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why This Book?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/organization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Organization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/api-documentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/bdk-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BDK CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/migrating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrating from 0.X
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/3rd-party-bindings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3rd Party Bindings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/more/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    More BDK Content
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/tiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library Tiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cookbook
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cookbook
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/starter-example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Starter Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syncing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Syncing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/syncing/full-scan-vs-sync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Scan vs Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/syncing/electrum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electrum Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/syncing/esplora/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Esplora Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/syncing/kyoto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CBF Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/syncing/rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RPC Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Persistence
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/persistence/sqlite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQLite Database
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/persistence/memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-Memory Wallets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keys and Descriptors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Keys and Descriptors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/keys-descriptors/descriptors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating Descriptors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/keys-descriptors/recovery-phrases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovery Phrases to Descriptors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transactions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transactions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/transactions/transaction-builder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transaction Builder
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Language Bindings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Language Bindings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/bindings/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About Our Bindings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/bindings/starter-example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Starter Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/bindings/wasm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WASM Example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cbf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compact Block Filters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bindings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Language Bindings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release-guide/guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release 2.3
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release 2.3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release-guide/2.3/notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release-guide/2.3/wallet-events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wallet Events
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release 2.2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release 2.2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release-guide/2.2/notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release-guide/2.2/wallet-events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wallet Events
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release 2.1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release 2.1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release-guide/2.1/notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release-guide/2.1/multipath/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Support for Multipath Descriptors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release-guide/2.1/txbuilder-exclude/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exclude Inputs When Building Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design Philosophy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Design Philosophy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monotonicity-the-foundation-of-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monotonicity: The Foundation of Reliability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-changeset-pattern-event-sourcing-for-bitcoin-wallets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ChangeSet Pattern: Event Sourcing for Bitcoin Wallets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#separation-of-concerns-three-distinct-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Separation of Concerns: Three Distinct Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-abstractions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Abstractions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Abstractions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#localchain-tracking-blockchain-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LocalChain: Tracking Blockchain State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#txgraph-the-transaction-graph-at-the-heart-of-bdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TxGraph: The Transaction Graph at the Heart of BDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#canonicalization-resolving-conflicts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Canonicalization: Resolving Conflicts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexers-knowing-whats-yours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indexers: Knowing What's Yours
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indexedtxgraph-synchronization-guarantee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IndexedTxGraph: Synchronization Guarantee
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-all-fits-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It All Fits Together
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It All Fits Together">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-initial-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Initial Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-revealing-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Revealing Addresses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-blockchain-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Blockchain Sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-getting-wallet-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Getting Wallet State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-persisting-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Persisting State
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-design-decisions-and-their-rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Design Decisions and Their Rationale
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Design Decisions and Their Rationale">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-allow-conflicting-transactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Allow Conflicting Transactions?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-generic-anchors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Generic Anchors?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-separate-spktxoutindex-and-keychaintxoutindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Separate SpkTxOutIndex and KeychainTxOutIndex?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-changeset-pattern-instead-of-direct-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why ChangeSet Pattern Instead of Direct Persistence?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-monotonicity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Monotonicity?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-chain-crate-supports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Chain Crate Supports
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What the Chain Crate Supports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-functionality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Use Cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-it-doesnt-support-by-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What It Doesn't Support (By Design)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+  
+
+
+<h1 id="chain-crate-the-foundation-for-wallet-state">Chain Crate: The Foundation for Wallet State<a class="headerlink" href="#chain-crate-the-foundation-for-wallet-state" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>The <code>bdk_chain</code> crate is the foundational data structure library at the heart of Bitcoin Dev Kit. While BDK's wallet libraries provide high-level interfaces for sending and receiving bitcoin, the chain crate solves a more fundamental problem: <em>how do you maintain consistent, reliable state about what's happening on the bitcoin blockchain?</em></p>
+<p>This is harder than it might seem at first glance. A Bitcoin wallet needs to:</p>
+<ul>
+<li>Track which blocks exist in its view of the blockchain</li>
+<li>Handle chain reorganizations gracefully</li>
+<li>Store transactions and understand their relationships</li>
+<li>Manage conflicts (multiple transactions spending the same input)</li>
+<li>Know which outputs belong to the wallet</li>
+<li>Determine confirmation status reliably</li>
+<li>Support multiple data sources (electrum, esplora, full nodes, etc.)</li>
+<li>Work with different persistence backends</li>
+<li>Never end up in an inconsistent state</li>
+</ul>
+<p>The chain crate provides the primitives to solve all of these problems while remaining <strong>data source agnostic</strong> and <strong>persistence agnostic</strong>. It doesn't care where you get blockchain data from or how you store it—it simply provides robust mechanisms for processing that data consistently.</p>
+<h2 id="design-philosophy">Design Philosophy<a class="headerlink" href="#design-philosophy" title="Permanent link">&para;</a></h2>
+<h3 id="monotonicity-the-foundation-of-reliability">Monotonicity: The Foundation of Reliability<a class="headerlink" href="#monotonicity-the-foundation-of-reliability" title="Permanent link">&para;</a></h3>
+<p>The cornerstone of the chain crate's design is <strong>monotonicity</strong>—the principle that data structures only grow and never shrink. This might seem limiting at first, but it provides enormous benefits:</p>
+<ol>
+<li><strong>No inconsistent states</strong>: You can't accidentally delete a transaction and leave references to it elsewhere</li>
+<li><strong>Trivial merging</strong>: Two instances of the same structure can always be merged without conflicts</li>
+<li><strong>Predictable recovery</strong>: After a crash, you can replay changes without worrying about order</li>
+<li><strong>Time-travel debugging</strong>: You can reconstruct state at any point in history</li>
+</ol>
+<p>In practice, this means:</p>
+<ul>
+<li>You can always add transactions, but never delete them</li>
+<li>You can add new checkpoints to the chain, but the genesis block is immutable</li>
+<li>You can add new script pubkeys to index, but never remove them</li>
+<li>You can add new anchors (confirmations), but they accumulate over time</li>
+</ul>
+<p>This monotone property makes the entire system remarkably robust. Even if your application crashes mid-update, the state remains consistent.</p>
+<h3 id="the-changeset-pattern-event-sourcing-for-bitcoin-wallets">The ChangeSet Pattern: Event Sourcing for Bitcoin Wallets<a class="headerlink" href="#the-changeset-pattern-event-sourcing-for-bitcoin-wallets" title="Permanent link">&para;</a></h3>
+<p>Every state-modifying operation in the chain crate returns a <code>ChangeSet</code> object. A ChangeSet represents the delta between two states—exactly what changed.</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">changeset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tx_graph</span><span class="p">.</span><span class="n">insert_tx</span><span class="p">(</span><span class="n">new_transaction</span><span class="p">);</span>
+</span></code></pre></div>
+<p>These ChangeSets can be:</p>
+<ul>
+<li><strong>Persisted to storage</strong> (enabling crash recovery)</li>
+<li><strong>Applied to another instance</strong> (syncing state between systems)</li>
+<li><strong>Merged together</strong> (combining multiple updates)</li>
+<li><strong>Used for event notifications</strong> (triggering UI updates)</li>
+</ul>
+<p>This is essentially an event sourcing pattern. Your entire wallet state can be reconstructed by replaying all ChangeSets from the beginning. This makes the system:</p>
+<ul>
+<li><strong>Debuggable</strong>: You can inspect exactly what changed and when</li>
+<li><strong>Auditable</strong>: You have a complete history of state transitions</li>
+<li><strong>Recoverable</strong>: Lost state can be rebuilt from stored ChangeSets</li>
+<li><strong>Testable</strong>: You can verify that specific inputs produce expected ChangeSets</li>
+</ul>
+<p>The pattern also enables the crate to remain persistence agnostic. The crate produces ChangeSets; your application decides how to store them (SQLite, files, memory, etc.).</p>
+<h3 id="separation-of-concerns-three-distinct-responsibilities">Separation of Concerns: Three Distinct Responsibilities<a class="headerlink" href="#separation-of-concerns-three-distinct-responsibilities" title="Permanent link">&para;</a></h3>
+<p>The chain crate recognizes that a bitcoin wallet has three orthogonal concerns:</p>
+<ol>
+<li><strong>Chain tracking</strong> (<code>LocalChain</code>): Which blocks exist and in what order?</li>
+<li><strong>Transaction tracking</strong> (<code>TxGraph</code>): Which transactions exist and how do they relate?</li>
+<li><strong>Output indexing</strong> (<code>Indexer</code>): Which outputs are "mine"?</li>
+</ol>
+<p>These are kept deliberately separate because they have different lifecycles and requirements:</p>
+<ul>
+<li>The <strong>chain</strong> can reorganize independently of transactions</li>
+<li><strong>Transactions</strong> can arrive before you know which block they're in</li>
+<li>The <strong>indexer</strong> might discover new addresses that require re-scanning historical transactions</li>
+</ul>
+<p>By keeping these concerns separate, the crate provides flexibility. You could:</p>
+<ul>
+<li>Use <code>TxGraph</code> without an indexer (for non-wallet applications)</li>
+<li>Use <code>SpkTxOutIndex</code> without <code>TxGraph</code> (for address monitoring)</li>
+<li>Use <code>LocalChain</code> standalone (for block explorers)</li>
+<li>Combine them in custom ways for specialized use cases</li>
+</ul>
+<h2 id="core-abstractions">Core Abstractions<a class="headerlink" href="#core-abstractions" title="Permanent link">&para;</a></h2>
+<h3 id="localchain-tracking-blockchain-state">LocalChain: Tracking Blockchain State<a class="headerlink" href="#localchain-tracking-blockchain-state" title="Permanent link">&para;</a></h3>
+<p>The <code>LocalChain</code> structure maintains your local view of the Bitcoin blockchain using a chain of checkpoints:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">LocalChain</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">tip</span><span class="p">:</span><span class="w"> </span><span class="nc">CheckPoint</span><span class="p">,</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Each checkpoint is simply a block height and hash pair. The chain structure is elegant:
+- The genesis block is required and immutable
+- Checkpoints form a linked list from tip back to genesis
+- You don't need every block—sparse checkpoints work fine</p>
+<p><strong>What it provides:</strong></p>
+<p>The key service <code>LocalChain</code> provides is implementing the <code>ChainOracle</code> trait, which answers the question: "Is block X in the chain leading to tip Y?" This seemingly simple query is crucial for determining transaction confirmation status.</p>
+<p><strong>Handling reorganizations:</strong></p>
+<p>When you apply an update that conflicts with the current chain (a reorg), <code>LocalChain</code> automatically:
+1. Finds the common ancestor
+2. Keeps all checkpoints up to that point
+3. Applies the new chain from there</p>
+<p>The update method returns the ChangeSet representing this operation, which includes information about what was replaced. Your application can use this to update transaction anchors accordingly.</p>
+<p><strong>Design rationale:</strong></p>
+<p>Why checkpoints instead of full blocks? Because wallets don't need full block data—they only need enough information to:
+- Verify transaction confirmations
+- Detect reorganizations
+- Understand chain structure</p>
+<p>Storing just height/hash pairs keeps memory usage minimal while providing all necessary functionality.</p>
+<h3 id="txgraph-the-transaction-graph-at-the-heart-of-bdk">TxGraph: The Transaction Graph at the Heart of BDK<a class="headerlink" href="#txgraph-the-transaction-graph-at-the-heart-of-bdk" title="Permanent link">&para;</a></h3>
+<p>The <code>TxGraph</code> is the most sophisticated component in the chain crate. It maintains a graph of transactions and their relationships:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">TxGraph</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">txs</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="n">Txid</span><span class="p">,</span><span class="w"> </span><span class="n">TxNodeInternal</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">spends</span><span class="p">:</span><span class="w"> </span><span class="nc">BTreeMap</span><span class="o">&lt;</span><span class="n">OutPoint</span><span class="p">,</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Txid</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">anchors</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="n">Txid</span><span class="p">,</span><span class="w"> </span><span class="n">BTreeSet</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">first_seen</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="n">Txid</span><span class="p">,</span><span class="w"> </span><span class="kt">u64</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">last_seen</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="n">Txid</span><span class="p">,</span><span class="w"> </span><span class="kt">u64</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">last_evicted</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="n">Txid</span><span class="p">,</span><span class="w"> </span><span class="kt">u64</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="c1">// ... optimized indexes</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Key insight: Allowing conflicts</strong></p>
+<p>The most important design decision in <code>TxGraph</code> is that it <strong>allows conflicting transactions to coexist</strong>. Two transactions spending the same input can both exist in the graph simultaneously.</p>
+<p>This might seem counterintuitive—doesn't Bitcoin's consensus rules mean only one can be valid? Yes, but at any given moment, you might observe:
+- Multiple unconfirmed transactions competing in the mempool
+- A confirmed transaction and a conflicting mempool transaction (during a reorg)
+- Historical conflicts that help you understand what happened</p>
+<p>Rather than forcing applications to choose winners immediately, <code>TxGraph</code> stores all observed transactions and defers conflict resolution to <strong>canonicalization time</strong>, when you have full context to make the right choice.</p>
+<p><strong>Full transactions and partial transactions</strong></p>
+<p>The graph can store:
+- <strong>Full transactions</strong>: Complete transaction data
+- <strong>Partial transactions</strong>: Just the outputs (<code>TxOut</code>)</p>
+<p>Partial transactions are useful because:
+- You need input values for fee calculation, but don't need full input transactions
+- During scanning, you might only extract relevant outputs for efficiency
+- You can fill in full details later as you learn more</p>
+<p>The graph will merge data: if you insert a partial transaction and later insert the full version, it updates seamlessly.</p>
+<p><strong>Generic anchors: Flexible confirmation tracking</strong></p>
+<p>The <code>&lt;A&gt;</code> type parameter represents an "anchor"—proof that a transaction exists at some blockchain position. The crate provides:
+- <code>BlockId</code>: Simple height + hash
+- <code>ConfirmationBlockTime</code>: Adds confirmation timestamp</p>
+<p>But you can define custom anchor types that include:
+- Merkle proofs
+- Multiple confirmation sources
+- Confidence scores
+- Whatever metadata your application needs</p>
+<p>The only requirement is implementing the <code>Anchor</code> trait:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">Anchor</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">anchor_block</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">BlockId</span><span class="p">;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">confirmation_height_upper_bound</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">u32</span><span class="p">;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>This generic design means <code>TxGraph</code> works for everything from simple wallets to applications that need sophisticated confirmation tracking.</p>
+<p><strong>Tracking mempool state</strong></p>
+<p>The graph maintains three timestamp maps:
+- <code>first_seen</code>: When you first observed this transaction
+- <code>last_seen</code>: Most recent observation (updated on every insert)
+- <code>last_evicted</code>: When you saw it evicted from mempool</p>
+<p>These timestamps play a crucial role in conflict resolution when transactions lack anchors.</p>
+<p><strong>Graph traversal</strong></p>
+<p><code>TxGraph</code> provides methods for walking the transaction graph:
+- <code>walk_ancestors()</code>: Find all transactions this one depends on
+- <code>walk_descendants()</code>: Find all transactions that depend on this one
+- Finding conflicts (transactions spending the same inputs)
+- Calculating transaction chains</p>
+<p>This enables applications to:
+- Calculate fees accurately (need input values)
+- Detect unconfirmed chains
+- Understand transaction relationships
+- Handle CPFP (child pays for parent)</p>
+<h3 id="canonicalization-resolving-conflicts">Canonicalization: Resolving Conflicts<a class="headerlink" href="#canonicalization-resolving-conflicts" title="Permanent link">&para;</a></h3>
+<p>Since <code>TxGraph</code> allows conflicts, it needs a way to produce a conflict-free view of transactions for wallet operations. This is called <strong>canonicalization</strong>.</p>
+<p>The <code>canonical_view()</code> method takes a <code>ChainOracle</code> (typically <code>LocalChain</code>) and produces a <code>CanonicalView</code>:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indexed_tx_graph</span><span class="p">.</span><span class="n">canonical_view</span><span class="p">(</span><span class="o">&amp;</span><span class="n">local_chain</span><span class="p">,</span><span class="w"> </span><span class="n">chain_tip</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>Conflict resolution rules:</strong></p>
+<p>The canonicalization algorithm resolves conflicts using this priority order:</p>
+<ol>
+<li><strong>Anchors in the best chain</strong> (highest priority)</li>
+<li>If a transaction is confirmed in the current chain, it wins</li>
+<li>
+<p>Deeper confirmations beat shallow ones</p>
+</li>
+<li>
+<p><strong><code>last_seen</code> timestamps</strong> (mempool priority)</p>
+</li>
+<li>Among unconfirmed transactions, more recently seen wins</li>
+<li>
+<p>This reflects current mempool state</p>
+</li>
+<li>
+<p><strong><code>last_evicted</code> timestamps</strong> (eviction tracking)</p>
+</li>
+<li>
+<p>If one conflicting tx was evicted while another remains, the surviving one wins</p>
+</li>
+<li>
+<p><strong>Transitive canonicalization</strong> (ancestor priority)</p>
+</li>
+<li>If a transaction's ancestors are canonical, it's canonical too</li>
+<li>This handles unconfirmed chains correctly</li>
+</ol>
+<p>This sophisticated resolution strategy handles complex scenarios:
+- Reorgs where confirmed transactions get replaced
+- RBF (replace-by-fee) scenarios in mempool
+- Unconfirmed transaction chains
+- Historical conflicts</p>
+<p><strong>CanonicalView: The wallet interface</strong></p>
+<p>The resulting <code>CanonicalView</code> provides the clean interface wallets need:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">CanonicalView</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">order</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Txid</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">txs</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="n">Txid</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">Arc</span><span class="o">&lt;</span><span class="n">Transaction</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">ChainPosition</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="n">spends</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="n">OutPoint</span><span class="p">,</span><span class="w"> </span><span class="n">Txid</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="n">tip</span><span class="p">:</span><span class="w"> </span><span class="nc">BlockId</span><span class="p">,</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>This view:
+- Contains only canonical (non-conflicting) transactions
+- Orders transactions topologically (dependencies before dependents)
+- Provides each transaction's chain position (confirmed or unconfirmed)
+- Enables efficient UTXO queries
+- Supports balance calculations</p>
+<p>Key methods include:
+- <code>txs()</code>: Iterate all transactions with their positions
+- <code>balance()</code>: Calculate wallet balance with customizable trust predicates
+- <code>txout()</code>: Get specific outputs with spent status
+- <code>filter_outpoints()</code>: Get relevant outputs from the indexer</p>
+<p><strong>Incremental canonicalization</strong></p>
+<p>For applications that only need to process canonical transactions without building a full view, there's <code>canonical_iter()</code>. This lazily produces canonical transactions one at a time, avoiding the overhead of creating the full view.</p>
+<h3 id="indexers-knowing-whats-yours">Indexers: Knowing What's Yours<a class="headerlink" href="#indexers-knowing-whats-yours" title="Permanent link">&para;</a></h3>
+<p>The <code>Indexer</code> trait provides an abstract interface for determining which transaction outputs belong to the wallet:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">Indexer</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nc">ChangeSet</span><span class="p">;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">index_txout</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">outpoint</span><span class="p">:</span><span class="w"> </span><span class="nc">OutPoint</span><span class="p">,</span><span class="w"> </span><span class="n">txout</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">TxOut</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">Self</span><span class="p">::</span><span class="n">ChangeSet</span><span class="p">;</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">is_tx_relevant</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">tx</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Transaction</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="kt">bool</span><span class="p">;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">apply_changeset</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">changeset</span><span class="p">:</span><span class="w"> </span><span class="nc">Self</span><span class="p">::</span><span class="n">ChangeSet</span><span class="p">);</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="c1">// ...</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>This abstraction allows different indexing strategies, but the crate provides two main implementations:</p>
+<h4 id="spktxoutindex-script-pubkey-indexing">SpkTxOutIndex: Script Pubkey Indexing<a class="headerlink" href="#spktxoutindex-script-pubkey-indexing" title="Permanent link">&para;</a></h4>
+<p><code>SpkTxOutIndex</code> is the lower-level indexer. It maintains a set of script pubkeys (spks) and tracks which outputs match them:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">SpkTxOutIndex</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="n">spks</span><span class="p">:</span><span class="w"> </span><span class="nc">BTreeMap</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">ScriptBuf</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">txouts</span><span class="p">:</span><span class="w"> </span><span class="nc">BTreeMap</span><span class="o">&lt;</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">OutPoint</span><span class="p">),</span><span class="w"> </span><span class="n">TxOut</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="c1">// ...</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>The generic <code>I</code> parameter is an application-defined index, typically something like <code>(KeychainKind, u32)</code> representing a keychain and derivation index.</p>
+<p><strong>Key features:</strong>
+- Tracks which spks are "used" (have received funds)
+- Provides iterators over unused spks (for gap limit adherence)
+- Maintains all matched outputs even if spent
+- Returns relevant outputs efficiently by index</p>
+<p>This indexer is ideal when you have a static set of addresses to watch or want fine-grained control over indexing.</p>
+<h4 id="keychaintxoutindex-descriptor-based-indexing">KeychainTxOutIndex: Descriptor-Based Indexing<a class="headerlink" href="#keychaintxoutindex-descriptor-based-indexing" title="Permanent link">&para;</a></h4>
+<p><code>KeychainTxOutIndex</code> is the higher-level indexer designed for descriptor-based wallets:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">KeychainTxOutIndex</span><span class="o">&lt;</span><span class="n">K</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="n">spk_txout_index</span><span class="p">:</span><span class="w"> </span><span class="nc">SpkTxOutIndex</span><span class="o">&lt;</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="kt">u32</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="n">keychains</span><span class="p">:</span><span class="w"> </span><span class="nc">BTreeMap</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">Descriptor</span><span class="o">&lt;</span><span class="n">DescriptorPublicKey</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">last_revealed</span><span class="p">:</span><span class="w"> </span><span class="nc">BTreeMap</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">lookahead</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="c1">// ...</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>It manages multiple keychains (external, internal, custom) and handles descriptor derivation automatically.</p>
+<p><strong>Key concepts:</strong></p>
+<ul>
+<li><strong>Keychains</strong>: Different derivation paths (e.g., receiving vs change addresses)</li>
+<li><strong>Revealed spks</strong>: Addresses explicitly given to users or applications</li>
+<li><strong>Lookahead</strong>: Additional addresses derived beyond revealed to catch incoming payments</li>
+<li><strong>Last revealed index</strong>: Tracks the highest index explicitly requested per keychain</li>
+</ul>
+<p><strong>The lookahead strategy:</strong></p>
+<p>When you call <code>reveal_next_spk()</code> to get a new address, the indexer actually derives <code>lookahead</code> additional addresses behind the scenes. This ensures that if someone sends to an address you haven't explicitly revealed yet (address reuse, gaps in usage), you'll still detect the transaction.</p>
+<p><strong>Unbounded spk iterators:</strong></p>
+<p>For blockchain scanning, the indexer provides <code>revealed_spks()</code>, <code>unused_spks()</code>, and <code>all_spks()</code> iterators. These are unbounded—they continue deriving new addresses as you iterate, making it easy to scan large address ranges:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">spk</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">keychain_index</span><span class="p">.</span><span class="n">revealed_spks</span><span class="p">(</span><span class="n">KeychainKind</span><span class="p">::</span><span class="n">External</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="c1">// Scan blockchain for this spk</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Design rationale:</strong></p>
+<p>Why separate <code>SpkTxOutIndex</code> from <code>KeychainTxOutIndex</code>? Because not all wallets use descriptors. By keeping the low-level indexer separate, the crate supports:
+- Multi-sig setups with pre-defined addresses
+- Lightning wallets with specific output scripts
+- Custom indexing strategies
+- Hardware wallets that provide addresses externally</p>
+<h3 id="indexedtxgraph-synchronization-guarantee">IndexedTxGraph: Synchronization Guarantee<a class="headerlink" href="#indexedtxgraph-synchronization-guarantee" title="Permanent link">&para;</a></h3>
+<p><code>IndexedTxGraph</code> combines a <code>TxGraph</code> with an <code>Indexer</code> and enforces that they stay synchronized:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">pub</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">IndexedTxGraph</span><span class="o">&lt;</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">index</span><span class="p">:</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="n">graph</span><span class="p">:</span><span class="w"> </span><span class="nc">TxGraph</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>The synchronization guarantee:</strong></p>
+<p>Every transaction or output inserted into the graph is automatically fed through the indexer. This ensures you never end up in a state where:
+- The graph contains transactions the indexer doesn't know about
+- The indexer tracks outputs that aren't in the graph</p>
+<p><strong>Convenient batch operations:</strong></p>
+<p><code>IndexedTxGraph</code> provides higher-level methods that combine graph and index operations:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// Insert only transactions relevant to the indexer</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">batch_insert_relevant</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">txs</span><span class="p">:</span><span class="w"> </span><span class="nc">impl</span><span class="w"> </span><span class="nb">IntoIterator</span><span class="o">&lt;</span><span class="n">Item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Transaction</span><span class="o">&gt;</span><span class="p">);</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">// Process an entire block efficiently</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">apply_block_relevant</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Block</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="p">);</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1">// Insert unconfirmed transactions with timestamp</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="k">pub</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">batch_insert_unconfirmed</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">txs</span><span class="p">:</span><span class="w"> </span><span class="nc">impl</span><span class="w"> </span><span class="nb">IntoIterator</span><span class="o">&lt;</span><span class="n">Item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Transaction</span><span class="p">,</span><span class="w"> </span><span class="kt">u64</span><span class="p">)</span><span class="o">&gt;</span><span class="p">);</span>
+</span></code></pre></div>
+<p>These methods handle the common workflow: receive blockchain data, filter for relevance, insert into graph, update index, return combined ChangeSet.</p>
+<p><strong>Why this matters:</strong></p>
+<p>The synchronization guarantee means application developers can't make mistakes. You can't forget to update the index after inserting a transaction, or vice versa. The <code>IndexedTxGraph</code> enforces correct usage at the type level.</p>
+<h2 id="how-it-all-fits-together">How It All Fits Together<a class="headerlink" href="#how-it-all-fits-together" title="Permanent link">&para;</a></h2>
+<p>Let's walk through a typical wallet workflow to see how these components interact:</p>
+<h3 id="1-initial-setup">1. Initial Setup<a class="headerlink" href="#1-initial-setup" title="Permanent link">&para;</a></h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// Create a LocalChain with the genesis checkpoint</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="k">mut</span><span class="w"> </span><span class="n">local_chain</span><span class="p">,</span><span class="w"> </span><span class="n">chain_changeset</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalChain</span><span class="p">::</span><span class="n">from_genesis</span><span class="p">(</span><span class="n">genesis_hash</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">// Create a KeychainTxOutIndex with descriptors</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">keychain_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeychainTxOutIndex</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w"> </span><span class="c1">// 10 address lookahead</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">keychain_index</span><span class="p">.</span><span class="n">insert_descriptor</span><span class="p">(</span><span class="n">KeychainKind</span><span class="p">::</span><span class="n">External</span><span class="p">,</span><span class="w"> </span><span class="n">external_descriptor</span><span class="p">);</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">keychain_index</span><span class="p">.</span><span class="n">insert_descriptor</span><span class="p">(</span><span class="n">KeychainKind</span><span class="p">::</span><span class="n">Internal</span><span class="p">,</span><span class="w"> </span><span class="n">internal_descriptor</span><span class="p">);</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1">// Combine into an IndexedTxGraph</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">indexed_graph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IndexedTxGraph</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">keychain_index</span><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="2-revealing-addresses">2. Revealing Addresses<a class="headerlink" href="#2-revealing-addresses" title="Permanent link">&para;</a></h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// Get the next receiving address</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kd">let</span><span class="w"> </span><span class="p">((</span><span class="n">keychain</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">),</span><span class="w"> </span><span class="n">spk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indexed_graph</span><span class="p">.</span><span class="n">index</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="p">.</span><span class="n">reveal_next_spk</span><span class="p">(</span><span class="n">KeychainKind</span><span class="p">::</span><span class="n">External</span><span class="p">);</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1">// Convert to address and give to user</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="kd">let</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Address</span><span class="p">::</span><span class="n">from_script</span><span class="p">(</span><span class="o">&amp;</span><span class="n">spk</span><span class="p">,</span><span class="w"> </span><span class="n">network</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Behind the scenes, this also derived <code>lookahead</code> additional addresses for scanning.</p>
+<h3 id="3-blockchain-sync">3. Blockchain Sync<a class="headerlink" href="#3-blockchain-sync" title="Permanent link">&para;</a></h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1">// Get all spks to scan for (revealed + lookahead)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">spks</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">ScriptBuf</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indexed_graph</span><span class="p">.</span><span class="n">index</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="p">.</span><span class="n">all_spks</span><span class="p">()</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">spk</span><span class="p">)</span><span class="o">|</span><span class="w"> </span><span class="n">spk</span><span class="p">)</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="p">.</span><span class="n">collect</span><span class="p">();</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1">// Fetch blockchain data from your source (electrum, esplora, etc.)</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="kd">let</span><span class="w"> </span><span class="n">scan_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blockchain_client</span><span class="p">.</span><span class="n">scan</span><span class="p">(</span><span class="n">spks</span><span class="p">);</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1">// Apply new chain updates</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="kd">let</span><span class="w"> </span><span class="n">chain_changeset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_chain</span><span class="p">.</span><span class="n">apply_update</span><span class="p">(</span><span class="n">scan_result</span><span class="p">.</span><span class="n">chain_update</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="c1">// Insert relevant transactions</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="kd">let</span><span class="w"> </span><span class="n">graph_changeset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indexed_graph</span><span class="p">.</span><span class="n">batch_insert_relevant</span><span class="p">(</span><span class="n">scan_result</span><span class="p">.</span><span class="n">transactions</span><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="4-getting-wallet-state">4. Getting Wallet State<a class="headerlink" href="#4-getting-wallet-state" title="Permanent link">&para;</a></h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">// Create a canonical view</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">chain_tip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_chain</span><span class="p">.</span><span class="n">tip</span><span class="p">();</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kd">let</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indexed_graph</span><span class="p">.</span><span class="n">canonical_view</span><span class="p">(</span><span class="o">&amp;</span><span class="n">local_chain</span><span class="p">,</span><span class="w"> </span><span class="n">chain_tip</span><span class="p">);</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1">// Calculate balance</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="kd">let</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="n">balance</span><span class="p">(</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="o">&amp;</span><span class="n">local_chain</span><span class="p">,</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="n">chain_tip</span><span class="p">.</span><span class="n">block_id</span><span class="p">(),</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="o">|</span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">tx</span><span class="o">|</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="c1">// Trust all transactions</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="o">|</span><span class="n">spk</span><span class="o">|</span><span class="w"> </span><span class="n">indexed_graph</span><span class="p">.</span><span class="n">index</span><span class="p">.</span><span class="n">index_of_spk</span><span class="p">(</span><span class="n">spk</span><span class="p">).</span><span class="n">is_some</span><span class="p">(),</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="p">);</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Confirmed: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">balance</span><span class="p">.</span><span class="n">confirmed</span><span class="p">);</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Pending: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">balance</span><span class="p">.</span><span class="n">trusted_pending</span><span class="p">);</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="c1">// List unspent outputs</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">txout</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="n">filter_outpoints</span><span class="p">(</span><span class="o">&amp;</span><span class="n">local_chain</span><span class="p">,</span><span class="w"> </span><span class="n">chain_tip</span><span class="p">.</span><span class="n">block_id</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">!</span><span class="n">txout</span><span class="p">.</span><span class="n">spent_by</span><span class="p">.</span><span class="n">is_some</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">txout</span><span class="p">.</span><span class="n">is_confirmed</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;UTXO: {:?} - {} sats&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">txout</span><span class="p">.</span><span class="n">txout</span><span class="p">.</span><span class="n">value</span><span class="p">);</span>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="p">}</span>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="c1">// Iterate transactions</span>
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="n">txs</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="w">        </span><span class="n">ChainPosition</span><span class="p">::</span><span class="n">Confirmed</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">anchor</span><span class="p">,</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Confirmed tx {} at height {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">tx</span><span class="p">.</span><span class="n">compute_txid</span><span class="p">(),</span><span class="w"> </span><span class="n">anchor</span><span class="p">.</span><span class="n">block_id</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="w">        </span><span class="n">ChainPosition</span><span class="p">::</span><span class="n">Unconfirmed</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Unconfirmed tx {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">tx</span><span class="p">.</span><span class="n">compute_txid</span><span class="p">());</span>
+</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="5-persisting-state">5. Persisting State<a class="headerlink" href="#5-persisting-state" title="Permanent link">&para;</a></h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">// Collect all changesets</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">changesets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="n">chain_changeset</span><span class="p">,</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="n">graph_changeset</span><span class="p">,</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="p">];</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1">// Persist however you want (SQLite, files, etc.)</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="n">db</span><span class="p">.</span><span class="n">store_changesets</span><span class="p">(</span><span class="n">changesets</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span></code></pre></div>
+<p>If the application crashes and restarts, you can rebuild state by replaying all stored changesets.</p>
+<h2 id="key-design-decisions-and-their-rationale">Key Design Decisions and Their Rationale<a class="headerlink" href="#key-design-decisions-and-their-rationale" title="Permanent link">&para;</a></h2>
+<h3 id="why-allow-conflicting-transactions">Why Allow Conflicting Transactions?<a class="headerlink" href="#why-allow-conflicting-transactions" title="Permanent link">&para;</a></h3>
+<p>The decision to allow conflicts in <code>TxGraph</code> rather than forcing immediate resolution is fundamental. The rationale:</p>
+<ol>
+<li>
+<p><strong>You might not have enough information</strong>: When you first observe conflicting mempool transactions, you don't know which will confirm (if any).</p>
+</li>
+<li>
+<p><strong>Conflicts are temporary but history is permanent</strong>: Once a reorg happens, the conflicts are valuable historical data for understanding what occurred.</p>
+</li>
+<li>
+<p><strong>Different contexts need different resolutions</strong>: A transaction explorer might want to show all conflicts. A wallet needs a canonical view. The graph supports both.</p>
+</li>
+<li>
+<p><strong>Deferred resolution is more efficient</strong>: Resolving conflicts requires chain context. By deferring until <code>canonical_view()</code>, you do the work once with full information rather than repeatedly with partial information.</p>
+</li>
+</ol>
+<h3 id="why-generic-anchors">Why Generic Anchors?<a class="headerlink" href="#why-generic-anchors" title="Permanent link">&para;</a></h3>
+<p>Making the anchor type generic (<code>TxGraph&lt;A&gt;</code>) rather than using a concrete type enables:</p>
+<ol>
+<li>
+<p><strong>Minimal overhead for simple use cases</strong>: Use <code>BlockId</code> if you only need height/hash.</p>
+</li>
+<li>
+<p><strong>Rich metadata for complex use cases</strong>: Add timestamps, merkle proofs, multiple confirmation sources, confidence scores.</p>
+</li>
+<li>
+<p><strong>Application-specific requirements</strong>: Different applications need different confirmation semantics. The crate doesn't impose a one-size-fits-all solution.</p>
+</li>
+<li>
+<p><strong>Future compatibility</strong>: New confirmation mechanisms (sidechains, lightning, etc.) can be supported without changing the core structures.</p>
+</li>
+</ol>
+<h3 id="why-separate-spktxoutindex-and-keychaintxoutindex">Why Separate SpkTxOutIndex and KeychainTxOutIndex?<a class="headerlink" href="#why-separate-spktxoutindex-and-keychaintxoutindex" title="Permanent link">&para;</a></h3>
+<p>This separation might seem like unnecessary complexity, but it provides:</p>
+<ol>
+<li>
+<p><strong>Flexibility for non-descriptor wallets</strong>: Not everything uses descriptors. Multi-sig coordinators, lightning wallets, and custom setups can use <code>SpkTxOutIndex</code> directly.</p>
+</li>
+<li>
+<p><strong>Clear separation of concerns</strong>: Descriptor logic (derivation, caching) is isolated in <code>KeychainTxOutIndex</code>. The base indexing logic is in <code>SpkTxOutIndex</code>.</p>
+</li>
+<li>
+<p><strong>Composability</strong>: You could build alternative high-level indexers (e.g., for miniscript, taproot trees) on top of <code>SpkTxOutIndex</code>.</p>
+</li>
+<li>
+<p><strong>Testing and reasoning</strong>: The base indexer is simpler and easier to test thoroughly.</p>
+</li>
+</ol>
+<h3 id="why-changeset-pattern-instead-of-direct-persistence">Why ChangeSet Pattern Instead of Direct Persistence?<a class="headerlink" href="#why-changeset-pattern-instead-of-direct-persistence" title="Permanent link">&para;</a></h3>
+<p>The ChangeSet pattern imposes a bit of extra work on applications, but provides enormous benefits:</p>
+<ol>
+<li>
+<p><strong>Persistence agnostic</strong>: The crate doesn't need to know or care about your database, file format, or storage backend.</p>
+</li>
+<li>
+<p><strong>Event sourcing</strong>: You get a complete audit trail of all state changes for free.</p>
+</li>
+<li>
+<p><strong>Flexible notification</strong>: ChangeSets can drive UI updates, webhook notifications, or custom business logic.</p>
+</li>
+<li>
+<p><strong>Easy merging</strong>: Multiple ChangeSets can be combined, enabling distributed/multi-device scenarios.</p>
+</li>
+<li>
+<p><strong>Testability</strong>: You can verify exact ChangeSets in tests rather than just final state.</p>
+</li>
+</ol>
+<h3 id="why-monotonicity">Why Monotonicity?<a class="headerlink" href="#why-monotonicity" title="Permanent link">&para;</a></h3>
+<p>The monotone property (only append, never delete) has some costs:
+- Memory grows over time
+- You can't "forget" old transactions
+- Pruning requires careful design</p>
+<p>But the benefits outweigh these costs:</p>
+<ol>
+<li>
+<p><strong>Correctness is easier</strong>: Impossible to end up with dangling references or inconsistent state.</p>
+</li>
+<li>
+<p><strong>Recovery is trivial</strong>: Replay ChangeSets in any order and get the same result.</p>
+</li>
+<li>
+<p><strong>Concurrency is simpler</strong>: Multiple threads can update safely because operations commute.</p>
+</li>
+<li>
+<p><strong>Debugging is easier</strong>: You never wonder "where did that transaction go?"</p>
+</li>
+</ol>
+<p>For the rare cases where you need to prune old data, the crate provides mechanisms (like <code>last_evicted</code> timestamps) to mark data as logically deleted while maintaining structural integrity.</p>
+<h2 id="what-the-chain-crate-supports">What the Chain Crate Supports<a class="headerlink" href="#what-the-chain-crate-supports" title="Permanent link">&para;</a></h2>
+<h3 id="core-functionality">Core Functionality<a class="headerlink" href="#core-functionality" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Arbitrary blockchain scanning strategies (scan everything, scan subsets, incremental scanning)</li>
+<li>✅ Multiple data sources (electrum, esplora, full node, custom sources)</li>
+<li>✅ Descriptor-based key derivation with lookahead</li>
+<li>✅ Multi-keychain wallets (external, internal, custom keychains)</li>
+<li>✅ Transaction conflict resolution with configurable strategies</li>
+<li>✅ Reorganization handling with automatic anchor updates</li>
+<li>✅ Partial transaction information (outputs only, no full tx required)</li>
+<li>✅ Unconfirmed transaction chains (child-pays-for-parent)</li>
+<li>✅ Replace-by-fee (RBF) tracking and resolution</li>
+<li>✅ Flexible balance calculations with custom trust predicates</li>
+<li>✅ Transaction history with proper topological ordering</li>
+<li>✅ UTXO selection with spent status tracking</li>
+<li>✅ Mempool state tracking (first/last seen, eviction)</li>
+</ul>
+<h3 id="advanced-use-cases">Advanced Use Cases<a class="headerlink" href="#advanced-use-cases" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Multi-device sync (via ChangeSet merging)</li>
+<li>✅ Custom confirmation semantics (via generic anchors)</li>
+<li>✅ Historical conflict analysis (conflicts coexist in graph)</li>
+<li>✅ Efficient rescanning (via spk iterators)</li>
+<li>✅ Custom indexing strategies (via Indexer trait)</li>
+<li>✅ Event sourcing and audit trails (via ChangeSets)</li>
+<li>✅ Non-descriptor wallets (via SpkTxOutIndex directly)</li>
+</ul>
+<h3 id="what-it-doesnt-support-by-design">What It Doesn't Support (By Design)<a class="headerlink" href="#what-it-doesnt-support-by-design" title="Permanent link">&para;</a></h3>
+<p>The chain crate is intentionally low-level. It doesn't include:</p>
+<ul>
+<li>❌ Transaction building/signing (that's in <code>bdk_wallet</code>)</li>
+<li>❌ Fee estimation (that's application-specific)</li>
+<li>❌ Coin selection (that's in <code>bdk_wallet</code>)</li>
+<li>❌ Network communication (that's in <code>bdk_electrum</code>, <code>bdk_esplora</code>, etc.)</li>
+<li>❌ Persistence implementation (that's application-specific)</li>
+<li>❌ Descriptor parsing (that's in <code>bitcoin::descriptor</code>)</li>
+</ul>
+<p>This separation of concerns means the chain crate can focus on doing one thing exceptionally well: maintaining consistent state about blockchain data.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>The <code>bdk_chain</code> crate represents a principled approach to a fundamental problem in Bitcoin wallet development. By embracing monotonicity, deferring conflict resolution, and separating concerns, it provides a robust foundation that higher-level libraries can build upon.</p>
+<p>The key insights that make this design successful are:</p>
+<ol>
+<li><strong>State management is hard; monotonicity makes it manageable</strong></li>
+<li><strong>Conflicts are reality; resolution is context-dependent</strong></li>
+<li><strong>Flexibility comes from abstraction (Indexer, Anchor, ChainOracle)</strong></li>
+<li><strong>Separation of chain/tx/index concerns enables composability</strong></li>
+<li><strong>ChangeSets enable persistence without imposing it</strong></li>
+</ol>
+<p>For developers building on BDK, understanding these abstractions and design decisions helps you make better architectural choices in your own applications. The chain crate gives you powerful primitives; how you compose them determines what your wallet can do.</p>
+<p>Whether you're building a simple mobile wallet, a complex multi-sig coordinator, or a Lightning node with on-chain wallet integration, the chain crate provides the foundation you need for reliable, consistent Bitcoin state management.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.tabs","navigation.top","navigation.tracking","search.highlight"],"search":"../../assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.8ffeb9c9.min.js"></script>
+      
+    
+  </body>
+</html>
