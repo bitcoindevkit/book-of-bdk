@@ -334,7 +334,10 @@ line_spans = "__span"
 pygments_lang_class = true
 
 [project.markdown_extensions.pymdownx.inlinehilite]
+
 [project.markdown_extensions.pymdownx.snippets]
+dedent_subsections = true
+
 [project.markdown_extensions.pymdownx.superfences]
 
 [project.markdown_extensions.admonition]
