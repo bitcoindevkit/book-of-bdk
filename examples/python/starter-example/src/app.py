@@ -13,7 +13,7 @@ from bdkpython import (
     FeeRate,
 )
 
-SIGNET_ESPLORA_URL = "http://signet.bitcoindevkit.net"
+SIGNET_ESPLORA_URL = "https://blockstream.info/signet/api/"
 PERSISTENCE_FILE_PATH = str(Path.cwd() / "starter.sqlite")
 
 

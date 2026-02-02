@@ -16,7 +16,7 @@ import org.bitcoindevkit.Wallet
 import java.io.File
 import kotlin.system.exitProcess
 
-private const val SIGNET_ESPLORA_URL = "http://signet.bitcoindevkit.net"
+private const val SIGNET_ESPLORA_URL = "https://blockstream.info/signet/api/"
 private val PERSISTENCE_FILE_PATH = run {
     val currentDirectory = System.getProperty("user.dir")
     val dbFileName = "starter.sqlite"
