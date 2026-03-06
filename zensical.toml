@@ -37,6 +37,7 @@ nav = [
             { "Esplora Sync" = "cookbook/syncing/esplora.md" },
             { "CBF Sync" = "cookbook/syncing/kyoto.md" },
             { "RPC Sync" = "cookbook/syncing/rpc.md" },
+            { "Custom Chain Source" = "cookbook/syncing/custom-chain-source.md" },
         ]},
         { "Persistence" = [
             { "SQLite Database" = "cookbook/persistence/sqlite.md" },
