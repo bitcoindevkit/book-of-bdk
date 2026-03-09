@@ -28,9 +28,15 @@ yarn add bdk-wasm
 
 !!! warning
     Make sure Hermes is enabled in your React Native project. It is on by default for React Native 0.70+.
-    You can verify in `android/app/build.gradle`:
-    ```
+    **Android:** Verify in `android/app/build.gradle`:
+    ```gradle
     hermesEnabled = true
+    ```
+    **iOS (React Native 0.71+):** Verify in your `ios/Podfile` that Hermes is enabled in the `use_react_native!` call:
+    ```ruby
+    use_react_native!(
+      :hermes_enabled => true
+    )
     ```
 
 ## Initialize WASM
@@ -62,6 +68,9 @@ async function createWallet() {
   const mnemonic = Mnemonic.generate(12);
   const secretKey = new DescriptorSecretKey(network, mnemonic, undefined);
 
+  // WARNING: This example embeds the extended private key (xprv) directly in the descriptor
+  // for simplicity. In production wallets, handle key material carefully and consider
+  // using public extended keys (xpub) where watch-only access is sufficient.
   const externalDescriptor = new Descriptor(
     `wpkh(${secretKey.asString()}/84'/1'/0'/0/*)`,
     network
@@ -88,15 +97,12 @@ to JavaScript and persisted manually. Here we use AsyncStorage as an example:
 ```javascript
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// After every sync — save staged wallet changes
+// After every sync — save merged wallet changes
 async function saveWallet(wallet) {
-  const staged = wallet.takeStagedStr();
-  if (staged) {
-    const existing = await AsyncStorage.getItem('bdk_wallet');
-    if (existing) {
-      wallet.applyChangesetStr(existing);
-    }
-    await AsyncStorage.setItem('bdk_wallet', staged);
+  const existing = await AsyncStorage.getItem('bdk_wallet');
+  const merged = wallet.takeMergedStr(existing);
+  if (merged) {
+    await AsyncStorage.setItem('bdk_wallet', merged);
   }
 }
 
@@ -124,7 +130,7 @@ const update = await client.fullScan(fullScanRequest, 20, 1);
 wallet.applyUpdateAt(update, now);
 
 // Sync (subsequent runs)
-const syncRequest = wallet.startSync();
+const syncRequest = wallet.startSyncWithRevealedSpks();
 const syncUpdate = await client.sync(syncRequest, 1);
 wallet.applyUpdateAt(syncUpdate, Math.floor(Date.now() / 1000));
 ```
