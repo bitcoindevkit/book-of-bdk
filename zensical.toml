@@ -65,6 +65,12 @@ nav = [
     ]},
     { "Release Guide" = [
         { "About" = "release-guide/guide.md" },
+        { "Release 3.0" = [
+            { "Release Notes" = "release-guide/3.0/notes.md" },
+            { "UTXO Locking API" = "release-guide/3.0/utxo-locking.md" },
+            { "Caravan Import/Export" = "release-guide/3.0/caravan-export.md" },
+            { "ChangeSet Version Compatibility" = "release-guide/3.0/changeset-versioning.md" },
+        ]},
         { "Release 2.3" = [
             { "Release Notes" = "release-guide/2.3/notes.md" },
             { "Wallet Events" = "release-guide/2.3/wallet-events.md" },
