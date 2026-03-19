@@ -1,12 +1,9 @@
 # Migrating from 0.X
 
-So you're ready to migrate to BDK version 1.0, congratulations!
-This document contains some helpful tips that, with the help of some automation, should make the process as seamless as possible.
+So you're ready to migrate from a pre-1.0 `bdk` version to `bdk_wallet`, congratulations!
+This document contains some helpful tips that should make the process as seamless as possible. The process applies to pre-1.0 `bdk` wallets, such as [`bdk` v0.30][0], backed by a SQLite database being migrated to a new [`bdk_wallet` v2.4 or v3.0][1] based wallet. The `bdk_wallet` can use any database that implements [`WalletPersister`][2].
 
-The below steps are for migrating wallet details from the old [`bdk` v0.30][0] to the new [`bdk_wallet` v1.0][1].
-This procedure can be applied to wallets backed by a SQLite database.
-
-To migrate your wallet data to a new version of bdk, essentially all you need to do is grab the _last known address index_ for each keychain from the old db, add them to the new db, and sync to refetch the rest of the data. Doing this means we don't need to perform a full scan because we already have the indexes (doing a full scan would check for used addresses based on the stop gap which is unnecessary).
+To migrate your wallet data to a new version of bdk, essentially all you need to do is grab the _last known address derivation index_ for each keychain from the old db and set them in your new db. After restoring your keychain derivation indexes, your next wallet sync will refetch the rest of your wallet's transaction data. Doing this means we don't need to perform a full scan because we already have the derivation indexes (doing a full scan would check for used addresses based on the stop gap which is unnecessary).
 
 This migration is important because without that metadata the new wallet may end up reusing receive addresses, which should be avoided for privacy reasons.
 
@@ -15,12 +12,11 @@ This migration is important because without that metadata the new wallet may end
 
 ## Overview
 
-1. Load an old database
-2. Get last revealed addresses
-3. Create new wallet
-4. Restore revealed addresses
-5. Write to new database
-6. Sync
+1. Create the new wallet using the same descriptors
+2. Get the keychain info from the old wallet db file
+3. Verify the old and new keychain descriptor checksums match
+4. Restore the keychain(s) revealed address indexes
+5. Persist the new database
 
 ```rust title="examples/rust/migrate-version/src/main.rs"
 --8<-- "examples/rust/migrate-version/src/main.rs:main"
@@ -28,50 +24,40 @@ This migration is important because without that metadata the new wallet may end
 
 ## Walkthrough
 
-In a new Rust project add these dependencies to `Cargo.toml`
+In your Rust project replace your pre-1.0 `bdk` dependency with `bdk_wallet`.
 
 ```toml title="Cargo.toml"
 --8<-- "examples/rust/migrate-version/Cargo.toml:deps"
 ```
 
-Because there are two versions of bdk in the same project, we need to pay attention to how types are imported.
-
-To avoid name clashes or any sort of mismatch resolving types that appear similar, we use fully qualified syntax, for example `bdk::bitcoin::Network::Testnet`.
-You'll notice in some cases we can get around this annoyance by casting a value to another rust primitive or standard library type such as `String`.
-
-```rust title="examples/rust/migrate-version/src/main.rs"
---8<-- "examples/rust/migrate-version/src/main.rs:use"
-```
-
-Take a minute to define a few constants, for example the file path to the current database and the path to be used for the new database.
+Take a minute to define a few constants, for example the file path to the current pre-1.0 `bdk` database and the path to be used for the new `bdk_wallet` database.
 The descriptors and network shown here are for illustration; you should substitute them with your own.
-Note that because we'll be creating a fresh database there should not already exist a persisted wallet at the new path.
+Note that because we'll be creating a fresh database there must not yet be a persisted `bdk_wallet` database file at the new path.
 
 ```rust title="examples/rust/migrate-version/src/main.rs"
 --8<-- "examples/rust/migrate-version/src/main.rs:setup"
 ```
 
-Now retrieve the last revealed addresses from the `old_wallet`.
-
-```rust title="examples/rust/migrate-version/src/main.rs"
---8<-- "examples/rust/migrate-version/src/main.rs:old"
-```
-
-For the `new_wallet` we should be using the same descriptors and network as before.
-If the given descriptors contain secret keys, then the wallet will be able to sign transactions as well.
+Now create the new `bdk_wallet` wallet using the same descriptors as your original pre-1.0 `bdk` Wallet:
 
 ```rust title="examples/rust/migrate-version/src/main.rs"
 --8<-- "examples/rust/migrate-version/src/main.rs:new"
 ```
 
-Now that we have a new database and have properly restored our addresses, you will want to sync with the blockchain to recover the wallet's transactions.
-Below is an example of doing a `sync` using `bdk_esplora` but the exact method of syncing will depend on your application. Remember we don't need to do a full scan here since we already have the indexes.
+And then retrieve the keychain details from the original pre-1.0 `bdk` wallet sqlite database file, verify the descriptor checksums match, and set your new `bdk_wallet` based wallet to use the correct keychain address derivation indexes.
 
 ```rust title="examples/rust/migrate-version/src/main.rs"
---8<-- "examples/rust/migrate-version/src/main.rs:sync"
+--8<-- "examples/rust/migrate-version/src/main.rs:pre1"
 ```
 
-Happy migrating and see you on [v1.0][1]!
+And finally you will need to persist your new wallet.
+
+```rust title="examples/rust/migrate-version/src/main.rs"
+--8<-- "examples/rust/migrate-version/src/main.rs:persist"
+```
+
+Now that we have a new database and have properly restored our keychain address indexes, you will need to sync with the blockchain to recover the wallet's transactions. See the page on how to [sync your wallet with electrum](../cookbook/syncing/electrum) as an example, but you can use any blockchain client backend to re-sync your wallet.
 
 [0]: https://docs.rs/bdk/0.30.0/bdk/
-[1]: https://docs.rs/bdk_wallet/1.0.0/bdk_wallet/
+[1]: https://docs.rs/bdk_wallet/3.0.0/bdk_wallet/
+[2]: https://docs.rs/bdk_wallet/3.0.0/bdk_wallet/trait.WalletPersister.html

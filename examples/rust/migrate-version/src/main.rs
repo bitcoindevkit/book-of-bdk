@@ -1,27 +1,23 @@
-// --8<-- [start:use]
 use anyhow::Context;
-
-use bdk::database::SqliteDatabase;
-use bdk::wallet::AddressIndex;
-
 use bdk_wallet::bitcoin::Network;
 use bdk_wallet::rusqlite;
-use bdk_wallet::KeychainKind;
+use bdk_wallet::rusqlite::OpenFlags;
+use bdk_wallet::KeychainKind::{self, External, Internal};
 use bdk_wallet::Wallet;
-// --8<-- [end:use]
 
 // --8<-- [start:setup]
-const EXTERNAL_DESCRIPTOR: &str = "wpkh(tprv8ZgxMBicQKsPdy6LMhUtFHAgpocR8GC6QmwMSFpZs7h6Eziw3SpThFfczTDh5rW2krkqffa11UpX3XkeTTB2FvzZKWXqPY54Y6Rq4AQ5R8L/84'/1'/0'/0/*)";
-const INTERNAL_DESCRIPTOR: &str = "wpkh(tprv8ZgxMBicQKsPdy6LMhUtFHAgpocR8GC6QmwMSFpZs7h6Eziw3SpThFfczTDh5rW2krkqffa11UpX3XkeTTB2FvzZKWXqPY54Y6Rq4AQ5R8L/84'/1'/0'/1/*)";
+const EXTERNAL_DESCRIPTOR: &str = "wpkh(tprv8ZgxMBicQKsPdufyJrFBAzSzoC5ANzovUKZ76md8EHq6hFEsVBv9SpgqaetP1WkD18VqF1xWza8kQGNtFZkNDuCDyXDMyNpLVJ7QXTqeiGG/84'/1'/0'/0/*)#72k0lrja";
+const INTERNAL_DESCRIPTOR: &str = "wpkh(tprv8ZgxMBicQKsPdufyJrFBAzSzoC5ANzovUKZ76md8EHq6hFEsVBv9SpgqaetP1WkD18VqF1xWza8kQGNtFZkNDuCDyXDMyNpLVJ7QXTqeiGG/84'/1'/0'/1/*)#07nwzkz9";
 const NETWORK: Network = Network::Testnet;
 
-// path to old db
-const BDK_DB_PATH: &str = "./.bdk-example.sqlite";
+// path to old pre1 db
+const BDK_DB_PATH: &str = "./bdk-example.sqlite";
 // path to new db
-const BDK_WALLET_DB_PATH: &str = "./.bdk-wallet-example.sqlite";
+const BDK_WALLET_DB_PATH: &str = "./bdk-wallet-example.sqlite";
 // --8<-- [end:setup]
 
-// Steps for migrating wallet state from the old `bdk` 0.30 to the new `bdk_wallet` 1.0.
+// Steps for migrating wallet state from an original `bdk` pre-1.0 version to a new
+// `bdk_wallet` 1.0 or greater version.
 
 // To run: change `BDK_DB_PATH` to point to the location of the old database file and
 // modify the descriptors and network above to fit your setup. Before running, there
@@ -29,28 +25,6 @@ const BDK_WALLET_DB_PATH: &str = "./.bdk-wallet-example.sqlite";
 
 // --8<-- [start:main]
 fn main() -> anyhow::Result<()> {
-    // --8<-- [start:old]
-    // Open old wallet
-    let db = SqliteDatabase::new(BDK_DB_PATH);
-    let old_wallet = bdk::Wallet::new(
-        EXTERNAL_DESCRIPTOR,
-        Some(INTERNAL_DESCRIPTOR),
-        bdk::bitcoin::Network::Testnet,
-        db,
-    )?;
-
-    // Get last revealed addresses for each keychain
-    let addr = old_wallet.get_address(AddressIndex::LastUnused)?;
-    println!("Last revealed external {} {}", addr.index, addr.address);
-    let external_derivation_index = addr.index;
-    let last_revealed_external = addr.address.to_string();
-
-    let addr = old_wallet.get_internal_address(AddressIndex::LastUnused)?;
-    println!("Last revealed internal {} {}", addr.index, addr.address);
-    let internal_derivation_index = addr.index;
-    let last_revealed_internal = addr.address.to_string();
-    // --8<-- [end:old]
-
     // --8<-- [start:new]
     // Create new wallet
     let mut db = rusqlite::Connection::open(BDK_WALLET_DB_PATH)?;
@@ -58,55 +32,52 @@ fn main() -> anyhow::Result<()> {
         .network(NETWORK)
         .create_wallet(&mut db)
         .context("failed to create wallet")?;
+    // --8<-- [end:new]
 
-    // Retore revealed addresses
-    let _ = new_wallet.reveal_addresses_to(KeychainKind::External, external_derivation_index);
-    let _ = new_wallet.reveal_addresses_to(KeychainKind::Internal, internal_derivation_index);
+    // --8<-- [start:pre1]
+    // Get new wallet keychain descriptor hashes
+    let external_checksum = new_wallet.descriptor_checksum(External);
+    let internal_checksum = new_wallet.descriptor_checksum(Internal);
 
+    // Get pre v1 wallet keychains and verify checksums match current wallet descriptors
+    let mut pre_v1_db =
+        rusqlite::Connection::open_with_flags(BDK_DB_PATH, OpenFlags::SQLITE_OPEN_READ_ONLY)?;
+    let pre_v1_keychains = bdk_wallet::migration::get_pre_v1_wallet_keychains(&mut pre_v1_db)?;
+    assert!(!pre_v1_keychains.is_empty(), "no pre v1 keychain found");
+
+    if let Some(pre_v1_external) = pre_v1_keychains.iter().find(|k| k.keychain == External) {
+        assert_eq!(pre_v1_external.checksum, external_checksum);
+        // Restore revealed external keychain to pre v1 address index
+        let _ = new_wallet.reveal_addresses_to(
+            KeychainKind::External,
+            pre_v1_external.last_derivation_index,
+        );
+        println!(
+            "Found and set pre v1 external keychain ({}) last derivation index to {}",
+            external_checksum, pre_v1_external.last_derivation_index
+        );
+    } else {
+        println!("no external pre v1 keychain found");
+    }
+
+    if let Some(pre_v1_internal) = pre_v1_keychains.iter().find(|k| k.keychain == Internal) {
+        assert_eq!(pre_v1_internal.checksum.clone(), internal_checksum);
+        // Restore revealed internal keychain to pre v1 address index
+        let _ = new_wallet.reveal_addresses_to(Internal, pre_v1_internal.last_derivation_index);
+        println!(
+            "Found and set pre v1 internal keychain ({}) last derivation index to {}",
+            internal_checksum, pre_v1_internal.last_derivation_index
+        );
+    } else {
+        println!("no internal pre v1 keychain found");
+    }
+    // --8<-- [end:pre1]
+
+    // --8<-- [start:persist]
     // Persist new wallet
     new_wallet.persist(&mut db)?;
-
-    println!("\n========== New database created. ==========");
-
-    let addr = new_wallet
-        .list_unused_addresses(KeychainKind::External)
-        .last()
-        .unwrap();
-    assert_eq!(addr.to_string(), last_revealed_external);
-    println!("Last revealed external {} {}", addr.index, addr.address);
-    let addr = new_wallet
-        .list_unused_addresses(KeychainKind::Internal)
-        .last()
-        .unwrap();
-    println!("Last revealed internal {} {}", addr.index, addr.address);
-    assert_eq!(addr.to_string(), last_revealed_internal);
-    // --8<-- [end:new]
+    // --8<-- [end:persist]
 
     Ok(())
 }
 // --8<-- [end:main]
-
-/* Extra: sync with esplora
-
-// --8<-- [start:sync]
-use bdk_esplora::{esplora_client, EsploraExt};
-
-let client = esplora_client::Builder::new(ESPLORA_URL).build_blocking();
-
-let request = wallet
-    .start_sync_with_revealed_spks()
-    .inspect(|item, prog| {
-        if let SyncItem::Spk(index, script) = item {
-            let address = Address::from_script(script, NETWORK).unwrap();
-            let progress = prog.consumed() as f32 / prog.total() as f32;
-            eprintln!("[ SYNCING {:.2}% ] {:?} {}", 100.0 * progress, index, address);
-            std::io::stdout().flush().unwrap();
-        }
-    });
-
-let update = client.sync(request, PARALLEL_REQUESTS)?;
-
-wallet.apply_update(update)?;
-wallet.persist(&mut db)?;
-// --8<-- [end:sync]
-*/
