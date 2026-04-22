@@ -12,3 +12,4 @@ serve:
 clean:
   rm -rf .cache/
   rm -rf site/
+  rm -rf .venv/
