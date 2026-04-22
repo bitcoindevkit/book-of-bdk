@@ -85,7 +85,7 @@ nav = [
 #
 # Read more: https://zensical.org/docs/customization/#additional-css
 #
-#extra_css = ["stylesheets/extra.css"]
+extra_css = ["stylesheets/extra.css"]
 
 # With the `extra_javascript` option you can add your own JavaScript to your
 # project to customize the behavior according to your needs.
@@ -99,7 +99,7 @@ nav = [
 # Section for configuring theme options
 # ----------------------------------------------------------------------------
 [project.theme]
-# logo = "assets/bdk-logo.svg"
+logo = "assets/bdk-icon.svg"
 
 # change this to "classic" to use the traditional Material for MkDocs look.
 #variant = "classic"
@@ -113,8 +113,7 @@ nav = [
 # - https://zensical.org/docs/customization/#extending-the-theme
 #
 #custom_dir = "overrides"
-
-favicon = "assets/bdk-logo.svg"
+favicon = "/assets/bdk-icon.svg"
 
 # Zensical supports more than 60 different languages. This means that the
 # labels and tooltips that Zensical's templates produce are translated.
