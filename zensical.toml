@@ -57,6 +57,7 @@ nav = [
             { "About Our Bindings" = "cookbook/bindings/about.md" },
             { "Starter Example" = "cookbook/bindings/starter-example.md" },
             { "WASM Example" = "cookbook/bindings/wasm.md" },
+            { "WASM Example (React Native)" = "cookbook/bindings/wasm-react-native.md" },
         ]},
     ]},
     { "Design" = [
