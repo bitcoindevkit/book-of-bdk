@@ -1,0 +1,74 @@
+# robots.txt for https://bookofbdk.com/
+# Follows RFC 9309: https://www.rfc-editor.org/rfc/rfc9309
+
+# Content Signals - AI content usage preferences
+# https://contentsignals.org/
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+
+# AI Crawlers - Allow access to documentation for AI training and retrieval
+# OpenAI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic crawler
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Google Extended (Gemini)
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Common Crawl
+User-agent: CCBot
+Allow: /
+
+# Omgili
+User-agent: omgili
+Allow: /
+
+# Facebook/Meta
+User-agent: FacebookBot
+Allow: /
+
+# Diffbot
+User-agent: Diffbot
+Allow: /
+
+# Bytedance (TikTok)
+User-agent: Bytespider
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Default rules for all other agents
+User-agent: *
+Allow: /
+
+# Disallow crawling of search results and 404 page (applies to all agents)
+Disallow: /search.json
+Disallow: /404.html
+
+# Allow access to assets, documentation, and all content
+Allow: /getting-started/
+Allow: /cookbook/
+Allow: /design/
+Allow: /release-guide/
+Allow: /assets/
+
+# Sitemap location
+Sitemap: https://bookofbdk.com/sitemap.xml
