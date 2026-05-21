@@ -1,5 +1,6 @@
 use bdk_wallet::bitcoin::bip32::Xpriv;
 use bdk_wallet::bitcoin::Network;
+use bdk_wallet::bitcoin::NetworkKind;
 use bdk_wallet::keys::bip39::Mnemonic;
 use bdk_wallet::template::{Bip86, DescriptorTemplate};
 use bdk_wallet::KeychainKind;
@@ -16,11 +17,11 @@ fn main() {
     println!("# Master Private Key\n{xprv}\nWarning: be very careful with seeds and private keys when using MainNet! We are logging these values for convenience and demonstration purposes only.\n");
 
     let (descriptor, key_map, _) = Bip86(xprv, KeychainKind::External)
-        .build(Network::Signet)
+        .build(NetworkKind::Test)
         .expect("Failed to build external descriptor");
 
     let (change_descriptor, change_key_map, _) = Bip86(xprv, KeychainKind::Internal)
-        .build(Network::Signet)
+        .build(NetworkKind::Test)
         .expect("Failed to build internal descriptor");
     // --8<-- [end:main]
 
