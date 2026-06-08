@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bdk_kyoto = "0.15.1"
+bdk_kyoto = "0.17.0"
 bdk_wallet = "3.0.0"
 tokio = { version = "1", features = ["full"], default-features = false }
 tracing = "0.1"
