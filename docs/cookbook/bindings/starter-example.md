@@ -38,10 +38,9 @@ You can find [working code examples](https://github.com/bitcoindevkit/book-of-bd
 === "Python"
 
     ```shell
-    python3 -m venv venv
-    source venv/bin/activate
+    uv init
     mkdir src
-    touch src/app.py requirements.txt
+    touch src/app.py
     ```
 
 ## Add required dependencies
@@ -66,16 +65,18 @@ You can find [working code examples](https://github.com/bitcoindevkit/book-of-bd
 
     dependencies {
         // for JVM
-        implementation("org.bitcoindevkit:bdk-jvm:1.1.0")
+        implementation("org.bitcoindevkit:bdk-jvm:3.0.0")
         // for Android
-        implementation("org.bitcoindevkit:bdk-android:1.1.0")
+        implementation("org.bitcoindevkit:bdk-android:3.0.0")
     }
     ```
 
 === "Python"
 
-    ```text title="requirements.txt"
-    bdkpython==2.2.0
+    ```text title="pyproject.toml"
+    dependencies = [
+        "bdkpython==3.0.0",
+    ]
     ```
 
 ## Use descriptors

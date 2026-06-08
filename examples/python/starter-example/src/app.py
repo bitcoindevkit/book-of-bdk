@@ -3,6 +3,7 @@ from pathlib import Path
 from bdkpython import (
     Descriptor,
     Network,
+    NetworkKind,
     Persister,
     Wallet,
     EsploraClient,
@@ -21,25 +22,25 @@ def main():
     # --8<-- [start:descriptors]
     descriptor = Descriptor(
         "tr([12071a7c/86'/1'/0']tpubDCaLkqfh67Qr7ZuRrUNrCYQ54sMjHfsJ4yQSGb3aBr1yqt3yXpamRBUwnGSnyNnxQYu7rqeBiPfw3mjBcFNX4ky2vhjj9bDrGstkfUbLB9T/0/*)#z3x5097m",
-        Network.SIGNET,
+        NetworkKind.TEST,
     )
     change_descriptor = Descriptor(
         "tr([12071a7c/86'/1'/0']tpubDCaLkqfh67Qr7ZuRrUNrCYQ54sMjHfsJ4yQSGb3aBr1yqt3yXpamRBUwnGSnyNnxQYu7rqeBiPfw3mjBcFNX4ky2vhjj9bDrGstkfUbLB9T/1/*)#n9r4jswr",
-        Network.SIGNET,
+        NetworkKind.TEST,
     )
     # --8<-- [end:descriptors]
 
     # --8<-- [start:wallet]
     db_path = Path(PERSISTENCE_FILE_PATH)
     persistence_exists = db_path.exists()
-    persister = Persister.new_sqlite(PERSISTENCE_FILE_PATH)
+    db = Persister.new_sqlite(PERSISTENCE_FILE_PATH)
 
     if persistence_exists:
         print("Loading up existing wallet")
         wallet = Wallet.load(
             descriptor=descriptor,
             change_descriptor=change_descriptor,
-            persister=persister,
+            persister=db,
         )
     else:
         print("Creating new wallet")
@@ -47,7 +48,7 @@ def main():
             descriptor=descriptor,
             change_descriptor=change_descriptor,
             network=Network.SIGNET,
-            persister=persister,
+            persister=db,
         )
     # --8<-- [end:wallet]
 
@@ -88,10 +89,13 @@ def main():
         .finish(wallet)
     )
 
-    wallet.sign(psbt)
-    tx = psbt.extract_tx()
-    esplora_client.broadcast(tx)
-    print(f"Transaction broadcast successfully! Txid: {tx.compute_txid()}")
+    signed = wallet.sign(psbt)
+    if signed:
+        tx = psbt.extract_tx()
+        esplora_client.broadcast(tx)
+        print(f"Transaction broadcast successfully! Txid: {tx.compute_txid()}")
+    else:
+        print("Transaction could not be signed!")
     # --8<-- [end:transaction]
 
 
