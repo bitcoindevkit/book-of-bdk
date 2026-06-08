@@ -94,7 +94,7 @@ To create a wallet using BDK, we need some <a href="https://github.com/bitcoin/b
 === "Kotlin"
 
     ```kotlin
-    --8<-- "examples/kotlin/starter-example/app/src/main/kotlin/org/starterexample/App.kt:descriptors"
+    --8<-- "examples/kotlin/starter-example/src/main.kt:descriptors"
     ```
 
 === "Python"
@@ -118,7 +118,7 @@ Next let's load up our wallet.
 === "Kotlin"
 
     ```kotlin title="examples/kotlin/starter-example/src/.../App.kt"
-    --8<-- "examples/kotlin/starter-example/app/src/main/kotlin/org/starterexample/App.kt:wallet"
+    --8<-- "examples/kotlin/starter-example/src/main.kt:wallet"
     ```
 
 === "Python"
@@ -140,7 +140,7 @@ Now let's build an Esplora client and use it to request transaction history for 
 === "Kotlin"
 
     ```kotlin title="examples/kotlin/starter-example/src/.../App.kt"
-    --8<-- "examples/kotlin/starter-example/app/src/main/kotlin/org/starterexample/App.kt:client"
+    --8<-- "examples/kotlin/starter-example/src/main.kt:client"
     ```
 
 === "Python"
@@ -160,7 +160,7 @@ In cases where you are using new descriptors that do not have a balance yet, the
 === "Kotlin"
 
     ```kotlin title="examples/kotlin/starter-example/src/.../App.kt"
-    --8<-- "examples/kotlin/starter-example/app/src/main/kotlin/org/starterexample/App.kt:address"
+    --8<-- "examples/kotlin/starter-example/src/main.kt:address"
     ```
 
 === "Python"
@@ -184,7 +184,7 @@ Let's prepare to send a transaction. The two core choices here are where to send
 === "Kotlin"
 
     ```kotlin title="examples/kotlin/starter-example/src/.../App.kt"
-    --8<-- "examples/kotlin/starter-example/app/src/main/kotlin/org/starterexample/App.kt:client"
+    --8<-- "examples/kotlin/starter-example/src/main.kt:client"
     ```
 
 === "Python"
@@ -206,7 +206,7 @@ Finally we are ready to build, sign, and broadcast the transaction:
 === "Kotlin"
 
     ```kotlin title="examples/kotlin/starter-example/src/.../App.kt"
-    --8<-- "examples/kotlin/starter-example/app/src/main/kotlin/org/starterexample/App.kt:transaction"
+    --8<-- "examples/kotlin/starter-example/src/main.kt:transaction"
     ```
 
 === "Python"

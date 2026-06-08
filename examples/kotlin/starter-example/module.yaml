@@ -1,0 +1,4 @@
+product: jvm/app
+
+dependencies:
+  - org.bitcoindevkit:bdk-jvm:3.0.0

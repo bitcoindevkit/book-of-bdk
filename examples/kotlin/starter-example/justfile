@@ -1,0 +1,7 @@
+[doc("Default command; list all available commands")]
+@list:
+  just --list --unsorted
+
+[doc("Run the example")]
+run:
+  ./kotlin run
