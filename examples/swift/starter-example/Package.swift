@@ -8,7 +8,7 @@ let package = Package(
         .macOS(.v12)
     ],
     dependencies: [
-        .package(url: "https://github.com/bitcoindevkit/bdk-swift", from: "1.1.0")
+        .package(url: "https://github.com/bitcoindevkit/bdk-swift", from: "3.0.0")
     ],
     targets: [
         .executableTarget(
