@@ -1,8 +1,8 @@
-# 3.0 (Release Candidate 1) Release Notes
+# 3.0 Release Notes
 
 !!! info "Overview"
 
-    * **Release Date:** March 10 (release candidate 1)
+    * **Release Date:** April 13, 2026
     * **Changelog:** [Link](https://github.com/bitcoindevkit/bdk_wallet/blob/master/CHANGELOG.md)  
 
 ## Notable Changes
