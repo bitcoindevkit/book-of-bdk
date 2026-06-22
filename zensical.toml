@@ -65,6 +65,11 @@ nav = [
     ]},
     { "Release Guide" = [
         { "About" = "release-guide/guide.md" },
+        { "Release 3.1" = [
+            { "Release Notes" = "release-guide/3.1/notes.md" },
+            { "Wallet::sign_with_signers" = "release-guide/3.1/sign-with-signers.md" },
+            { "LoadParams::two_path_descriptor" = "release-guide/3.1/two-path-descriptor.md" },
+        ]},
         { "Release 3.0" = [
             { "Release Notes" = "release-guide/3.0/notes.md" },
             { "UTXO Locking API" = "release-guide/3.0/utxo-locking.md" },
