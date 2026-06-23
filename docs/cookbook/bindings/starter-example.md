@@ -1,4 +1,4 @@
-# Simple Starter Example
+# Starter Example
 
 ## Overview
 
@@ -28,7 +28,7 @@ So you want to build a bitcoin wallet using BDK. Great! Here is the rough outlin
 
 This page provides a starter example showcasing how BDK can be used to create, sync, and manage a wallet using an Esplora client as a blockchain data source. Familiarity with this example will help you work through the more advanced pages in this section.
 
-You can find [working code examples](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples) of this example in three programming languages: [Swift](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/swift), [Kotlin](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/kotlin) and [Python](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples/python). (Note: some additional language bindings are available for BDK, see [3rd Party Bindings](../getting-started/3rd-party-bindings.md)).
+You can find [working code](https://github.com/bitcoindevkit/book-of-bdk/tree/master/examples) for this example in a multitude of programming languages: Rust, Swift, Kotlin, Python, and WASM. Note that some additional language bindings are available for BDK, namely Dart (Flutter) and React Native.
 
 !!!tip
     To complete this example from top to bottom, you'll need to create new descriptors and replace the ones provided. Once you do so, you'll run the example twice; on first run the wallet will not have any balance and will exit with an address to send funds to. Once that's done, you can run the example again and the wallet will be able to perform the later steps, namely creating and broadcasting a new transaction.
@@ -93,7 +93,7 @@ You can find [working code examples](https://github.com/bitcoindevkit/book-of-bd
 
 ## Use descriptors
 
-To create a wallet using BDK, we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md" target="_blank">descriptors</a> for our wallet. This example uses public descriptors (meaning they cannot be used to sign transactions) on Signet. Step 7 and below will fail unless you replace those public descriptors with private ones of your own and fund them using Signet coins through a faucet. Refer to the [Creating Descriptors](./keys-descriptors/descriptors.md) page for information on how to generate your own private descriptors.
+To create a wallet using BDK, we need some <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md" target="_blank">descriptors</a> for our wallet. This example uses public descriptors (meaning they cannot be used to sign transactions) on Signet. Step 7 and below will fail unless you replace those public descriptors with private ones of your own and fund them using Signet coins through a faucet. Refer to the [Creating Descriptors](../keys-descriptors/descriptors.md) page for information on how to generate your own private descriptors.
 
 !!!warning
     Note that if you replace the descriptors after running the example using the provided ones, you must delete or rename the database file or will get an error on wallet load.

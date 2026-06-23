@@ -29,7 +29,6 @@ nav = [
         { "API Documentation" = "getting-started/api-documentation.md" },
         { "BDK CLI" = "getting-started/bdk-cli.md" },
         { "Migrating from pre-1.0" = "getting-started/migrating.md" },
-        { "3rd Party Bindings" = "getting-started/3rd-party-bindings.md" },
         { "More BDK Content" = "getting-started/more.md" },
         { "Library Tiers" = "getting-started/tiers.md" },
     ]},
