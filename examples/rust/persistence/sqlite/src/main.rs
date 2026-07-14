@@ -13,7 +13,7 @@ const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfd
 
 fn main() -> Result<(), anyhow::Error> {
     // --8<-- [start:load]
-    let network = Network::Signet;
+    let network = Network::Regtest;
     let file_path = "test_wallet.sqlite3";
     let mut conn = rusqlite::Connection::open(file_path)?;
 

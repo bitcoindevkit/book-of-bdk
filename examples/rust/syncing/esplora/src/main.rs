@@ -1,4 +1,4 @@
-use anyhow::Error;
+use anyhow::{Context, Error};
 use bdk_esplora::esplora_client::Builder;
 use bdk_esplora::{esplora_client, EsploraExt};
 use bdk_wallet::bitcoin::Network;
@@ -11,13 +11,14 @@ use bdk_wallet::Wallet;
 
 const STOP_GAP: usize = 50;
 const PARALLEL_REQUESTS: usize = 1;
-const EXTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/0/*)#g9xn7wf9";
-const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/86'/1'/0'/1/*)#e3rjrmea";
+const EXTERNAL_DESCRIPTOR: &str = "wpkh(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/84'/1'/0'/0/*)#5cskkptg";
+const INTERNAL_DESCRIPTOR: &str = "wpkh(tprv8ZgxMBicQKsPdrjwWCyXqqJ4YqcyG4DmKtjjsRt29v1PtD3r3PuFJAjWytzcvSTKnZAGAkPSmnrdnuHWxCAwy3i1iPhrtKAfXRH7dVCNGp6/84'/1'/0'/1/*)#9v4ht5ms";
 
 fn main() -> Result<(), Error> {
     let mut wallet: Wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
-        .network(Network::Signet)
-        .create_wallet_no_persist()?;
+        .network(Network::Regtest)
+        .create_wallet_no_persist()
+        .context("failed to create wallet")?;
 
     let address: AddressInfo = wallet.reveal_next_address(KeychainKind::External);
     println!(
@@ -26,9 +27,9 @@ fn main() -> Result<(), Error> {
     );
 
     //--8<-- [start:client]
-    // Create the Esplora client
-    let client: esplora_client::BlockingClient =
-        Builder::new("https://blockstream.info/signet/api/").build_blocking();
+    let esplora_url =
+        std::env::var("ESPLORA_URL").unwrap_or_else(|_| "http://127.0.0.1:3002".to_owned());
+    let client: esplora_client::BlockingClient = Builder::new(&esplora_url).build_blocking();
     //--8<-- [end:client]
 
     //--8<-- [start:scan]
@@ -53,6 +54,30 @@ fn main() -> Result<(), Error> {
 
     let balance = wallet.balance();
     println!("Wallet balance: {} sat", balance.total().to_sat());
+
+    if let Ok(expected_address) = std::env::var("EXPECTED_RECEIVE_ADDRESS") {
+        assert_eq!(
+            address.address.to_string(),
+            expected_address,
+            "derived address {} does not match expected {}",
+            address.address,
+            expected_address,
+        );
+        println!("Address matches expected value");
+    }
+
+    if let Ok(expected_sats) = std::env::var("EXPECTED_BALANCE_SATS") {
+        let expected: u64 = expected_sats
+            .parse()
+            .context("invalid EXPECTED_BALANCE_SATS, expected a number")?;
+        let actual = balance.total().to_sat();
+        assert_eq!(
+            actual, expected,
+            "expected balance of {} sats but wallet has {} sats",
+            expected, actual,
+        );
+        println!("Balance matches expected value");
+    }
 
     Ok(())
 }

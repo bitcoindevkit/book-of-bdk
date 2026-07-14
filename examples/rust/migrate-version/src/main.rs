@@ -8,7 +8,7 @@ use bdk_wallet::Wallet;
 // --8<-- [start:setup]
 const EXTERNAL_DESCRIPTOR: &str = "wpkh(tprv8ZgxMBicQKsPdufyJrFBAzSzoC5ANzovUKZ76md8EHq6hFEsVBv9SpgqaetP1WkD18VqF1xWza8kQGNtFZkNDuCDyXDMyNpLVJ7QXTqeiGG/84'/1'/0'/0/*)#72k0lrja";
 const INTERNAL_DESCRIPTOR: &str = "wpkh(tprv8ZgxMBicQKsPdufyJrFBAzSzoC5ANzovUKZ76md8EHq6hFEsVBv9SpgqaetP1WkD18VqF1xWza8kQGNtFZkNDuCDyXDMyNpLVJ7QXTqeiGG/84'/1'/0'/1/*)#07nwzkz9";
-const NETWORK: Network = Network::Testnet;
+const NETWORK: Network = Network::Regtest;
 
 // path to old pre1 db
 const BDK_DB_PATH: &str = "./bdk-example.sqlite";
