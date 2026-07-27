@@ -1,0 +1,8 @@
+[package]
+name = "design-page-signatures"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bdk_wallet = { version = "3.1.0" }
+bdk_esplora = { version = "0.22.2", features = ["blocking"] }

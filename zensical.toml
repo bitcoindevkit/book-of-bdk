@@ -61,6 +61,7 @@ nav = [
     { "Design" = [
         { "Compact Block Filters" = "design/cbf.md" },
         { "Language Bindings" = "design/bindings.md" },
+        { "Signing Transactions Without Wallet" = "design/signing.md" },
     ]},
     { "Release Guide" = [
         { "About" = "release-guide/guide.md" },

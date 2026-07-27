@@ -11,6 +11,7 @@ members = [
     "persistence/memory",
     "persistence/sqlite",
     "starter-example",
+    "design-page-signatures",
 ]
 
 [workspace.package]
