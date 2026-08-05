@@ -15,7 +15,7 @@ const INTERNAL_DESCRIPTOR: &str = "tr(tprv8ZgxMBicQKsPdJuLWWArdBsWjqDA3W5WoREnfd
 fn main() -> Result<(), anyhow::Error> {
     // --8<-- [start:create]
     let mut wallet = Wallet::create(EXTERNAL_DESCRIPTOR, INTERNAL_DESCRIPTOR)
-        .network(Network::Signet)
+        .network(Network::Regtest)
         .create_wallet_no_persist()
         .expect("valid wallet");
     // --8<-- [end:create]

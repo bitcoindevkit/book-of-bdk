@@ -46,4 +46,107 @@ jobs:
         run: cargo fmt --all -- --config format_code_in_doc_comments=true --check
 
       - name: "Check clippy"
-        run: cargo clippy --all-features --all-targets -- -D warnings 
+        run: cargo clippy --all-features --all-targets -- -D warnings
+
+  run_regtest_examples:
+    name: "Run Regtest examples"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./examples/rust/
+    services:
+      bitcoind:
+        image: docker.io/bitcoindevkit/esplora:0.4.0
+        ports:
+          - 18443:18443
+          - 18444:18444
+          - 60401:60401
+          - 3002:3002
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Install Rust toolchain"
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.89.0
+          override: true
+          profile: minimal
+
+      - name: "Rust cache"
+        uses: Swatinem/rust-cache@v2.7.5
+
+      - name: "Install bitcoin-cli and netcat"
+        run: sudo apt-get update && sudo apt-get install -y bitcoin-cli netcat-openbsd
+
+      - name: "Wait for services"
+        run: |
+          echo "Waiting for Bitcoin Core RPC..."
+          for i in $(seq 1 60); do
+            if docker exec "${{ job.services.bitcoind.id }}" bitcoin-cli -regtest getblockcount 2>/dev/null; then
+              echo "Bitcoin Core ready"
+              break
+            fi
+            sleep 2
+          done
+          echo "Waiting for Electrum..."
+          for i in $(seq 1 30); do
+            if nc -z 127.0.0.1 60401 2>/dev/null; then
+              echo "Electrum ready"
+              break
+            fi
+            sleep 2
+          done
+          echo "Waiting for Esplora..."
+          for i in $(seq 1 60); do
+            if curl -fsS "http://127.0.0.1:3002/blocks/tip/height" >/dev/null 2>&1; then
+              echo "Esplora ready ($(curl -fsS http://127.0.0.1:3002/blocks/tip/height))"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: "Prepare Regtest (fund wallet)"
+        run: |
+          # Create wallet
+          docker exec "${{ job.services.bitcoind.id }}" bitcoin-cli -regtest createwallet bdk-test
+          # Mine 101 blocks for maturity
+          MINER_ADDR=$(docker exec "${{ job.services.bitcoind.id }}" bitcoin-cli -regtest -rpcwallet=bdk-test getnewaddress)
+          docker exec "${{ job.services.bitcoind.id }}" bitcoin-cli -regtest -rpcwallet=bdk-test generatetoaddress 101 "$MINER_ADDR"
+          # Fund both addresses (electrum uses P2TR, esplora uses P2WPKH)
+          docker exec "${{ job.services.bitcoind.id }}" bitcoin-cli -regtest -rpcwallet=bdk-test sendtoaddress bcrt1pkar3gerekw8f9gef9vn9xz0qypytgacp9wa5saelpksdgct33qdqan7c89 0.0005
+          docker exec "${{ job.services.bitcoind.id }}" bitcoin-cli -regtest -rpcwallet=bdk-test sendtoaddress bcrt1qwk6p86mzqmstcsg99qlu2mhsp3766u68jktv6k 0.0005
+          MINER_ADDR=$(docker exec "${{ job.services.bitcoind.id }}" bitcoin-cli -regtest -rpcwallet=bdk-test getnewaddress)
+          docker exec "${{ job.services.bitcoind.id }}" bitcoin-cli -regtest -rpcwallet=bdk-test generatetoaddress 1 "$MINER_ADDR"
+          # Wait for indexers
+          sleep 10
+
+      - name: "Build all examples"
+        run: cargo build
+
+      - name: "Run standalone examples"
+        run: |
+          cargo run -p descriptors
+          cargo run -p memory-wallet
+          cargo run -p recovery-phrases
+          cargo run -p migrate-version
+
+      - name: "Run SQLite example"
+        run: |
+          rm -f test_wallet.sqlite3
+          cargo run -p sqlite-wallet
+          rm -f test_wallet.sqlite3
+
+      - name: "Run Esplora syncing example"
+        run: |
+          EXPECTED_RECEIVE_ADDRESS=bcrt1qwk6p86mzqmstcsg99qlu2mhsp3766u68jktv6k \
+          EXPECTED_BALANCE_SATS=50000 \
+          ESPLORA_URL=http://127.0.0.1:3002 \
+          cargo run -p esplora
+
+      - name: "Run Electrum syncing example"
+        run: |
+          EXPECTED_RECEIVE_ADDRESS=bcrt1pkar3gerekw8f9gef9vn9xz0qypytgacp9wa5saelpksdgct33qdqan7c89 \
+          EXPECTED_BALANCE_SATS=50000 \
+          ELECTRUM_URL=tcp://127.0.0.1:60401 \
+          cargo run -p electrum

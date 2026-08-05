@@ -11,9 +11,9 @@ fn main() {
     let mut seed: [u8; 32] = [0u8; 32];
     rand::thread_rng().fill_bytes(&mut seed);
 
-    let network: Network = Network::Signet;
+    let network: Network = Network::Regtest;
     let xprv: Xpriv = Xpriv::new_master(network, &seed).unwrap();
-    println!("Generated Master Private Key:\n{}\nWarning: be very careful with private keys when using MainNet! We are logging these values for convenience only because this is an example on SigNet.\n", xprv);
+    println!("Generated Master Private Key:\n{}\nWarning: be very careful with private keys when using MainNet! We are logging these values for convenience only because this is an example on RegTest.\n", xprv);
 
     let (descriptor, key_map, _) = Bip86(xprv, KeychainKind::External)
         .build(NetworkKind::Test)

@@ -30,13 +30,13 @@ async fn main() {
 
     let scan_type = ScanType::Recovery {
         used_script_index: RECOVERY_LOOKAHEAD,
-        checkpoint: HashCheckpoint::from_genesis(Params::REGTEST), // Signet
-                                                                   // checkpoint: HashCheckpoint::new(
-                                                                   //     300_000,
-                                                                   //     "000000073002e4e1de008de89ee41db4baf8734c0f4e5ba9447bb0f1a301b02c"
-                                                                   //         .parse::<BlockHash>()
-                                                                   //         .unwrap(),
-                                                                   // ),
+        checkpoint: HashCheckpoint::from_genesis(Params::REGTEST),
+        // checkpoint: HashCheckpoint::new(
+        //     300_000,
+        //     "000000073002e4e1de008de89ee41db4baf8734c0f4e5ba9447bb0f1a301b02c"
+        //         .parse::<BlockHash>()
+        //         .unwrap(),
+        // ),
     };
 
     let peer = TrustedPeer::from_hostname("127.0.0.1", 18444);
