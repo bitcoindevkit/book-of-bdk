@@ -1,11 +1,11 @@
 # Book of BDK
 
 This repository hosts the code and content for the [Book of BDK website](https://bitcoindevkit.github.io/book-of-bdk/).
-We use [`mkdocs-material`](https://squidfunk.github.io/mkdocs-material) to render the website and the content.
+We use [`zensical`](https://zensical.org) to render the website and the content.
 
 ## Develop locally
 
-To develop locally, you'll need to install `mkdocs-material`:
+To develop locally, you'll need to install [`uv`](https://docs.astral.sh/uv/):
 
 First you'll likely want to open a python virtual environment (since python environment management can be truly nightmarish otherwise). Doing so will depend on your OS.
 
@@ -22,7 +22,7 @@ source ~/.venv/bin/activate
 Then you're ready to install:
 
 ```shell
-pip install mkdocs-material
+uv sync
 ```
 
 You can serve the site with [`just`](https://just.systems/man/en/):
@@ -34,6 +34,7 @@ just serve
 All the rust code can be compiled with:
 
 ```shell
+cd examples
 just rust
 ```
 
@@ -46,7 +47,7 @@ with import <nixpkgs> { };
 mkShell {
   nativeBuildInputs = [
     bashInteractive
-    python311Packages.mkdocs-material
+    uv
     # macOS specifics
     libiconv
     darwin.apple_sdk.frameworks.Security
