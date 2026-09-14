@@ -37,21 +37,3 @@ All the rust code can be compiled with:
 cd examples
 just rust
 ```
-
-NOTE: Some tests need additional dependencies on macOS such as `libiconv`.
-
-A [Nix](https://nixos.org) shell can be instantiated with:
-
-```nix
-with import <nixpkgs> { };
-mkShell {
-  nativeBuildInputs = [
-    bashInteractive
-    uv
-    # macOS specifics
-    libiconv
-    darwin.apple_sdk.frameworks.Security
-    darwin.apple_sdk.frameworks.SystemConfiguration
-  ];
-}
-```
