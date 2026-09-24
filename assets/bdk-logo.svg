@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="190px" height="194px" viewBox="0 0 190 194" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>bdk-logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="bdk-logo" transform="translate(4.000000, 4.000000)">
+            <rect id="Rectangle-Rounded" stroke="#13161F" stroke-width="9" x="0.5" y="0.5" width="180.01" height="184.84" rx="10"></rect>
+            <text id="Bitcoin" fill="#000000" font-family="Futura-Bold, Futura" font-size="45" font-weight="bold">
+                <tspan x="9" y="89">Bitcoin</tspan>
+            </text>
+            <text id="Dev" fill="#000000" font-family="Futura-Bold, Futura" font-size="45" font-weight="bold">
+                <tspan x="9" y="131">Dev</tspan>
+            </text>
+            <text id="Kit" fill="#000000" font-family="Futura-Bold, Futura" font-size="45" font-weight="bold">
+                <tspan x="9" y="173">Kit</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
