@@ -121,3 +121,4 @@ dmypy.json
 # Other
 notes/
 *.sqlite
+/.idea
