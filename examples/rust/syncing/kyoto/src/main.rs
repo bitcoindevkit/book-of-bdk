@@ -1,9 +1,7 @@
 use bdk_kyoto::builder::{Builder, BuilderExt};
 use bdk_kyoto::state::Idle;
 use bdk_kyoto::wallets::Single;
-use bdk_kyoto::{
-    HashCheckpoint, Info, LightClient, Receiver, ScanType, TrustedPeer, UnboundedReceiver, Warning,
-};
+use bdk_kyoto::{HashCheckpoint, Info, LightClient, Receiver, SyncConfig, TrustedPeer, Warning};
 use bdk_wallet::bitcoin::params::Params;
 use bdk_wallet::bitcoin::Network;
 use bdk_wallet::{KeychainKind, Wallet};
@@ -28,16 +26,16 @@ async fn main() {
         .create_wallet_no_persist()
         .unwrap();
 
-    let scan_type = ScanType::Recovery {
-        used_script_index: RECOVERY_LOOKAHEAD,
-        checkpoint: HashCheckpoint::from_genesis(Params::REGTEST), // Signet
-                                                                   // checkpoint: HashCheckpoint::new(
-                                                                   //     300_000,
-                                                                   //     "000000073002e4e1de008de89ee41db4baf8734c0f4e5ba9447bb0f1a301b02c"
-                                                                   //         .parse::<BlockHash>()
-                                                                   //         .unwrap(),
-                                                                   // ),
-    };
+    // Recover the wallet starting from a known checkpoint in the chain.
+    let checkpoint = HashCheckpoint::from_genesis(Params::REGTEST);
+    // Signet
+    // let checkpoint = HashCheckpoint::new(
+    //     300_000,
+    //     "000000073002e4e1de008de89ee41db4baf8734c0f4e5ba9447bb0f1a301b02c"
+    //         .parse::<BlockHash>()
+    //         .unwrap(),
+    // );
+    let sync_config = SyncConfig::wallet_recovery_sync(checkpoint).build();
 
     let peer = TrustedPeer::from_hostname("127.0.0.1", 18444);
 
@@ -45,11 +43,11 @@ async fn main() {
     let idle_client: LightClient<Idle, Single> = Builder::new(NETWORK)
         .required_peers(NUM_CONNECTIONS)
         .add_peer(peer)
-        .build_with_wallet(&wallet, scan_type)
+        .build_with_wallet(&wallet, sync_config)
         .unwrap();
     let (subscribed_client, log_subscribers, mut update_subscriber) = idle_client.subscribe();
 
-    // managed_start() activates the client and returns the underlying node for manual task management.
+    // start() activates the client and runs the underlying node on a tokio task.
     let client = subscribed_client.start();
 
     // Trace the logs with a custom function.
@@ -79,7 +77,7 @@ async fn main() {
 }
 
 /// Implement a custom logger that prints log messages to the console.
-async fn trace_logs(mut info_rx: Receiver<Info>, mut warn_rx: UnboundedReceiver<Warning>) {
+async fn trace_logs(mut info_rx: Receiver<Info>, mut warn_rx: Receiver<Warning>) {
     loop {
         select! {
             warn = warn_rx.recv() => {
