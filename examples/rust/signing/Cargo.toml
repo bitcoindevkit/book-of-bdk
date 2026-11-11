@@ -1,0 +1,11 @@
+[package]
+name = "signing"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# bdk_wallet 4.0.0-alpha.0 is not on crates.io yet, so this pins the master branch commit the
+# "Replacing SignOptions" guide was checked against. The `test-utils` feature gives us a funded
+# wallet without needing a blockchain client, so the example runs offline.
+bdk_wallet = { git = "https://github.com/bitcoindevkit/bdk_wallet", rev = "e710fff1991c87eea5710357645e7b7aa28beaaa", features = ["test-utils"] }
+anyhow = "1"

@@ -13,6 +13,11 @@ members = [
     "starter-example",
     "design-page-signatures",
 ]
+# Standalone projects with their own dependency tree and lockfile (e.g. pinned to unreleased
+# bdk_wallet versions). Build them from their own directory.
+exclude = [
+    "signing",
+]
 
 [workspace.package]
 authors = ["Bitcoin Dev Kit Developers"]

@@ -65,6 +65,9 @@ nav = [
     ]},
     { "Release Guide" = [
         { "About" = "release-guide/guide.md" },
+        { "Release 4.0-alpha.0" = [
+            { "Replacing SignOptions" = "release-guide/4.0-alpha.0/sign-options.md" },
+        ]},
         { "Release 3.2" = [
             { "Release Notes" = "release-guide/3.2/notes.md" },
             { "Wallet::create_psbt" = "release-guide/3.2/create-psbt.md" },
