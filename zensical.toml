@@ -47,6 +47,7 @@ nav = [
         ]},
         { "Keys and Descriptors" = [
             { "Creating Descriptors" = "cookbook/keys-descriptors/descriptors.md" },
+            { "Why Not ypub/zpub" = "cookbook/keys-descriptors/ypub-zpub.md" },
             { "Recovery Phrases to Descriptors" = "cookbook/keys-descriptors/recovery-phrases.md" },
         ]},
         { "Transactions" = [

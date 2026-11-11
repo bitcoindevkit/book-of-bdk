@@ -2,6 +2,8 @@
 
 BDK is a descriptor-first library. This page explores how to build them and how they interact with other standards like BIP-39 recovery phrases.
 
+If another wallet gave you an Electrum-style **ypub** or **zpub**, see [Why BDK Does Not Support ypub and zpub](./ypub-zpub.md).
+
 !!! danger
     The keys and descriptors used in **The Book of BDK** are for illustration purposes only; **UNDER NO CIRCUMSTANCES** should any of the keys or descriptors containing private data be used for real money. Entropy generation should be carried out in a secure environment using cryptographically secure random number generators ([CSPRNG](https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator)).
 
