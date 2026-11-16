@@ -54,7 +54,7 @@ The builder allows you to define a fee rate or an absolute fee:
 
 ```rust
 wallet.build_tx()
-    .fee_rate(FeeRate::from_sat_per_vb(4))
+    .fee_rate(FeeRate::from_sat_per_vb(4).unwrap())
     .fee_absolute(Amount::from_sat(600))
 ```
 

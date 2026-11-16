@@ -67,8 +67,11 @@ let mut params = PsbtParams::default();
 params
     .add_utxos(&[outpoint])
     .add_recipients([(address, amount)])
-    .coin_selection(SelectionStrategy::LowestFee)
-    .fee_rate(FeeRate::from_sat_per_vb(5));
+    .coin_selection(SelectionStrategy::LowestFee {
+        longterm_feerate: FeeRate::from_sat_per_vb(2).unwrap(),
+        max_rounds: 1000,
+    })
+    .fee_rate(FeeRate::from_sat_per_vb(5).unwrap());
 
 let (psbt, finalizer) = wallet.create_psbt(params)?;
 ```
