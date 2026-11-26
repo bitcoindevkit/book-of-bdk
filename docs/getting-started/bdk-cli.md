@@ -72,3 +72,67 @@ To sync the above wallet to a Bitcoin Core node (assuming a regtest node at 127.
 ```shell
 cargo run --features rpc wallet -e $EXT_DESC -i $INT_DESC -d sqlite -c rpc -u 127.0.0.1:18443 -a bitcoin:bitcoin sync
 ```
+
+## Batch payments on regtest
+
+Run this example with Bash, `jq`, and a fresh Bitcoin Core regtest node with
+RPC enabled. Use test-only RPC credentials and keep the generated wallet on
+regtest. The example uses `bdk-cli` 4.0.0 with the `sqlite` and `rpc`
+features.
+
+```bash
+cargo install bdk-cli --version 4.0.0 --locked --no-default-features --features sqlite,rpc
+```
+
+Create a temporary BDK wallet directory and configure the wallet to use the
+regtest node. Set the RPC values to match your node before running the commands.
+
+```bash
+rpc_host=${RPC_HOST:-127.0.0.1}
+rpc_user=${RPC_USER:-bitcoin}
+rpc_password=${RPC_PASSWORD:-bitcoin}
+bdk_dir=$(mktemp -d)
+
+core() {
+  bitcoin-cli -regtest -rpcconnect="$rpc_host" -rpcport=18443 \
+    -rpcuser="$rpc_user" -rpcpassword="$rpc_password" "$@"
+}
+
+wallet() {
+  bdk-cli --network regtest --datadir "$bdk_dir" wallet --wallet batch "$@"
+}
+
+descriptors=$(bdk-cli --network regtest descriptor --type wpkh)
+wallet config --database-type sqlite --client-type rpc \
+  --url "http://$rpc_host:18443" --basic-auth "$rpc_user:$rpc_password" \
+  --ext-descriptor "$(jq -r '.private_descriptors.external' <<< "$descriptors")" \
+  --int-descriptor "$(jq -r '.private_descriptors.internal' <<< "$descriptors")"
+```
+
+Mine 101 blocks to a wallet address so the first coinbase output is mature,
+then scan the chain. Create two destination addresses in a separate Bitcoin
+Core wallet.
+
+```bash
+funding_address=$(wallet new_address | jq -r '.address')
+core generatetoaddress 101 "$funding_address" >/dev/null
+wallet full_scan
+
+core createwallet batch-recipients
+recipient1=$(core -rpcwallet=batch-recipients getnewaddress)
+recipient2=$(core -rpcwallet=batch-recipients getnewaddress)
+```
+
+Pass one `--to ADDRESS:AMOUNT` argument per recipient. Amounts are in satoshis.
+Both payments go into the same partially signed Bitcoin transaction (PSBT).
+
+```bash
+psbt=$(wallet create_tx --to "$recipient1:20000" --to "$recipient2:30000" \
+  | jq -r '.psbt')
+core decodepsbt "$psbt" | jq '.tx.vout[] | {address: .scriptPubKey.address, value}'
+```
+
+Bitcoin Core displays the amounts in BTC. Look for `0.00020000 BTC` and
+`0.00030000 BTC` at the respective recipient addresses. The transaction may also
+contain a change output. The PSBT can be inspected without signing or
+broadcasting it.
